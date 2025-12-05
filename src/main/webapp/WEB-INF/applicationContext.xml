@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="https://www.springframework.org/schema/beans"
+
+<beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="https://www.springframework.org/schema/context"
-       xmlns:tx="https://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="
-           https://www.springframework.org/schema/beans 
-           https://www.springframework.org/schema/beans/spring-beans.xsd
-           
-           https://www.springframework.org/schema/context 
-           https://www.springframework.org/schema/context/spring-context.xsd
-           
-           https://www.springframework.org/schema/tx 
-           https://www.springframework.org/schema/tx/spring-tx.xsd">
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <context:annotation-config />
     <context:component-scan base-package="com.sdr" />
@@ -20,7 +21,7 @@
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/SDR?useSSL=false&amp;allowPublicKeyRetrieval=true"/>
         <property name="username" value="root"/>
-        <property name="password" value="sanket"/>
+        <property name="password" value="root"/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
