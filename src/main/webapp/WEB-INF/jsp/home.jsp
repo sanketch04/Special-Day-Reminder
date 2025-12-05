@@ -7,6 +7,6 @@
 <title>Special Day Reminder| SDR</title>
 </head>
 <body>
-	<h1>This is written to Test now from atharv Gujare</h1>
+	<h1>This is written to Test now from atharv Gujare..</h1>
 </body>
 </html>
