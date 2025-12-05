@@ -4,10 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Special Day Reminder| SDR</title>
+<title>Insert title here</title>
 </head>
 <body>
-	<h1>This is written to Test now from atharv Gujare..</h1>
-	<h1>This is written to Test now from Sanket.........1111111</h1>
+hi
 </body>
 </html>
