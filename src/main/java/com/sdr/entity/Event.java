@@ -13,6 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
+
 @Entity
 @Table(name = "events")
 public class Event {
@@ -23,10 +28,14 @@ public class Event {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     private String title;
 
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "event_date", nullable = false)
     private LocalDate eventDate;
 
     private String category;
@@ -36,9 +45,9 @@ public class Event {
 
     private int reminderDaysBefore = 1; 
     
-    // default 1 day before
-
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+
 
     
     public Event() {}
