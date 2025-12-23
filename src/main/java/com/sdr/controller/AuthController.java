@@ -24,13 +24,27 @@ public class AuthController {
     @PostMapping("/login")
     public String loginUser(@RequestParam String email,
                             @RequestParam String password,
-                            HttpSession session) {
-        User user = userService.login(email, password);
-        if (user != null) {
-            session.setAttribute("loggedUser", user);
-            return "redirect:/dashboard";
+                            HttpSession session,
+                            Model model) {
+
+        String result = userService.login(email, password);
+
+        if ("NOT_FOUND".equals(result)) {
+            model.addAttribute("error",
+                    "Account not found, please register first");
+            return "login";
         }
-        return "login";
+
+        if ("WRONG_PASSWORD".equals(result)) {
+            model.addAttribute("error",
+                    "Account exists but password is incorrect");
+            return "login";
+        }
+
+        // SUCCESS
+        User user = userService.getUserByEmail(email);
+        session.setAttribute("loggedUser", user);
+        return "redirect:/dashboard";
     }
 
     @GetMapping("/register")

@@ -19,8 +19,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(String email, String password) {
-        return userDAO.login(email, password);
+    public String login(String email, String password) {
+
+        // 1. Check email
+        User user = userDAO.getUserByEmail(email);
+
+        if (user == null) {
+            return "NOT_FOUND";
+        }
+
+        // 2. Check password
+        if (!user.getPassword().equals(password)) {
+            return "WRONG_PASSWORD";
+        }
+
+        // 3. Success
+        return "SUCCESS";
     }
 
     @Override

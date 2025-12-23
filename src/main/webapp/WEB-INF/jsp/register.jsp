@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,6 +42,7 @@
                             <input type="email" class="form-control" name="email">
                             <span class="text-danger small error"></span>
                         </div>
+                        
                         <c:if test="${not empty error}">
     						<div class="alert alert-danger">${error}</div>
 						</c:if>

@@ -34,14 +34,11 @@ public class UserDAOImpl implements UserDAO {
                       .setParameter("password", password)
                       .uniqueResult();
     }
-    
-    @Override
-    public User findByEmail(String email) {
-        String hql = "FROM User WHERE email = :email";
-        return sessionFactory.getCurrentSession()
-                .createQuery(hql, User.class)
-                .setParameter("email", email)
-                .uniqueResult();
-    }
 
+	@Override
+	public User findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
 }
