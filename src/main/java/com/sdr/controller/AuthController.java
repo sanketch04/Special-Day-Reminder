@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -38,9 +39,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(User user) {
-        userService.registerUser(user);
-        return "redirect:/login";
+    public String registerUser(User user,Model model) {
+    	 try {
+    	        userService.registerUser(user);
+    	        return "redirect:/login";
+    	    } catch (Exception e) {
+    	        model.addAttribute("error", "Email already exists");
+    	        return "register";
+    	    }
     }
 
     @GetMapping("/logout")
