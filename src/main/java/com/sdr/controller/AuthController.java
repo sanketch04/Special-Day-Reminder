@@ -3,12 +3,16 @@ package com.sdr.controller;
 import com.sdr.entity.User;
 import com.sdr.service.UserService;
 
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class AuthController {
@@ -53,15 +57,111 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(User user,Model model) {
-    	 try {
-    	        userService.registerUser(user);
-    	        return "redirect:/login";
-    	    } catch (Exception e) {
-    	        model.addAttribute("error", "Email already exists");
-    	        return "register";
-    	    }
+    public String registerUser(
+            User user,
+            @RequestParam("profileImage") MultipartFile profileImage,
+            HttpServletRequest request,
+            Model model) {
+
+        try {
+            // ===== 1. Upload directory =====
+            String uploadDir = request.getServletContext()
+                    .getRealPath("/uploads/profile/");
+
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            // ===== 2. Save image =====
+            if (!profileImage.isEmpty()) {
+                String fileName = System.currentTimeMillis() + "_" +
+                                  profileImage.getOriginalFilename();
+
+                File savedFile = new File(uploadDir + File.separator + fileName);
+                profileImage.transferTo(savedFile);
+
+                // save filename in DB
+                user.setProfilePhoto(fileName);
+            }
+
+            // ===== 3. Save user =====
+            userService.registerUser(user);
+
+            return "redirect:/login";
+
+        } catch (Exception e) {
+            model.addAttribute("error", "Email already exists");
+            return "register";
+        }
     }
+    
+    @GetMapping("/profile")
+    public String profilePage(HttpSession session) {
+        User loggedUser = (User) session.getAttribute("loggedUser");
+
+        if (loggedUser == null) {
+            return "redirect:/login";
+        }
+        return "profile";
+    }
+    
+    @PostMapping("/update-profile")
+    public String updateProfile(
+            @RequestParam("phone") String phone,
+            @RequestParam("state") String state,
+            @RequestParam("profileImage") MultipartFile profileImage,
+            HttpSession session,
+            HttpServletRequest request,
+            Model model) {
+
+        User loggedUser = (User) session.getAttribute("loggedUser");
+
+        if (loggedUser == null) {
+            return "redirect:/login";
+        }
+
+        try {
+            // update simple fields
+            loggedUser.setPhone(phone);
+            loggedUser.setState(state);
+
+            // upload folder
+            String uploadDir = request.getServletContext()
+                    .getRealPath("/uploads/profile/");
+            File dir = new File(uploadDir);
+            if (!dir.exists()) dir.mkdirs();
+
+            // update photo if selected
+            if (!profileImage.isEmpty()) {
+
+                // delete old photo
+                if (loggedUser.getProfilePhoto() != null &&
+                    !loggedUser.getProfilePhoto().equals("default.png")) {
+
+                    File old = new File(uploadDir + loggedUser.getProfilePhoto());
+                    if (old.exists()) old.delete();
+                }
+
+                String fileName = System.currentTimeMillis() + "_" +
+                                  profileImage.getOriginalFilename();
+                profileImage.transferTo(new File(uploadDir + fileName));
+                loggedUser.setProfilePhoto(fileName);
+            }
+
+            userService.updateUser(loggedUser);
+            session.setAttribute("loggedUser", loggedUser);
+
+            model.addAttribute("success", "Profile updated successfully");
+            return "profile";
+
+        } catch (Exception e) {
+            model.addAttribute("error", "Profile update failed");
+            return "profile";
+        }
+    }
+
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

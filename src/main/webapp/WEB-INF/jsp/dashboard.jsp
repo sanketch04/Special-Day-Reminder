@@ -8,10 +8,28 @@
 <html>
 <head>
     <title>Dashboard</title>
+    
+    <style>
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover; 
+    border: 2px solid #ddd;
+}
+</style>
+    
 </head>
 <body>
 
 <h2>Dashboard</h2>
+
+<a href="profile">My Profile</a>
+
+
+<img src="${pageContext.request.contextPath}/uploads/profile/${loggedUser.profilePhoto}"
+     class="profile-pic">
+
 
 <a href="event/add">Add New Event</a> |
 <a href="event/list">View All Events</a> |

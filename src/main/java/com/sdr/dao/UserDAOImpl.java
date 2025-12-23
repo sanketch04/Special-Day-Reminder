@@ -41,4 +41,9 @@ public class UserDAOImpl implements UserDAO {
 		return null;
 	}
     
+	@Override
+	public void updateUser(User user) {
+	    sessionFactory.getCurrentSession().update(user);
+	}
+
 }

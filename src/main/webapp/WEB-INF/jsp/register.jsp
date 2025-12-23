@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form id="registerForm" action="${pageContext.request.contextPath}/register" method="post" novalidate>
+                    <form id="registerForm" action="${pageContext.request.contextPath}/register" method="post" enctype="multipart/form-data" novalidate>
 
                         <!-- Name -->
                         <div class="mb-3">
@@ -90,6 +90,14 @@
                             </select>
                             <span class="text-danger small error"></span>
                         </div>
+                        
+                         <!-- Profile Photo -->
+						    <div>
+						        Profile Photo:
+						        <input type="file" name="profileImage" accept="image/*" required>
+						    </div>
+						
+						    <br>
 
                         <button type="submit" class="btn btn-primary w-100">
                             Register

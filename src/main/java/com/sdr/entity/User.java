@@ -63,6 +63,10 @@ public class User {
     protected void onCreate() {
         this.createdAt = LocalDate.now();
     }
+    
+    @Column(name = "profile_photo")
+    private String profilePhoto;
+
 
     public User() {}
 
@@ -154,4 +158,13 @@ public class User {
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
+    
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
+
 }

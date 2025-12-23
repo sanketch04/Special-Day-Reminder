@@ -7,4 +7,6 @@ public interface UserDAO {
     User getUserByEmail(String email);
     User login(String email, String password);
     public User findByEmail(String email);
+    void updateUser(User user);
+
 }
