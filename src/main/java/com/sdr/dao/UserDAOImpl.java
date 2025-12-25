@@ -1,6 +1,9 @@
 package com.sdr.dao;
 
 import com.sdr.entity.User;
+
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,24 +29,31 @@ public class UserDAOImpl implements UserDAO {
                       .uniqueResult();
     }
 
-    @Override
-    public User login(String email, String password) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("FROM User WHERE email = :email AND password = :password", User.class)
-                      .setParameter("email", email)
-                      .setParameter("password", password)
-                      .uniqueResult();
-    }
-
-	@Override
-	public User findByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
-	}
     
 	@Override
 	public void updateUser(User user) {
 	    sessionFactory.getCurrentSession().update(user);
 	}
+
+	@Override
+	public User login(String email, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> getAll() {
+	    return sessionFactory.getCurrentSession()
+	            .createQuery("from User", User.class)
+	            .list();
+	}
+	
+	@Override
+	public List<User> getAllUsers() {
+	    return sessionFactory.getCurrentSession()
+	            .createQuery("from User", User.class)
+	            .list();
+	}
+
 
 }

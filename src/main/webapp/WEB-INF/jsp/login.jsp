@@ -9,7 +9,6 @@
     <title>Login</title>
 
     <style>
-        /* Error text style */
         .error {
             color: red;
             margin-bottom: 10px;
@@ -38,6 +37,14 @@
 
     <button type="submit">Login</button>
 </form>
+
+<p>
+    <a href="forgot-password">Forgot Password?</a>
+</p>
+
+<% if (request.getAttribute("error") != null) { %>
+    <p class="error"><%= request.getAttribute("error") %></p>
+<% } %>
 
 <p>New user? <a href="register">Register here</a></p>
 

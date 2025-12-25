@@ -1,6 +1,7 @@
 package com.sdr.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -67,8 +68,36 @@ public class User {
     @Column(name = "profile_photo")
     private String profilePhoto;
 
+    //otp all things
+    
+    @Column(name = "reset_otp")
+    private String resetOtp;
 
-    public User() {}
+    @Column(name = "otp_expiry")
+    private LocalDateTime otpExpiry;
+
+
+    public String getResetOtp() {
+		return resetOtp;
+	}
+
+	public void setResetOtp(String resetOtp) {
+		this.resetOtp = resetOtp;
+	}
+
+	public LocalDateTime getOtpExpiry() {
+		return otpExpiry;
+	}
+
+	public void setOtpExpiry(LocalDateTime otpExpiry) {
+		this.otpExpiry = otpExpiry;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public User() {}
 
     // Constructor (optional)
     public User(int id, String name, String email, String password,

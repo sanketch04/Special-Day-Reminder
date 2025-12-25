@@ -68,5 +68,10 @@
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="5242880"/>
     </bean>
-
+    
+	<!-- Throwing global Exception -->
+	<bean class="org.springframework.web.servlet.DispatcherServlet">
+    <property name="throwExceptionIfNoHandlerFound" value="true"/>
+	</bean>
+	
 </beans>

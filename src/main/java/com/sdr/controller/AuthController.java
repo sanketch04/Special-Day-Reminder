@@ -1,8 +1,5 @@
 package com.sdr.controller;
 
-import com.sdr.entity.User;
-import com.sdr.service.UserService;
-
 import java.io.File;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +8,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.sdr.entity.User;
+import com.sdr.service.UserService;
 
 @Controller
 public class AuthController {
@@ -21,9 +23,15 @@ public class AuthController {
     private UserService userService;
 
     @GetMapping("/")
+    public String start() {
+        return "redirect:/login";
+    }
+    
+    @GetMapping("/login")
     public String loginPage() {
         return "login";
     }
+    
 
     @PostMapping("/login")
     public String loginUser(@RequestParam String email,
@@ -31,26 +39,91 @@ public class AuthController {
                             HttpSession session,
                             Model model) {
 
-        String result = userService.login(email, password);
+        User user = userService.login(email, password);
 
-        if ("NOT_FOUND".equals(result)) {
+        if (user == null) {
             model.addAttribute("error",
                     "Account not found, please register first");
             return "login";
         }
 
-        if ("WRONG_PASSWORD".equals(result)) {
+        if (user.getPassword() == null) {
             model.addAttribute("error",
                     "Account exists but password is incorrect");
             return "login";
         }
 
-        // SUCCESS
-        User user = userService.getUserByEmail(email);
+        user.setPassword(null); // NEVER store password in session
         session.setAttribute("loggedUser", user);
         return "redirect:/dashboard";
     }
 
+    
+    @GetMapping("/forgot-password")
+    public String forgotPasswordPage() {
+        return "forgot-password";
+    }
+
+    @GetMapping("/send-otp")
+    public String sendOtpGet() {
+        return "redirect:/forgot-password";
+    }
+    
+    @PostMapping("/send-otp")
+    public String sendOtp(@RequestParam("email") String email, Model model) {
+
+        boolean sent = userService.sendOtp(email);
+
+        if (!sent) {
+            model.addAttribute("error", "Account not found");
+            return "forgot-password";
+        }
+
+        model.addAttribute("email", email);
+        return "verify-otp";
+    }
+
+    
+    @PostMapping("/verify-otp")
+    public String verifyOtp(
+            @RequestParam String email,
+            @RequestParam String otp,
+            @RequestParam String confirmOtp,
+            Model model) {
+
+        if (!otp.equals(confirmOtp)) {
+            model.addAttribute("error", "OTP does not match");
+            model.addAttribute("email", email);
+            return "verify-otp";
+        }
+
+        userService.verifyOtp(email, otp);
+
+        model.addAttribute("email", email);
+        return "reset-password";
+    }
+
+    
+    @PostMapping("/reset-password")
+    public String resetPassword(
+            @RequestParam String email,
+            @RequestParam String newPassword,
+            @RequestParam String confirmPassword,
+            Model model) {
+
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            model.addAttribute("email", email);
+            return "reset-password";
+        }
+
+        userService.resetPassword(email, newPassword);
+
+        return "redirect:/login";
+    }
+
+
+    
     @GetMapping("/register")
     public String registerPage() {
         return "register";
@@ -161,7 +234,7 @@ public class AuthController {
         }
     }
 
-
+    
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

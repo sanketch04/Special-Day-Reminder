@@ -70,6 +70,11 @@
             font-weight: bold;
             color: #000 !important;
         }
+        .today {
+			    background-color: #e3f2fd !important;
+			    border: 2px solid #2196f3 !important;
+			}
+        
     </style>
 <!-- EVENT MODAL -->
 <div id="eventModal" style="
@@ -145,13 +150,16 @@
 </div>
 
 <script>
+let adminEvents = [];
+const APP_CTX = "<%= request.getContextPath() %>";
+
 window.onload = function () {
 
     const yearSelect = document.getElementById("yearSelect");
     const monthSelect = document.getElementById("monthSelect");
     const calendarBody = document.getElementById("calendarBody");
 
-    // Populate years 2000–2099
+    // Populate years
     for (let y = 2000; y <= 2099; y++) {
         const opt = document.createElement("option");
         opt.value = y;
@@ -162,6 +170,22 @@ window.onload = function () {
     const today = new Date();
     yearSelect.value = today.getFullYear();
     monthSelect.value = today.getMonth();
+
+    // 🔥 LOAD ADMIN EVENTS
+    function loadAdminEvents(monthIndex) {
+        const month = Number(monthIndex) + 1; // JS month → DB month
+        const url = APP_CTX + "/admin/api/events?month=" + month;
+
+        console.log("FETCHING:", url);
+
+        return fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                console.log("ADMIN EVENTS:", data);
+                adminEvents = data;
+            })
+            .catch(err => console.error(err));
+    }
 
     function generateCalendar(year, month) {
         calendarBody.innerHTML = "";
@@ -174,7 +198,7 @@ window.onload = function () {
 
         let cells = 0;
 
-        // Empty cells before first day
+        // Empty cells
         for (let i = 0; i < firstDay; i++) {
             calendarBody.appendChild(document.createElement("div"));
             cells++;
@@ -182,38 +206,75 @@ window.onload = function () {
 
         // Days
         for (let d = 1; d <= daysInMonth; d++) {
+
             const dayDiv = document.createElement("div");
             dayDiv.className = "day";
+
             dayDiv.dataset.date = year + "-" + (month + 1) + "-" + d;
 
             dayDiv.onclick = function () {
                 openModal(this.dataset.date);
             };
 
-
             const num = document.createElement("div");
             num.className = "date-number";
             num.textContent = d;
-
             dayDiv.appendChild(num);
+            
+            
+         // ✅ HIGHLIGHT TODAY
+            const now = new Date();
+            if (
+                d === now.getDate() &&
+                month === now.getMonth() &&
+                year === now.getFullYear()
+            ) {
+                dayDiv.classList.add("today");
+            }
+
+
+            // ✅ SHOW ADMIN EVENTS
+            adminEvents.forEach(ev => {
+                if (ev.eventDay === d && ev.eventMonth === (month + 1)) {
+                    dayDiv.style.background = "#fff3e0";
+                    dayDiv.style.borderLeft = "4px solid #ff9800";
+
+                    const e = document.createElement("div");
+                    e.style.fontSize = "12px";
+                    e.style.color = "#e65100";
+                    e.style.marginTop = "4px";
+                    e.textContent = ev.title;
+                    dayDiv.appendChild(e);
+                }
+            });
+
             calendarBody.appendChild(dayDiv);
             cells++;
         }
 
-        // Empty cells after last day
+        // Fill remaining cells
         while (cells % 7 !== 0) {
             calendarBody.appendChild(document.createElement("div"));
             cells++;
         }
     }
 
-    generateCalendar(yearSelect.value, monthSelect.value);
-
-    yearSelect.onchange = () =>
+    // 🔥 INITIAL LOAD
+    loadAdminEvents(monthSelect.value).then(() => {
         generateCalendar(yearSelect.value, monthSelect.value);
+    });
 
-    monthSelect.onchange = () =>
-        generateCalendar(yearSelect.value, monthSelect.value);
+    yearSelect.onchange = () => {
+        loadAdminEvents(monthSelect.value).then(() => {
+            generateCalendar(yearSelect.value, monthSelect.value);
+        });
+    };
+
+    monthSelect.onchange = () => {
+        loadAdminEvents(monthSelect.value).then(() => {
+            generateCalendar(yearSelect.value, monthSelect.value);
+        });
+    };
 };
 
 function openModal(date) {
@@ -258,7 +319,5 @@ function saveEvent() {
         }
     });
 }
-
-
-
 </script>
+
