@@ -27,7 +27,9 @@
                 </div>
 
                 <div class="card-body">
-                    <form id="registerForm" action="${pageContext.request.contextPath}/register" method="post" enctype="multipart/form-data" novalidate>
+                    <form action="${pageContext.request.contextPath}/register" method="post" enctype="multipart/form-data">
+
+
 
                         <!-- Name -->
                         <div class="mb-3">
@@ -61,12 +63,12 @@
                             <span class="text-danger small error"></span>
                         </div>
 
-                        <!-- Age -->
-                        <div class="mb-3">
-                            <label class="form-label">Age</label>
-                            <input type="text" class="form-control" name="age">
-                            <span class="text-danger small error"></span>
-                        </div>
+                        <!-- Birth Date -->
+						<div class="mb-3">
+						    <label class="form-label">Date of Birth</label>
+						    <input type="date" class="form-control" name="dob">
+						    <span class="text-danger small error"></span>
+						</div>
 
                         <!-- Gender -->
                         <div class="mb-3">
@@ -130,14 +132,13 @@ $(function () {
         const emailRegex    = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
         const phoneRegex    = /^[6-9]\d{9}$/;
-        const ageRegex      = /^(1[89]|[2-5]\d|60)$/;
         const stateRegex    = /^[A-Za-z ]{2,}$/;
 
         const name     = $("[name='name']").val().trim();
         const email    = $("[name='email']").val().trim();
         const password = $("[name='password']").val();
         const phone    = $("[name='phone']").val().trim();
-        const age      = $("[name='age']").val().trim();
+        const dob = $("[name='dob']").val();
         const gender   = $("[name='gender']:checked").val();
         const state    = $("[name='state']").val();
 
@@ -161,9 +162,24 @@ $(function () {
             valid = false;
         }
 
-        if (!ageRegex.test(age)) {
-            setError("age", "Age must be between 18 and 60");
+
+        if (!dob) {
+            setError("dob", "Please select your birth date");
             valid = false;
+        } else {
+            const birthDate = new Date(dob);
+            const today = new Date();
+
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
+            if (age < 18 || age > 60) {
+                setError("dob", "Age must be between 18 and 60");
+                valid = false;
+            }
         }
 
         if (!gender) {

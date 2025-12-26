@@ -1,17 +1,17 @@
 package com.sdr.service;
 
-import com.sdr.allUtils.EmailUtil;
-import com.sdr.allUtils.OtpUtil;
-import com.sdr.allUtils.PasswordUtil;
-import com.sdr.dao.UserDAO;
-import com.sdr.entity.User;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.sdr.allUtils.EmailUtil;
+import com.sdr.allUtils.OtpUtil;
+import com.sdr.allUtils.PasswordUtil;
+import com.sdr.dao.UserDAO;
+import com.sdr.entity.User;
 
 @Service
 @Transactional
@@ -120,6 +120,11 @@ public class UserServiceImpl implements UserService {
 
         return true;
     }
+    
+    public boolean emailExists(String email) {
+        return userDAO.getUserByEmail(email) != null;
+    }
+
 
 
     @Override
@@ -127,6 +132,6 @@ public class UserServiceImpl implements UserService {
         return userDAO.getAllUsers();
     }
     
-    
+
 
 }

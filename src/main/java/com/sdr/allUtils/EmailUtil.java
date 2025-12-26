@@ -6,12 +6,23 @@ import javax.mail.internet.*;
 
 public class EmailUtil {
 
+	
     // 🔴 Use your real Gmail ID
     private static final String FROM_EMAIL = "sanketchounde0406@gmail.com";
 
     // 🔴 Gmail APP PASSWORD (remove spaces)
     private static final String APP_PASSWORD = "fcbfcnivghxzmadr";
+    
+    public void sendOtp(String toEmail, String otp) {
 
+        // TEMP: Console (later you can plug JavaMailSender)
+        System.out.println("================================");
+        System.out.println("Sending OTP to: " + toEmail);
+        System.out.println("OTP: " + otp);
+        System.out.println("================================");
+    }
+	
+    
     public static void sendOtpEmail(String toEmail, String otp) {
 
         Properties props = new Properties();

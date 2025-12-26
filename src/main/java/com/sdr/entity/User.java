@@ -11,12 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "users")
@@ -44,13 +44,15 @@ public class User {
     @Pattern(regexp = "^[6-9]\\d{9}$")
     @Column(length = 10, nullable = false)
     private String phone;
-
+    
     @NotNull
-    @Min(18)
-    @Max(60)
-    private Integer age;
+    @Column(name = "dob")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dob;
 
-    @NotBlank
+  
+
+	@NotBlank
     private String gender;
 
     @NotBlank
@@ -93,22 +95,18 @@ public class User {
 		this.otpExpiry = otpExpiry;
 	}
 
-	public void setAge(Integer age) {
-		this.age = age;
-	}
 
 	public User() {}
 
     // Constructor (optional)
     public User(int id, String name, String email, String password,
-                String phone, int age, String gender,
+                String phone, String gender,
                 String state, LocalDate createdAt) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.phone = phone;
-        this.age = age;
         this.gender = gender;
         this.state = state;
         this.createdAt = createdAt;
@@ -156,13 +154,6 @@ public class User {
         this.phone = phone;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
 
     public String getGender() {
         return gender;
@@ -195,5 +186,13 @@ public class User {
     public void setProfilePhoto(String profilePhoto) {
         this.profilePhoto = profilePhoto;
     }
+    
+    public LocalDate getDob() {
+  		return dob;
+  	}
+
+  	public void setDob(LocalDate dob) {
+  		this.dob = dob;
+  	}
 
 }
