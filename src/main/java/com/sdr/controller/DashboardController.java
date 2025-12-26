@@ -2,6 +2,8 @@ package com.sdr.controller;
 
 import com.sdr.entity.User;
 import com.sdr.service.EventService;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,12 +25,19 @@ public class DashboardController {
 
     
     @GetMapping("/dashboard")
-    public String dashboard(HttpSession session, Model model) {
+    public String dashboard(HttpSession session,HttpServletResponse response, Model model) {
+    	
+    	
 
-        User user = (User) session.getAttribute("loggedUser");
-        if (user == null) {
-            return "redirect:/login";
-        }
+    	 User user = (User) session.getAttribute("loggedUser");
+    	    if (user == null) {
+    	        return "redirect:/login";
+    	    }
+
+    	    // 🚫 Disable browser cache (MOST IMPORTANT)
+    	    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    	    response.setHeader("Pragma", "no-cache");
+    	    response.setDateHeader("Expires", 0);
 
         LocalDate today = LocalDate.now();
 
