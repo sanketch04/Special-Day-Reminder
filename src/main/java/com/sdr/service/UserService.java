@@ -12,7 +12,6 @@ public interface UserService {
     boolean sendOtp(String email);
     List<User> getAllUsers();
     void verifyOtp(String email, String otp);
-
     void resetPassword(String email, String newPassword);
-    
 }
+

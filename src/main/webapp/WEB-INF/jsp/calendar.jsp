@@ -95,22 +95,61 @@
       position:relative;
   ">
 
-    <h3>Add Event</h3>
+   		<h3>Add Event</h3>
 
-    <label>Date</label><br>
-    <input type="text" id="eventDate" readonly style="width:100%"><br><br>
-
-    <label>Title</label><br>
-    <input type="text" id="eventTitle" style="width:100%"><br><br>
-
-    <label>Description</label><br>
-    <textarea id="eventDesc" style="width:100%"></textarea><br><br>
-
-    <button onclick="saveEvent()">Save</button>
-    <button onclick="closeModal()">Cancel</button>
-
-  </div>
-</div>
+					<label>Date</label><br>
+					<input type="date"
+					       id="eventDate"
+					       name="eventDate"
+					       readonly
+					       style="width:100%"><br><br>
+					
+					<label>Title</label><br>
+					<input type="text"
+					       id="eventTitle"
+					       name="title"
+					       style="width:100%"><br><br>
+					
+					<label>Category</label><br>
+							<select id="eventCategory"
+							        name="category"
+							        style="width:100%">
+							    <option value="MEETING">Meeting</option>
+							    <option value="HOLIDAY">Holiday</option>
+							    <option value="REMINDER">Reminder</option>
+							    <option value="PERSONAL">Personal</option>
+							    <option value="BIRTHDAY">Birthday</option>
+							    <option value="ANNIVERSARY">Anniversary</option>
+							    <option value="FESTIVAL">Festival</option>
+							    <option value="APPOINTMENT">Appointment</option>
+							    <option value="EXAM">Exam</option>
+							    <option value="INTERVIEW">Interview</option>
+							    <option value="WORKSHOP">Workshop</option>
+							    <option value="TRAINING">Training</option>
+							    <option value="DEADLINE">Deadline</option>
+							    <option value="PAYMENT">Payment / Bill Due</option>
+							    <option value="TRAVEL">Travel</option>
+							    <option value="EVENT">Special Event</option>
+							    <option value="HEALTH">Health / Medical</option>
+							    <option value="OTHER">Other</option>
+							</select><br><br>
+					<label>Description</label><br>
+					<textarea id="eventDesc"
+					          name="description"
+					          style="width:100%"></textarea><br><br>
+					
+					<label>Reminder (Days Before)</label><br>
+					<input type="number"
+					       id="reminderDays"
+					       name="reminderDaysBefore"
+					       value="1"
+					       min="0"
+					       style="width:100%"><br><br>
+					
+					<button onclick="saveEvent()">Save</button>
+					<button onclick="closeModal()">Cancel</button>
+				</div>
+			</div>
 
 
 <h2>Events Calendar</h2>
@@ -278,9 +317,17 @@ window.onload = function () {
 };
 
 function openModal(date) {
-    document.getElementById("eventDate").value = date;
+    // date already comes as yyyy-M-d → normalize
+    const parts = date.split("-");
+    const formatted =
+        parts[0] + "-" +
+        parts[1].padStart(2, "0") + "-" +
+        parts[2].padStart(2, "0");
+
+    document.getElementById("eventDate").value = formatted;
     document.getElementById("eventModal").style.display = "block";
 }
+
 
 function closeModal() {
     document.getElementById("eventModal").style.display = "none";
@@ -288,36 +335,34 @@ function closeModal() {
 
 function saveEvent() {
 
-    const date = document.getElementById("eventDate").value;
-    const title = document.getElementById("eventTitle").value;
-    const desc = document.getElementById("eventDesc").value;
-
-    if (title.trim() === "") {
-        alert("Title required");
-        return;
-    }
+    const params = new URLSearchParams();
+    params.append("eventDate", document.getElementById("eventDate").value);
+    params.append("title", document.getElementById("eventTitle").value);
+    params.append("category", document.getElementById("eventCategory").value);
+    params.append("description", document.getElementById("eventDesc").value);
+    params.append("reminderDaysBefore", document.getElementById("reminderDays").value);
 
     fetch("event/save", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
-        body:
-            "eventDate=" + encodeURIComponent(date) +
-            "&title=" + encodeURIComponent(title) +
-            "&description=" + encodeURIComponent(desc)
+        body: params.toString()
     })
     .then(res => res.text())
     .then(data => {
         if (data === "SUCCESS") {
-            alert("Event saved");
+            alert("Event saved successfully");
             closeModal();
-        } else if (data === "DATE_MISSING") {
-            alert("Date missing");
-        } else {
+            location.reload();
+        } else if (data === "NOT_LOGGED_IN") {
             alert("Please login again");
+        } else {
+            alert("Failed to save event");
         }
     });
 }
+
+
 </script>
 

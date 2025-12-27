@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sdr.allUtils.PasswordUtil;
 import com.sdr.entity.User;
 import com.sdr.service.UserService;
 
@@ -47,17 +48,26 @@ public class AuthController {
             HttpSession session,
             Model model) {
 
-        User user = userService.login(email, password);
+        User user = userService.getUserByEmail(email);
 
+        // Email not found
         if (user == null) {
-            model.addAttribute("error", "Account not found");
+            model.addAttribute("error", "Account does not exist. Please register.");
             return "login";
         }
 
-        user.setPassword(null); // security
+        // Password wrong
+        if (!PasswordUtil.checkPassword(password, user.getPassword())) {
+            model.addAttribute("error", "Please Enter Valid password.");
+            return "login";
+        }
+
+        // Success
         session.setAttribute("loggedUser", user);
         return "redirect:/dashboard";
     }
+
+
 
     /* =========================
        FORGOT PASSWORD (OLD FLOW – UNTOUCHED)

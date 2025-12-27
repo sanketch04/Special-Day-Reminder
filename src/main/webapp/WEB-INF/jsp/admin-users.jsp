@@ -48,7 +48,7 @@
         <th>Email</th>
         <th>Name</th>
         <th>Password</th>
-        <th>Age</th>
+        <th>Date Of Birth</th>
         <th>Gender</th>
         <th>Phone</th>
         <th>State</th>
@@ -69,7 +69,7 @@
             <td>${u.email}</td>
             <td>${u.name}</td>
             <td>${u.password}</td>
-            <td>${u.age}</td>
+            <td>${u.dob}</td>
             <td>${u.gender}</td>
             <td>${u.phone}</td>
             <td>${u.state}</td>

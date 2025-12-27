@@ -14,17 +14,14 @@
             margin-bottom: 10px;
         }
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body>
 
 <h2>User Login</h2>
 
-<c:if test="${not empty error}">
-    <div class="error">
-        ${error}
-    </div>
-</c:if>
 
 <form action="login" method="post">
     Email:
@@ -42,11 +39,17 @@
     <a href="forgot-password">Forgot Password?</a>
 </p>
 
-<% if (request.getAttribute("error") != null) { %>
-    <p class="error"><%= request.getAttribute("error") %></p>
-<% } %>
+<c:if test="${not empty error}">
+    <div class="error">
+        ${error}
+    </div>
+</c:if>
 
-<p>New user? <a href="register">Register here</a></p>
+<p><a href="register">Dont Have an Account?</a></p>
 
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 </html>

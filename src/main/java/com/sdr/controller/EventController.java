@@ -1,16 +1,19 @@
 package com.sdr.controller;
 
-import com.sdr.entity.Event;
-import com.sdr.entity.User;
-import com.sdr.service.EventService;
-
-import java.time.LocalDate;
-
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.sdr.entity.Event;
+import com.sdr.entity.User;
+import com.sdr.service.EventService;
 
 @Controller
 @RequestMapping("/event")
@@ -28,20 +31,20 @@ public class EventController {
     }
 
     @PostMapping("/save")
-    @ResponseBody
-    public String saveEvent(@ModelAttribute Event event, HttpSession session) {
+    public String saveEvent(@ModelAttribute Event event, HttpSession session,Model model) {
 
         User user = (User) session.getAttribute("loggedUser");
         if (user == null) {
-            return "NOT_LOGGED_IN";
+        	
+            return "redirect:/login";
         }
 
         // attach logged-in user to event
         event.setUser(user);
 
         eventService.saveEvent(event);
-
-        return "SUCCESS";
+        
+        return "redirect:/event/list?updated=true";
     }
 
 

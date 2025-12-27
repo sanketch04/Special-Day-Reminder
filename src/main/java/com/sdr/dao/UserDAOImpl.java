@@ -36,11 +36,6 @@ public class UserDAOImpl implements UserDAO {
 	    sessionFactory.getCurrentSession().update(user);
 	}
 
-	@Override
-	public User login(String email, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<User> getAll() {
@@ -55,7 +50,6 @@ public class UserDAOImpl implements UserDAO {
 	            .createQuery("from User", User.class)
 	            .list();
 	}
-
 	
 
 }

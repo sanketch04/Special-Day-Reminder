@@ -34,18 +34,22 @@ public class UserServiceImpl implements UserService {
 
         User user = userDAO.getUserByEmail(email);
 
+        // 1️⃣ Email not found
         if (user == null) {
-            return null; // account not found
+            return null;
         }
 
+        // 2️⃣ Password incorrect
         if (!PasswordUtil.checkPassword(rawPassword, user.getPassword())) {
-            // WRONG PASSWORD → do NOT update DB
-            user.setPassword(null);
-            return user;
+            return null;
         }
 
-        return user; // SUCCESS
+        // 3️⃣ Login success
+        return user;
     }
+
+
+
 
 
     @Override
