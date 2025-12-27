@@ -11,8 +11,6 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 
 <body class="bg-light">
@@ -28,8 +26,6 @@
 
                 <div class="card-body">
                     <form action="${pageContext.request.contextPath}/register" method="post" enctype="multipart/form-data">
-
-
 
                         <!-- Name -->
                         <div class="mb-3">
@@ -101,15 +97,16 @@
 						
 						    <br>
 
-                        <button type="submit" class="btn btn-primary w-100">
-                            Register
-                        </button>
+                        <button type="submit" class="btn btn-primary w-100" id="registerBtn" disabled>
+							    Register
+						</button>
                     </form>
                 </div>
 
                 <div class="card-footer text-center">
                     <a href="login">Back to Login</a>
                 </div>
+                
             </div>
 
         </div>
@@ -119,315 +116,11 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Validation Script -->
-<script>
-$(function () {
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    $("#registerForm").on("submit", function (e) {
-        let valid = true;
-        $(".error").text("");
-
-        // RegEx patterns
-        const nameRegex     = /^[A-Za-z ]{3,50}$/;
-        const emailRegex    = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
-        const phoneRegex    = /^[6-9]\d{9}$/;
-        const stateRegex    = /^[A-Za-z ]{2,}$/;
-
-        const name     = $("[name='name']").val().trim();
-        const email    = $("[name='email']").val().trim();
-        const password = $("[name='password']").val();
-        const phone    = $("[name='phone']").val().trim();
-        const dob = $("[name='dob']").val();
-        const gender   = $("[name='gender']:checked").val();
-        const state    = $("[name='state']").val();
-
-        if (!nameRegex.test(name)) {
-            setError("name", "Enter valid name (min 3 letters)");
-            valid = false;
-        }
-
-        if (!emailRegex.test(email)) {
-            setError("email", "Enter valid email address");
-            valid = false;
-        }
-
-        if (!passwordRegex.test(password)) {
-            setError("password", "Password must contain letter, number & special char");
-            valid = false;
-        }
-
-        if (!phoneRegex.test(phone)) {
-            setError("phone", "Enter valid 10-digit Indian mobile number");
-            valid = false;
-        }
-
-
-        if (!dob) {
-            setError("dob", "Please select your birth date");
-            valid = false;
-        } else {
-            const birthDate = new Date(dob);
-            const today = new Date();
-
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const m = today.getMonth() - birthDate.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-
-            if (age < 18 || age > 60) {
-                setError("dob", "Age must be between 18 and 60");
-                valid = false;
-            }
-        }
-
-        if (!gender) {
-            $("[name='gender']").closest(".mb-3")
-                .find(".error").text("Please select gender");
-            valid = false;
-        }
-
-        if (!stateRegex.test(state)) {
-            setError("state", "Please select a valid state");
-            valid = false;
-        }
-
-        if (!valid) e.preventDefault();
-    });
-
-    function setError(field, message) {
-        $("[name='" + field + "']")
-            .closest(".mb-3")
-            .find(".error")
-            .text(message);
-    }
-});
-</script>
-
-<script>
-$(function () {
-
-    // Regex patterns
-    const nameRegex     = /^[A-Za-z ]{3,50}$/;
-    const emailRegex    = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
-    const phoneRegex    = /^[6-9]\d{9}$/;
-    const stateRegex    = /^[A-Za-z ]{2,}$/;
-
-    // NAME
-    $("[name='name']").on("blur", function () {
-        const val = $(this).val().trim();
-        if (!nameRegex.test(val)) {
-            showError(this, "Enter valid name (min 3 letters)");
-        } else {
-            clearError(this);
-        }
-    });
-
-    // EMAIL
-    $("[name='email']").on("blur", function () {
-        const val = $(this).val().trim();
-        if (!emailRegex.test(val)) {
-            showError(this, "Enter valid email address");
-        } else {
-            clearError(this);
-        }
-    });
-
-    // PASSWORD
-    $("[name='password']").on("blur", function () {
-        const val = $(this).val();
-        if (!passwordRegex.test(val)) {
-            showError(this, "Password must contain letter, number & special char");
-        } else {
-            clearError(this);
-        }
-    });
-
-    // PHONE
-    $("[name='phone']").on("blur", function () {
-        const val = $(this).val().trim();
-        if (!phoneRegex.test(val)) {
-            showError(this, "Enter valid 10-digit Indian mobile number");
-        } else {
-            clearError(this);
-        }
-    });
-
-    // DOB
-    $("[name='dob']").on("blur", function () {
-        const dob = $(this).val();
-        if (!dob) {
-            showError(this, "Please select your birth date");
-            return;
-        }
-
-        const birthDate = new Date(dob);
-        const today = new Date();
-
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-
-        if (age < 18 || age > 60) {
-            showError(this, "Age must be between 18 and 60");
-        } else {
-            clearError(this);
-        }
-    });
-
-    // GENDER
-    $("[name='gender']").on("change", function () {
-        clearGenderError();
-    });
-
-    // STATE
-    $("[name='state']").on("blur change", function () {
-        const val = $(this).val();
-        if (!stateRegex.test(val)) {
-            showError(this, "Please select a valid state");
-        } else {
-            clearError(this);
-        }
-    });
-
-    // ---------- Helper functions ----------
-    function showError(field, message) {
-        $(field)
-            .closest(".mb-3")
-            .find(".error")
-            .text(message);
-    }
-
-    function clearError(field) {
-        $(field)
-            .closest(".mb-3")
-            .find(".error")
-            .text("");
-    }
-
-    function clearGenderError() {
-        $("[name='gender']")
-            .closest(".mb-3")
-            .find(".error")
-            .text("");
-    }
-
-});
-</script>
-
-<script>
-$(function () {
-
-    const validationState = {
-        name: false,
-        email: false,
-        password: false,
-        phone: false,
-        dob: false,
-        gender: false,
-        state: false
-    };
-
-    function updateButtonState() {
-        const allValid = Object.values(validationState).every(v => v === true);
-        $("#registerBtn").prop("disabled", !allValid);
-    }
-
-    function markValid(field) {
-        validationState[field] = true;
-        updateButtonState();
-    }
-
-    function markInvalid(field) {
-        validationState[field] = false;
-        updateButtonState();
-    }
-
-    // NAME
-    $("[name='name']").on("blur", function () {
-        const val = $(this).val().trim();
-        if (/^[A-Za-z ]{3,50}$/.test(val)) {
-            markValid("name");
-        } else {
-            markInvalid("name");
-        }
-    });
-
-    // EMAIL
-    $("[name='email']").on("blur", function () {
-        const val = $(this).val().trim();
-        if (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val)) {
-            markValid("email");
-        } else {
-            markInvalid("email");
-        }
-    });
-
-    // PASSWORD
-    $("[name='password']").on("blur", function () {
-        const val = $(this).val();
-        if (/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(val)) {
-            markValid("password");
-        } else {
-            markInvalid("password");
-        }
-    });
-
-    // PHONE
-    $("[name='phone']").on("blur", function () {
-        const val = $(this).val().trim();
-        if (/^[6-9]\d{9}$/.test(val)) {
-            markValid("phone");
-        } else {
-            markInvalid("phone");
-        }
-    });
-
-    // DOB
-    $("[name='dob']").on("blur", function () {
-        const dob = $(this).val();
-        if (!dob) {
-            markInvalid("dob");
-            return;
-        }
-
-        const birthDate = new Date(dob);
-        const today = new Date();
-
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-
-        if (age >= 18 && age <= 60) {
-            markValid("dob");
-        } else {
-            markInvalid("dob");
-        }
-    });
-
-    // GENDER
-    $("[name='gender']").on("change", function () {
-        markValid("gender");
-    });
-
-    // STATE
-    $("[name='state']").on("change blur", function () {
-        const val = $(this).val();
-        if (/^[A-Za-z ]{2,}$/.test(val)) {
-            markValid("state");
-        } else {
-            markInvalid("state");
-        }
-    });
-
-});
-</script>
+	<!-- Validation Script -->
+	<script src="${pageContext.request.contextPath}/assets/js/registerJs.js"></script>
 
 
 </body>

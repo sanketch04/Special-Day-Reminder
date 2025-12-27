@@ -1,17 +1,11 @@
 $(function () {
 
-    /* ===============================
-       REGEX PATTERNS
-    =============================== */
     const nameRegex     = /^[A-Za-z ]{3,50}$/;
     const emailRegex    = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
     const phoneRegex    = /^[6-9]\d{9}$/;
     const stateRegex    = /^[A-Za-z ]{2,}$/;
 
-    /* ===============================
-       VALIDATION STATE (BUTTON ENABLE)
-    =============================== */
     const validationState = {
         name: false,
         email: false,
@@ -37,9 +31,6 @@ $(function () {
         updateButtonState();
     }
 
-    /* ===============================
-       HELPER FUNCTIONS
-    =============================== */
     function showError(field, message) {
         $(field).closest(".mb-3").find(".error").text(message);
     }
@@ -51,10 +42,6 @@ $(function () {
     function clearGenderError() {
         $("[name='gender']").closest(".mb-3").find(".error").text("");
     }
-
-    /* ===============================
-       ON-BLUR VALIDATION
-    =============================== */
 
     $("[name='name']").on("blur", function () {
         nameRegex.test(this.value.trim())
@@ -106,9 +93,6 @@ $(function () {
             : (showError(this, "Please select a valid state"), markInvalid("state"));
     });
 
-    /* ===============================
-       SUBMIT VALIDATION (FINAL CHECK)
-    =============================== */
     $("#registerForm").on("submit", function (e) {
         if (!Object.values(validationState).every(v => v === true)) {
             e.preventDefault();
