@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-
-=======
->>>>>>> branch 'master' of https://github.com/sanketch04/Special-Day-Reminder
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="
-<<<<<<< HEAD
+
            http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd
 
@@ -16,44 +12,59 @@
            http://www.springframework.org/schema/context/spring-context.xsd
 
            http://www.springframework.org/schema/tx
-=======
-           http://www.springframework.org/schema/beans 
-           http://www.springframework.org/schema/beans/spring-beans.xsd
-           
-           http://www.springframework.org/schema/context 
-           http://www.springframework.org/schema/context/spring-context.xsd
-           
-           http://www.springframework.org/schema/tx 
->>>>>>> branch 'master' of https://github.com/sanketch04/Special-Day-Reminder
            http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+    <!-- Enable annotations like @Autowired, @Service, @Repository -->
     <context:annotation-config />
+
+    <!-- Scan all Spring components -->
     <context:component-scan base-package="com.sdr" />
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <!-- ===================== -->
+    <!-- DATABASE CONFIG -->
+    <!-- ===================== -->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/SDR?useSSL=false&amp;allowPublicKeyRetrieval=true"/>
+        <property name="url"
+                  value="jdbc:mysql://localhost:3306/SDR?useSSL=false&amp;allowPublicKeyRetrieval=true"/>
         <property name="username" value="root"/>
-        <property name="password" value="root"/>
+        <property name="password" value="sanket"/>
     </bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+    <!-- ===================== -->
+    <!-- HIBERNATE CONFIG -->
+    <!-- ===================== -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="com.sdr.model"/>
+
+        <!-- 🔥 CORRECT ENTITY PACKAGE -->
+        <property name="packagesToScan" value="com.sdr.entity"/>
+
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
-                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.format_sql">true</prop>
             </props>
         </property>
     </bean>
 
-    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+    <!-- ===================== -->
+    <!-- TRANSACTION MANAGER -->
+    <!-- ===================== -->
+    
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <!-- Enable @Transactional -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>

@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dashboard</title>
+    <title>Special Day Reminder</title>
     
     <style>
 .profile-pic {

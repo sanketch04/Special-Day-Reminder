@@ -23,10 +23,6 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    /* =========================
-       BASIC ROUTES
-       ========================= */
-
     @GetMapping("/")
     public String start() {
         return "redirect:/login";
@@ -37,9 +33,6 @@ public class AuthController {
         return "login";
     }
 
-    /* =========================
-       LOGIN
-       ========================= */
 
     @PostMapping("/login")
     public String loginUser(
@@ -50,28 +43,23 @@ public class AuthController {
 
         User user = userService.getUserByEmail(email);
 
-        // Email not found
         if (user == null) {
             model.addAttribute("error", "Account does not exist. Please register.");
             return "login";
         }
 
-        // Password wrong
         if (!PasswordUtil.checkPassword(password, user.getPassword())) {
             model.addAttribute("error", "Please Enter Valid password.");
             return "login";
         }
 
-        // Success
         session.setAttribute("loggedUser", user);
         return "redirect:/dashboard";
     }
 
 
 
-    /* =========================
-       FORGOT PASSWORD (OLD FLOW – UNTOUCHED)
-       ========================= */
+   
 
     @GetMapping("/forgot-password")
     public String forgotPasswordPage() {
@@ -105,11 +93,20 @@ public class AuthController {
             return "verify-otp";
         }
 
-        userService.verifyOtp(email, otp); // VOID METHOD (unchanged)
+        try {
+            userService.verifyOtp(email, otp);
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("error", ex.getMessage());
+            model.addAttribute("email", email);
+            return "verify-otp";
+        }
 
+        // 3️⃣ Success → go to reset password
         model.addAttribute("email", email);
         return "reset-password";
     }
+
+
 
     @PostMapping("/reset-password")
     public String resetPassword(
@@ -127,10 +124,6 @@ public class AuthController {
         userService.resetPassword(email, newPassword);
         return "redirect:/login";
     }
-
-    /* =========================
-       REGISTRATION WITH OTP (FIXED)
-       ========================= */
 
     @GetMapping("/register")
     public String registerPage() {
@@ -174,13 +167,6 @@ public class AuthController {
         }
     }
 
-
-
-   
-
-    /* =========================
-       PROFILE
-       ========================= */
 
     @GetMapping("/profile")
     public String profilePage(HttpSession session) {
@@ -229,9 +215,6 @@ public class AuthController {
         }
     }
 
-    /* =========================
-       LOGOUT
-       ========================= */
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

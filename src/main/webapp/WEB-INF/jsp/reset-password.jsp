@@ -23,8 +23,6 @@
     <button type="submit">Reset Password</button>
 </form>
 
-<p style="color:red">${error}</p>
-
 
 <% if (request.getAttribute("error") != null) { %>
     <p class="error"><%= request.getAttribute("error") %></p>

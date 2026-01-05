@@ -2,7 +2,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <h2>Admin Events</h2>
+<style>
+.my-table {
+    border-collapse: collapse;
+}
 
+.my-table th,
+.my-table td {
+    border: 1px solid #000;
+    padding: 8px; 
+}
+
+</style>
 <form action="${pageContext.request.contextPath}/admin/events/save" method="post">
     Title:
     <input type="text" name="title" required>
@@ -31,7 +42,7 @@
 
 <hr>
 
-<table border="1" cellpadding="8">
+<table class="my-table">
     <tr>
         <th>Title</th>
         <th>Date</th>

@@ -58,5 +58,5 @@
            name="photo"
            accept="image/*"><br><br>
 
-    <button type="submit" disable>Update Profile</button>
+    <button type="submit" disabled>Update Profile</button>
 </form>
