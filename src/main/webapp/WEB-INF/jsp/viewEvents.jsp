@@ -27,7 +27,7 @@
             <td>${e.category}</td>
             <td>
                 <a href="edit/${e.id}">Edit</a> |
-                <a href="#"
+                <a href="delete/${e.id}"
 				   class="btn btn-danger btn-sm"
 				   onclick="openDeleteModal(${e.id}, '${e.title}')">
 				   Delete

@@ -9,7 +9,7 @@
 <head>
     <title>Special Day Reminder</title>
     
-    <style>
+<style>
 .profile-pic {
     width: 150px;
     height: 150px;
@@ -30,10 +30,12 @@
 <img src="${pageContext.request.contextPath}/uploads/profile/${loggedUser.profilePhoto}"
      class="profile-pic">
 
+<a href="${pageContext.request.contextPath}/event/add">Add New Event</a> |
+<a href="${pageContext.request.contextPath}/event/list">View Events</a> |
+<a href="${pageContext.request.contextPath}/email/schedule">Schedule Email</a> |
+<a href="${pageContext.request.contextPath}/email/list">View Scheduled Emails</a> |
+<a href="${pageContext.request.contextPath}/logout">Logout</a>
 
-<a href="event/add">Add New Event</a> |
-<a href="event/list">View All Events</a> |
-<a href="logout">Logout</a>
 
 <hr>
 
