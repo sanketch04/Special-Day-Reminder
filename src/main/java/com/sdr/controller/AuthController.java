@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sdr.allUtils.PasswordUtil;
@@ -135,14 +136,25 @@ public class AuthController {
             User user,
             @RequestParam("profileImage") MultipartFile profileImage,
             HttpServletRequest request,
+            HttpSession session,
             Model model) {
 
         try {
+            // ✅ CHECK EMAIL VERIFIED FROM SESSION (NOT DB)
+            Boolean verified = (Boolean) session.getAttribute("EMAIL_VERIFIED");
+
+            if (verified == null || !verified) {
+                model.addAttribute("error", "Please verify your email first");
+                return "register";
+            }
+
+            // ✅ CHECK IF EMAIL ALREADY REGISTERED (REAL USERS ONLY)
             if (userService.getUserByEmail(user.getEmail()) != null) {
                 model.addAttribute("error", "Email already registered");
                 return "register";
             }
 
+            // upload profile image
             String uploadDir = request.getServletContext()
                     .getRealPath("/uploads/profile/");
             File dir = new File(uploadDir);
@@ -157,15 +169,23 @@ public class AuthController {
                 user.setProfilePhoto("default.png");
             }
 
+            // ✅ REGISTER USER (NOW ALL FIELDS ARE PRESENT)
             userService.registerUser(user);
+
+            // ✅ CLEANUP SESSION
+            session.removeAttribute("EMAIL_VERIFIED");
+            session.removeAttribute("REG_OTP");
+            session.removeAttribute("REG_EMAIL");
+
             return "redirect:/login";
 
         } catch (Exception e) {
-            e.printStackTrace(); // 👈 DO NOT REMOVE UNTIL FIXED
-            model.addAttribute("error", e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("error", "Registration failed");
             return "register";
         }
     }
+
 
 
     @GetMapping("/profile")
@@ -214,6 +234,34 @@ public class AuthController {
             return "profile";
         }
     }
+    
+    @PostMapping("/send-register-otp")
+    @ResponseBody
+    public String sendRegisterOtp(
+            @RequestParam String email,
+            HttpSession session) {
+
+        boolean sent = userService.sendEmailVerificationOtp(email, session);
+        return sent ? "OTP_SENT" : "EMAIL_EXISTS";
+    }
+
+
+    @PostMapping("/verify-register-otp")
+    @ResponseBody
+    public String verifyRegisterOtp(
+            @RequestParam String email,
+            @RequestParam String otp,
+            HttpSession session) {
+
+        try {
+            userService.verifyEmailOtp(email, otp, session);
+            return "VERIFIED";
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+
 
 
     @GetMapping("/logout")

@@ -43,41 +43,48 @@
 
 <table>
     <tr>
-        <th>ID</th>
-        <th>Photo</th>
-        <th>Email</th>
-        <th>Name</th>
-        <th>Password</th>
-        <th>Date Of Birth</th>
-        <th>Gender</th>
-        <th>Phone</th>
-        <th>State</th>
-        <th>Created Date</th>
-        <th>OTP Expiry</th>
-        <th>Reset OTP</th>
-    </tr>
+    <th>ID</th>
+    <th>Photo</th>
+    <th>Email</th>
+    <th>Email Verified</th>
+    <th>Name</th>
+    <th>Date Of Birth</th>
+    <th>Gender</th>
+    <th>Phone</th>
+    <th>State</th>
+    <th>Created Date</th>
+</tr>
+
 
     <c:forEach var="u" items="${users}">
-        <tr>
-            <td>${u.id}</td>
-            
-            <td>
-                <c:if test="${not empty u.profilePhoto}">
-                    <img src="${pageContext.request.contextPath}/uploads/profile/${u.profilePhoto}">
-                </c:if>
-            </td>
-            <td>${u.email}</td>
-            <td>${u.name}</td>
-            <td>${u.password}</td>
-            <td>${u.dob}</td>
-            <td>${u.gender}</td>
-            <td>${u.phone}</td>
-            <td>${u.state}</td>
-            <td>${u.createdAt}</td>
-            <td>${u.otpExpiry}</td>
-            <td>${u.resetOtp}</td>
-        </tr>
-    </c:forEach>
+   <tr>
+    <td>${u.id}</td>
+
+    <td>
+        <c:if test="${not empty u.profilePhoto}">
+            <img src="${pageContext.request.contextPath}/uploads/profile/${u.profilePhoto}">
+        </c:if>
+    </td>
+
+    <td>${u.email}</td>
+
+    <td>
+        <c:choose>
+            <c:when test="${u.emailVerified}">✅ Verified</c:when>
+            <c:otherwise>❌ Not Verified</c:otherwise>
+        </c:choose>
+    </td>
+
+    <td>${u.name != null ? u.name : '-'}</td>
+    <td>${u.dob != null ? u.dob : '-'}</td>
+    <td>${u.gender != null ? u.gender : '-'}</td>
+    <td>${u.phone != null ? u.phone : '-'}</td>
+    <td>${u.state != null ? u.state : '-'}</td>
+    <td>${u.createdAt}</td>
+</tr>
+
+</c:forEach>
+
 </table>
 
 <c:if test="${empty users}">

@@ -12,10 +12,9 @@ public class ScheduledEmailScheduler {
     @Autowired
     private ScheduledEmailService scheduledEmailService;
 
-    // runs every 1 minute
+    //every 1 minute checks
     @Scheduled(cron = "0 * * * * *")
     public void runEmailScheduler() {
-        System.out.println("⏰ Scheduler running...");
         scheduledEmailService.processScheduledEmails();
     }
 }

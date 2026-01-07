@@ -7,6 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Special Day Reminder</title>
+<style type="text/css">
+.disabled-link {
+    pointer-events: none; 
+    color: gray;
+    opacity: 0.5;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+</style>
 </head>
 <body>
 
@@ -31,16 +40,34 @@
     <td>${e.sendDate}</td>
     <td>${e.sendTime}</td>
     <td>
-        <c:choose>
-            <c:when test="${e.sent}">✅ Sent</c:when>
-            <c:otherwise>⏳ Pending</c:otherwise>
+    <c:choose>
+        <c:when test="${e.sent}">
+            ✅ Sent
+        </c:when>
+        <c:otherwise>
+            ⏳ Pending
+        </c:otherwise>
+    </c:choose>
+	</td>
+ 	<td>
+    <c:choose>
+        <c:when test="${e.sent}">
+            <a class="disabled-link" alt="You Cant edit or delete the sent email">✏ Edit</a>
+            |
+            <a class="disabled-link" alt="You Cant edit or delete the sent email">❌ Delete</a>
+        </c:when>
+        <c:otherwise>
+            <a href="${pageContext.request.contextPath}/email/edit/${e.id}">
+                ✏ Edit
+            </a>
+            |
+            <a href="${pageContext.request.contextPath}/email/delete/${e.id}"
+               onclick="return confirm('Delete this scheduled email?')">
+               ❌ Delete
+            </a>
+        </c:otherwise>
         </c:choose>
-    </td>
-    <td>
-        <a href="${pageContext.request.contextPath}/email/edit/${e.id}">Edit</a> |
-        <a href="${pageContext.request.contextPath}/email/delete/${e.id}"
-           onclick="return confirm('Delete?')">Delete</a>
-    </td>
+	</td>
 </tr>
 </c:forEach>
 </table>

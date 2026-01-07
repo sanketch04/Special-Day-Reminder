@@ -61,8 +61,42 @@ public class User {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDate createdAt;
+    
+    @Column(name = "email_verified")
+    private boolean emailVerified = false;
 
-    @PrePersist
+    @Column(name = "email_otp")
+    private String emailOtp;
+
+    @Column(name = "email_otp_expiry")
+    private LocalDateTime emailOtpExpiry;
+    
+
+    public boolean isEmailVerified() {
+		return emailVerified;
+	}
+
+	public void setEmailVerified(boolean emailVerified) {
+		this.emailVerified = emailVerified;
+	}
+
+	public String getEmailOtp() {
+		return emailOtp;
+	}
+
+	public void setEmailOtp(String emailOtp) {
+		this.emailOtp = emailOtp;
+	}
+
+	public LocalDateTime getEmailOtpExpiry() {
+		return emailOtpExpiry;
+	}
+
+	public void setEmailOtpExpiry(LocalDateTime emailOtpExpiry) {
+		this.emailOtpExpiry = emailOtpExpiry;
+	}
+
+	@PrePersist
     protected void onCreate() {
         this.createdAt = LocalDate.now();
     }

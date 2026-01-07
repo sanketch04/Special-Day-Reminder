@@ -15,7 +15,6 @@ import com.sdr.entity.Admin;
 import com.sdr.entity.User;
 import com.sdr.service.AdminService;
 import com.sdr.service.UserService;
-
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -23,34 +22,44 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @Autowired   
+    @Autowired
     private UserService userService;
-    
+
     @GetMapping("/login")
     public String loginPage() {
         return "admin-login";
     }
 
     @PostMapping("/login")
-    public String login(
+    public String adminLogin(
             @RequestParam String email,
             @RequestParam String password,
-            HttpSession session
-    ) {
+            HttpSession session,
+            Model model) {
+
         Admin admin = adminService.login(email, password);
 
         if (admin == null) {
-            return "redirect:/admin/login?error";
+            model.addAttribute("error", "Invalid credentials");
+            return "admin-login";
         }
 
-        session.setAttribute("ADMIN_LOGGED_IN", admin);
+        session.setAttribute("loggedAdmin", admin);
+
         return "redirect:/admin/dashboard";
     }
-    
+
+    @GetMapping("/dashboard")
+    public String dashboard(HttpSession session) {
+        if (session.getAttribute("loggedAdmin") == null) {
+            return "redirect:/admin/login";
+        }
+        return "admin-dashboard";
+    }
+
     @GetMapping("/eventsAdmin")
     public String adminEvents(Model model, HttpSession session) {
-
-        if (session.getAttribute("ADMIN_LOGGED_IN") == null) {
+        if (session.getAttribute("loggedAdmin") == null) {
             return "redirect:/admin/login";
         }
 
@@ -58,42 +67,36 @@ public class AdminController {
         return "admin-events";
     }
 
-    
-    @GetMapping("/dashboard")
-    public String dashboard(HttpSession session) {
-        if (session.getAttribute("ADMIN_LOGGED_IN") == null) {
-            return "redirect:/admin/login";
-        }
-        return "admin-dashboard";
-    }  
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model) {
-        Admin admin = (Admin) session.getAttribute("ADMIN_LOGGED_IN");
+        Admin admin = (Admin) session.getAttribute("loggedAdmin");
+        if (admin == null) {
+            return "redirect:/admin/login";
+        }
         model.addAttribute("admin", admin);
         return "admin-profile";
     }
-    
-    @GetMapping("/users")
-    public String showAllUsers(Model model, HttpSession session) {
 
-        if (session.getAttribute("ADMIN_LOGGED_IN") == null) {
+    @GetMapping("/users")
+    public String viewUsers(HttpSession session, Model model) {
+
+        Admin admin = (Admin) session.getAttribute("loggedAdmin");
+        System.out.println("ADMIN SESSION = " + admin);
+
+        if (admin == null) {
             return "redirect:/admin/login";
         }
 
-        List<User> users = userService.getAllUsers();
-
-
+        List<User> users = userService.getVerifiedUsers();
         model.addAttribute("users", users);
+
+
         return "admin-users";
     }
-
-   
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/admin/login";
     }
-    
-    
 }

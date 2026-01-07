@@ -36,7 +36,6 @@ public class UserDAOImpl implements UserDAO {
 	    sessionFactory.getCurrentSession().update(user);
 	}
 
-
 	@Override
 	public List<User> getAll() {
 	    return sessionFactory.getCurrentSession()
@@ -51,5 +50,13 @@ public class UserDAOImpl implements UserDAO {
 	            .list();
 	}
 	
+	@Override
+	public List<User> getVerifiedUsers() {
+	    return sessionFactory.getCurrentSession()
+	        .createQuery(
+	            "FROM User WHERE emailVerified = true",
+	            User.class
+	        ).list();
+	}
 
 }

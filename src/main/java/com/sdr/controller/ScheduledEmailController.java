@@ -64,10 +64,27 @@ public class ScheduledEmailController {
 
     
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable int id, Model model) {
-        model.addAttribute("email", service.getById(id));
+    public String edit(
+            @PathVariable int id,
+            HttpSession session,
+            Model model) {
+
+        User user = (User) session.getAttribute("loggedUser");
+        ScheduledEmail email = service.getById(id);
+
+        // not found OR not owner
+        if (email == null || email.getUser().getId() != user.getId()) {
+            return "redirect:/access-denied";
+        }
+
+        if (email.isSent()) {
+            return "redirect:/email/list";
+        }
+
+        model.addAttribute("email", email);
         return "editScheduledEmail";
     }
+
     
     @PostMapping("/update")
     public String update(
@@ -75,21 +92,23 @@ public class ScheduledEmailController {
             HttpSession session) {
 
         User user = (User) session.getAttribute("loggedUser");
-
-        // 🔥 FETCH EXISTING EMAIL FROM DB
         ScheduledEmail existing = service.getById(email.getId());
 
-        // 🔒 SECURITY CHECK
         if (existing == null || existing.getUser().getId() != user.getId()) {
             return "redirect:/access-denied";
         }
 
-        // 🔥 VERY IMPORTANT
+        if (existing.isSent()) {
+            return "redirect:/email/list";
+        }
+
         email.setUser(existing.getUser());
+        email.setSent(existing.isSent());
 
         service.update(email);
         return "redirect:/email/list";
     }
+
 
     
     @GetMapping("/delete/{id}")

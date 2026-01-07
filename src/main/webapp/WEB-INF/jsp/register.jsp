@@ -36,10 +36,23 @@
 
                         <!-- Email -->
                         <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" name="email">
-                            <span class="text-danger small error"></span>
-                        </div>
+					    <label>Email</label>
+					    <input type="email" class="form-control" id="email" name="email">
+					
+					    <button type="button" class="btn btn-sm btn-secondary mt-2"
+					            onclick="sendOtp()">Send OTP</button>
+					
+					    <div id="otpSection" style="display:none;">
+					        <input type="text" class="form-control mt-2"
+					               id="otp" placeholder="Enter OTP">
+					
+					        <button type="button" class="btn btn-sm btn-success mt-2"
+					                onclick="verifyOtp()">Verify OTP</button>
+					    </div>
+					
+					    <div id="otpMsg" class="mt-2 text-success"></div>
+					</div>
+
                         
                         <c:if test="${not empty error}">
     						<div class="alert alert-danger">${error}</div>
@@ -112,6 +125,44 @@
         </div>
     </div>
 </div>
+
+
+<script>
+function sendOtp() {
+    $.post("${pageContext.request.contextPath}/send-register-otp",
+        { email: $("#email").val() },
+        function(res) {
+
+            if (res === "OTP_SENT") {
+                $("#otpSection").show();
+                $("#otpMsg").text("OTP sent to email").css("color","green");
+
+            } else if (res === "ALREADY_REGISTERED") {
+                $("#otpMsg").text("Email already registered. Please login.")
+                            .css("color","red");
+            }
+        }
+    );
+}
+
+
+function verifyOtp() {
+    $.post("${pageContext.request.contextPath}/verify-register-otp",
+        {
+            email: $("#email").val(),
+            otp: $("#otp").val()
+        },
+        function(res) {
+            if (res === "VERIFIED") {
+                $("#otpMsg").text("Email verified successfully ✅");
+                $("#registerBtn").prop("disabled", false);
+            } else {
+                $("#otpMsg").text(res).css("color","red");
+            }
+        }
+    );
+}
+</script>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

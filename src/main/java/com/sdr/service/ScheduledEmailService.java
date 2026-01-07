@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sdr.allUtils.EmailUtil;
 import com.sdr.dao.ScheduledEmailDAO;
 import com.sdr.entity.ScheduledEmail;
+
 @Service
 @Transactional
 public class ScheduledEmailService {
@@ -50,7 +51,7 @@ public class ScheduledEmailService {
         EmailUtil.sendOtpEmail(to, message);
     }
 
-    // 🔥 CORE LOGIC
+  
     @Transactional
     public void processScheduledEmails() {
 
@@ -63,7 +64,7 @@ public class ScheduledEmailService {
             LocalDateTime scheduledTime =
                 LocalDateTime.of(email.getSendDate(), email.getSendTime());
 
-            // 🔴 VERY IMPORTANT CONDITION
+            
             if (!email.isSent() && !scheduledTime.isAfter(now)) {
 
                 EmailUtil.sendEventEmail(
@@ -72,10 +73,9 @@ public class ScheduledEmailService {
                     email.getMessage()
                 );
 
-                // ✅ mark as sent
+               //sent=1,not sent=0
                 email.setSent(true);
 
-                // ✅ SAVE UPDATE TO DB (THIS WAS MISSING)
                 scheduledEmailDAO.update(email);
 
                 System.out.println("✅ Email sent & marked as SENT: " + email.getId());

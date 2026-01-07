@@ -2,6 +2,9 @@ package com.sdr.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,6 +139,60 @@ public class UserServiceImpl implements UserService {
         return userDAO.getAllUsers();
     }
     
+    @Override
+    public boolean sendEmailVerificationOtp(String email, HttpSession session) {
+
+        // ✅ If email already belongs to a REAL registered user → block
+        User existing = userDAO.getUserByEmail(email);
+        if (existing != null) {
+            return false; // email already registered
+        }
+
+        // ✅ Generate OTP
+        String otp = String.valueOf(100000 + new Random().nextInt(900000));
+
+        // ✅ Store OTP in SESSION (NOT DB)
+        session.setAttribute("REG_EMAIL", email);
+        session.setAttribute("REG_OTP", otp);
+        session.setAttribute("REG_OTP_EXPIRY",
+                LocalDateTime.now().plusMinutes(5));
+
+        // ✅ Send email
+        EmailUtil.sendOtpEmail(email, otp);
+
+        return true;
+    }
+
+    @Override
+    public void verifyEmailOtp(String email, String otp, HttpSession session) {
+
+        String sessionEmail = (String) session.getAttribute("REG_EMAIL");
+        String sessionOtp = (String) session.getAttribute("REG_OTP");
+        LocalDateTime expiry =
+                (LocalDateTime) session.getAttribute("REG_OTP_EXPIRY");
+
+        if (sessionEmail == null || !sessionEmail.equals(email)) {
+            throw new IllegalArgumentException("OTP not found");
+        }
+
+        if (!otp.equals(sessionOtp)) {
+            throw new IllegalArgumentException("Invalid OTP");
+        }
+
+        if (expiry.isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("OTP expired");
+        }
+
+        // ✅ Mark verified
+        session.setAttribute("EMAIL_VERIFIED", true);
+    }
+    
+    public List<User> getVerifiedUsers() {
+        return userDAO.getVerifiedUsers();
+    }
+
+
+
 
 
 }

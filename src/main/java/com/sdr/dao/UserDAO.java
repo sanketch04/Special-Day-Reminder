@@ -11,7 +11,7 @@ public interface UserDAO {
     void updateUser(User user);
     List<User> getAll();
     List<User> getAllUsers();
-
+    List<User> getVerifiedUsers();
 
 
 }
