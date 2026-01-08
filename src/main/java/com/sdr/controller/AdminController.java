@@ -81,7 +81,6 @@ public class AdminController {
     public String viewUsers(HttpSession session, Model model) {
 
         Admin admin = (Admin) session.getAttribute("loggedAdmin");
-        System.out.println("ADMIN SESSION = " + admin);
 
         if (admin == null) {
             return "redirect:/admin/login";
@@ -89,8 +88,7 @@ public class AdminController {
 
         List<User> users = userService.getVerifiedUsers();
         model.addAttribute("users", users);
-
-
+        
         return "admin-users";
     }
 
