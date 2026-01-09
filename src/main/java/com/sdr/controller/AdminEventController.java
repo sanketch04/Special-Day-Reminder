@@ -52,6 +52,10 @@ public class AdminEventController {
         adminEventService.delete(id);
         return "redirect:/admin/eventsAdmin";
     }
+    
+    
+    
+    
 
     // API FOR CALENDAR
     @GetMapping("/api/events")

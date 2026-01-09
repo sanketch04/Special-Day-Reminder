@@ -16,8 +16,16 @@
     <input type="date" name="sendDate" required><br><br>
 
     <label>Send Time</label><br>
-    <input type="time" name="sendTime" required><br><br>
+    <input type="date" name="sendDate" required><br><br>
 
     <button type="submit">Schedule Email</button>
 
 </form>
+
+<script>
+document.addEventListener("wheel", function (event) {
+    if (document.activeElement.type === "date") {
+        document.activeElement.blur();
+    }
+}, { passive: true });
+</script>

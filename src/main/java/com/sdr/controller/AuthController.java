@@ -58,10 +58,6 @@ public class AuthController {
         return "redirect:/dashboard";
     }
 
-
-
-   
-
     @GetMapping("/forgot-password")
     public String forgotPasswordPage() {
         return "forgot-password";
@@ -260,10 +256,7 @@ public class AuthController {
             return e.getMessage();
         }
     }
-
-
-
-
+    
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();

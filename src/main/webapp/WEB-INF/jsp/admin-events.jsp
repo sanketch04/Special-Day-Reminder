@@ -20,7 +20,6 @@
 
     Day:
     <input type="number" name="eventDay" min="1" max="31" required>
-
     Month:
     <select name="eventMonth">
         <option value="1">Jan</option>
@@ -36,7 +35,6 @@
         <option value="11">Nov</option>
         <option value="12">Dec</option>
     </select>
-
     <button type="submit">Save</button>
 </form>
 
@@ -54,9 +52,11 @@
             <td>${e.title}</td>
             <td>${e.eventDay}-${e.eventMonth}</td>
             <td>
-                <a href="${pageContext.request.contextPath}/admin/events/delete/${e.id}">
-                    Delete
+            	<a href="${pageContext.request.contextPath}/admin/events/edit/${e.id}">
+                    Edit
                 </a>
+                <a href="${pageContext.request.contextPath}/admin/events/delete/${e.id}">
+                    Delete</a>
             </td>
         </tr>
     </c:forEach>
