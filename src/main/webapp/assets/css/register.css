@@ -2,14 +2,13 @@
     --btn-color: rgba(255,255,255,0.9);
 }
 
-/* ===== GLOBAL ===== */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     transition: background 0.6s ease;
 }
 
-/* ===== THEMES ===== */
+/* THEMES */
 .theme-default { background: linear-gradient(135deg,#667eea,#764ba2); }
 .theme-dark { background: linear-gradient(135deg,#141e30,#243b55); }
 .theme-instagram { background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af); }
@@ -17,7 +16,7 @@ body {
 .theme-hacker { background: radial-gradient(circle,#00ff00,#000); }
 .theme-neon { background: linear-gradient(135deg,#00f260,#0575e6); }
 
-/* ===== NAVBAR ===== */
+/* NAVBAR */
 .custom-navbar {
     height: 80px;
     position: fixed;
@@ -44,7 +43,6 @@ body {
     font-weight: 700;
 }
 
-/* 🔥 GRADIENT RESTORED */
 .brand-as {
     background: linear-gradient(45deg,#ff416c,#ff4b2b);
     -webkit-background-clip: text;
@@ -62,7 +60,6 @@ body {
     opacity: 0.75;
 }
 
-/* THEME BUTTON */
 .theme-toggle-btn {
     justify-self: end;
     background: none;
@@ -72,8 +69,8 @@ body {
     color: white;
 }
 
-/* ===== LOGIN WRAPPER ===== */
-.login-wrapper {
+/* WRAPPER */
+.register-wrapper {
     min-height: calc(100vh - 80px);
     padding-top: 110px;
     display: flex;
@@ -81,88 +78,88 @@ body {
     align-items: center;
 }
 
-/* ===== LOGIN CARD ===== */
-.login-card {
+/* CARD */
+.register-card {
     width: 100%;
-    max-width: 440px;
-    padding: 38px 32px;
+    max-width: 500px;
+    padding: 40px 34px;
     border-radius: 22px;
     background: rgba(255,255,255,0.22);
     backdrop-filter: blur(18px);
-    margin-bottom:20px
 }
 
-/* MOBILE */
-@media (max-width: 576px) {
-    .login-card {
-        max-width: 95%;
-        padding: 42px 26px;
-    }
-}
-
-/* ===== TEXT ===== */
+/* TEXT */
 .welcome-text {
-    font-size: 36px;
+    font-size: 34px;
     text-align: center;
     animation: zoomFade 3s infinite alternate;
 }
 
 @keyframes zoomFade {
     from { transform: scale(1); opacity: 0.85; }
-    to { transform: scale(1.08); opacity: 1; }
+    to { transform: scale(1.06); opacity: 1; }
 }
 
 .subtitle {
     text-align: center;
     opacity: 0.8;
-    margin-bottom: 28px;
-}
-
-/* ===== FORM ===== */
-.field {
-    position: relative;
     margin-bottom: 26px;
 }
 
-.field input {
+/* FORM */
+.field {
+    position: relative;
+    margin-bottom: 22px;
+}
+
+.field input,
+.field select {
     width: 100%;
-    padding: 15px 44px 15px 16px;
+    padding: 14px 16px;
     border-radius: 14px;
     border: none;
     background: rgba(255,255,255,0.35);
 }
 
 .field label {
-    position: absolute;
-    top: -10px;
-    left: 14px;
-    background: rgba(255,255,255,0.9);
-    padding: 2px 8px;
-    border-radius: 8px;
-    font-size: 13px;
+    font-size: 14px;
 }
 
-.toggle-eye {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
+.error {
+    color: red;
+    font-size: 12px;
 }
 
-/* ===== LOGIN BUTTON (FIXED) ===== */
-.btn-login {
+/* ===== GENDER FIX ===== */
+.gender-group {
+    display: flex;
+    gap: 24px;
+    margin-top: 6px;
+}
+
+.gender-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+}
+
+.gender-option input[type="radio"] {
+    margin: 0;
+    transform: scale(1.1);
+}
+
+/* BUTTON */
+.btn-register {
     background: var(--btn-color);
     border-radius: 14px;
     padding: 12px;
     font-weight: 600;
     opacity: 0.92;
-    transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-.btn-login:hover {
+.btn-register:hover {
     opacity: 1;
-    transform: translateY(-1px);
 }
 
 /* ===== FOOTER ===== */
@@ -172,6 +169,7 @@ body {
     text-align: center;
     padding: 26px 16px;
     color: #fff;
+    margin-top:20px;
 }
 
 .custom-footer a {
@@ -188,3 +186,4 @@ body {
     from { opacity: 0; transform: translateY(25px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
