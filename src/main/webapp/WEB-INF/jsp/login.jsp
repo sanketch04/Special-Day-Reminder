@@ -6,7 +6,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>Login</title>
+    
 
     <style>
         .error {
@@ -19,7 +21,7 @@
 </head>
 
 <body>
-
+<h1>Login Page</h1>
 <h2>User Login</h2>
 
 
