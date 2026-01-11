@@ -1,0 +1,274 @@
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    transition: background 0.5s ease;
+}
+
+.theme-light {
+    background: linear-gradient(135deg,#141e30,#243b55);
+    color: white;
+}
+
+.theme-dark {
+	background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
+    
+}
+
+/* ===== NAVBAR ===== */
+.dashboard-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    backdrop-filter: blur(14px);
+    background: rgba(255,255,255,0.25);
+    flex-wrap: wrap;
+}
+
+/* LEFT */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-radius:50%;
+    
+    
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    border-radius:50%;
+    
+}
+
+.brand {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.brand .as {
+    background: linear-gradient(45deg,#ff416c,#ff4b2b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand .mitra {
+    background: linear-gradient(45deg,#36d1dc,#5b86e5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ===== NAV LINKS ===== */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    font-weight: 500;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+.nav-links li a:hover {
+    transform: scale(1.12);
+    color: #ff416c;
+}
+
+.logout:hover {
+    color: red;
+}
+
+/* ===== RIGHT ===== */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.theme-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.profile-pic {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+/* ===== PROFILE LINK ===== */
+.profile-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-link {
+    font-size: 12px;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.profile-link:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* ================= HAMBURGER BUTTON ================= */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    width: 24px;
+    height: 3px;
+    background: #333;
+    border-radius: 4px;
+}
+
+/* ================= MOBILE NAV ================= */
+@media (max-width: 768px) {
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(14px);
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.5s ease;
+        order: 3;
+    }
+
+    .nav-links.open {
+        max-height: 500px;
+    }
+
+    .nav-links li {
+        padding: 10px 0;
+    }
+
+    .nav-right {
+        gap: 10px;
+    }
+}
+
+/* ===== EVENTS ===== */
+.events-section {
+    padding: 50px 0;
+}
+
+.events-carousel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 30px;
+}
+
+.event-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 22px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    transition: transform 0.4s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-10px) scale(1.03);
+}
+
+.event-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top,rgba(0,0,0,0.7),transparent);
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* ===== EVENT ENTRY ANIMATIONS ===== */
+.animate-left,
+.animate-up,
+.animate-right {
+    opacity: 0;
+    transition: all 0.9s ease;
+}
+
+.animate-left {
+    transform: translateX(-80px);
+}
+
+.animate-up {
+    transform: translateY(80px);
+}
+
+.animate-right {
+    transform: translateX(80px);
+}
+
+.animate-show {
+    opacity: 1;
+    transform: translate(0,0);
+}
+
+/* ===== CALENDAR ===== */
+.calendar-section {
+    padding: 80px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.calendar-glass {
+    width: 95%;
+    max-width: 1100px;
+    padding: 30px;
+    border-radius: 26px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+}
+
+/* ===== FADE-UP ===== */
+.fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.9s ease;
+}
+
+.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
