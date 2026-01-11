@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<h2>Add Event</h2>
+<h2>Add Event-----</h2>
 
 <form action="save" method="post">
     Title: <input type="text" name="title" required><br><br>
