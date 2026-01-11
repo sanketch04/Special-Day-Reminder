@@ -29,7 +29,7 @@ public class AdminController {
     public String loginPage() {
         return "admin-login";
     }
-
+    
     @PostMapping("/login")
     public String adminLogin(
             @RequestParam String email,

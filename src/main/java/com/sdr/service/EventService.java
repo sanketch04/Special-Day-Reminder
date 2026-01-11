@@ -1,8 +1,9 @@
 package com.sdr.service;
 
-import com.sdr.entity.Event;
 import java.time.LocalDate;
 import java.util.List;
+
+import com.sdr.entity.Event;
 
 public interface EventService {
     void saveEvent(Event event);

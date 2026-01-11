@@ -34,8 +34,8 @@
 <a href="${pageContext.request.contextPath}/event/list">View Events</a> |
 <a href="${pageContext.request.contextPath}/email/schedule">Schedule Email</a> |
 <a href="${pageContext.request.contextPath}/email/list">View Scheduled Emails</a> |
+<a href="${pageContext.request.contextPath}/OpenAI/ai-chat">AI</a>|
 <a href="${pageContext.request.contextPath}/logout">Logout</a>
-
 
 <hr>
 

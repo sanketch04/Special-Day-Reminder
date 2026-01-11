@@ -46,17 +46,13 @@
         <th>Date</th>
         <th>Delete</th>
     </tr>
-
     <c:forEach items="${events}" var="e">
         <tr>
             <td>${e.title}</td>
             <td>${e.eventDay}-${e.eventMonth}</td>
             <td>
-            	<a href="${pageContext.request.contextPath}/admin/events/edit/${e.id}">
-                    Edit
-                </a>
-                <a href="${pageContext.request.contextPath}/admin/events/delete/${e.id}">
-                    Delete</a>
+            <a href="${pageContext.request.contextPath}/admin/events/edit/${e.id}">Edit</a>
+            <a href="${pageContext.request.contextPath}/admin/events/delete/${e.id}">Delete</a>
             </td>
         </tr>
     </c:forEach>
