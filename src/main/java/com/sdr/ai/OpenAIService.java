@@ -134,7 +134,7 @@ public class OpenAIService {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "Something went wrong.";
+            return "Something went wrong Mitra.";
         }
     }
 

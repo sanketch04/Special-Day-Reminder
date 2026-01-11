@@ -205,6 +205,7 @@ $(document).ready(function () {
     <h2>ASmitra</h2>
 </div>
 
+<!-- Changes in Project By SANKET -->
 
 <!-- QUICK OPTIONS -->
 <button class="quick-btn" onclick="sendMessage('Write a birthday wish')">🎂 Birthday Wish</button>

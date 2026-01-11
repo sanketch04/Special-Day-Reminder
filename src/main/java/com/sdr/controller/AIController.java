@@ -50,6 +50,7 @@ public class AIController {
         if (session.getAttribute("loggedUser") == null) {
             return "redirect:/login";
         }
+        System.out.println("for change");
         return "ai-chat";
     }
 
