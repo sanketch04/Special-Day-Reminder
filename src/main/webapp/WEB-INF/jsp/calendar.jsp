@@ -9,107 +9,106 @@
 <div id="eventModal" style="
     display:none;
     position:fixed;
-    top:0; left:0;
-    width:100%; height:100%;
+    inset:0;
     background:rgba(0,0,0,0.5);
     z-index:1000;
 ">
 
-  <div style="
-      background:#fff;
-      width:400px;
-      margin:100px auto;
-      padding:20px;
-      border-radius:6px;
-      position:relative;
-  ">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-3">
 
-   		<h3>Add Event</h3>
+      <h4 class="mb-3">Add Event</h4>
 
-					<label>Date</label><br>
-					<input type="date"
-						       id="eventDate"
-						       name="eventDate"
-						       style="width:100%">
-						<br><br>
-					
-					<label>Title</label><br>
-					<input type="text"
-					       id="eventTitle"
-					       name="title"
-					       style="width:100%"><br><br>
-					
-					<label>Category</label><br>
-							<select id="eventCategory"
-							        name="category"
-							        style="width:100%">
-							    <option value="MEETING">Meeting</option>
-							    <option value="HOLIDAY">Holiday</option>
-							    <option value="REMINDER">Reminder</option>
-							    <option value="PERSONAL">Personal</option>
-							    <option value="BIRTHDAY">Birthday</option>
-							    <option value="ANNIVERSARY">Anniversary</option>
-							    <option value="FESTIVAL">Festival</option>
-							    <option value="APPOINTMENT">Appointment</option>
-							    <option value="EXAM">Exam</option>
-							    <option value="INTERVIEW">Interview</option>
-							    <option value="WORKSHOP">Workshop</option>
-							    <option value="TRAINING">Training</option>
-							    <option value="DEADLINE">Deadline</option>
-							    <option value="PAYMENT">Payment / Bill Due</option>
-							    <option value="TRAVEL">Travel</option>
-							    <option value="EVENT">Special Event</option>
-							    <option value="HEALTH">Health / Medical</option>
-							    <option value="OTHER">Other</option>
-							</select><br><br>
-					<label>Description</label><br>
-					<textarea id="eventDesc"
-					          name="description"
-					          style="width:100%"></textarea><br><br>
-					
-					<label>Reminder (Days Before)</label><br>
-					<input type="number"
-					       id="reminderDays"
-					       name="reminderDaysBefore"
-					       value="1"
-					       min="0"
-					       style="width:100%"><br><br>
-					       
-						<label>
-					    <input type="checkbox" id="enableEmail">
-					    Schedule Email
-					</label><br><br>
+      <div class="container-fluid">
 
-				<div id="emailOptions" style="display:none">
-				
-				    <label>Receiver Email</label>
-				    <input type="email"
-				           id="receiverEmail"
-				           name="receiverEmail"
-				           style="width:100%"
-				           required><br><br>
-				
-				    <label>Send Date</label>
-				    <input type="date"
-				           id="sendDate"
-				           name="sendDate"
-				           style="width:100%"
-				           required><br><br>
-				
-				    <label>Send Time</label>
-				    <input type="time"
-				           id="sendTime"
-				           name="sendTime"
-				           style="width:100%"
-				           required>
-				</div>
+        <!-- ROW 1 -->
+        <div class="row mb-2">
+          <div class="col-6">
+            <label>Date</label>
+            <input type="date" id="eventDate" class="form-control">
+          </div>
+          <div class="col-6">
+            <label>Title</label>
+            <input type="text" id="eventTitle" class="form-control">
+          </div>
+        </div>
 
-					 
-					
-					<button onclick="saveEvent()">Save</button>
-					<button onclick="closeModal()">Cancel</button>
-				</div>
-			</div>
+        <!-- ROW 2 -->
+        <div class="row mb-2">
+          <div class="col-6">
+            <label>Category</label>
+            <select id="eventCategory" class="form-select">
+              <option value="MEETING">Meeting</option>
+              <option value="HOLIDAY">Holiday</option>
+              <option value="REMINDER">Reminder</option>
+              <option value="PERSONAL">Personal</option>
+              <option value="BIRTHDAY">Birthday</option>
+              <option value="ANNIVERSARY">Anniversary</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label>Reminder (Days)</label>
+            <input type="number" id="reminderDays" value="1" min="0"
+                   class="form-control">
+          </div>
+        </div>
+
+        <!-- ROW 3 -->
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>Description</label>
+            <textarea id="eventDesc" rows="2" class="form-control"></textarea>
+          </div>
+        </div>
+
+        <!-- ROW 4 -->
+        <div class="row mb-2">
+          <div class="col-12">
+            <input type="checkbox" id="enableEmail">
+            <label class="ms-1">Schedule Email</label>
+          </div>
+        </div>
+
+        <!-- EMAIL SECTION -->
+        <div id="emailOptions" style="display:none">
+
+          <!-- ROW 5 -->
+          <div class="row mb-2">
+            <div class="col-12">
+              <label>Receiver Email</label>
+              <input type="email" id="receiverEmail" class="form-control">
+            </div>
+          </div>
+
+          <!-- ROW 6 -->
+          <div class="row mb-2">
+            <div class="col-6">
+              <label>Send Date</label>
+              <input type="date" id="sendDate" class="form-control">
+            </div>
+            <div class="col-6">
+              <label>Send Time</label>
+              <input type="time" id="sendTime" class="form-control">
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ROW 7 -->
+        <div class="row mt-3 text-end">
+          <div class="col-12">
+            <button class="btn btn-primary" onclick="saveEvent()">Save</button>
+            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 
 <h2>Events Calendar</h2>
