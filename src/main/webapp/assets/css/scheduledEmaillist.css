@@ -1,0 +1,137 @@
+:root {
+            --primary: #6366f1;
+            --danger: #ef4444;
+            --glass: rgba(255,255,255,0.85);
+        }
+
+        body {
+            background: radial-gradient(circle at top, #e0e7ff, #f8fafc);
+            font-family: 'Inter', system-ui, sans-serif;
+            color: #0f172a;
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .page-header h2 {
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(14px);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow:
+                0 30px 80px rgba(0,0,0,.15),
+                inset 0 0 0 1px rgba(255,255,255,.6);
+        }
+
+        table {
+            border-collapse: separate;
+            border-spacing: 0 12px;
+        }
+
+        thead th {
+            font-size: 13px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            border: none;
+        }
+
+        tbody tr {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(0,0,0,.08);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        tbody tr:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 35px rgba(0,0,0,.12);
+        }
+
+        tbody td {
+            border: none;
+            padding: 16px;
+            vertical-align: middle;
+        }
+
+        .badge-sent {
+            background: #dcfce7;
+            color: #166534;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #92400e;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+        }
+
+        .btn-delete {
+            background: #fee2e2;
+            color: var(--danger);
+            border-radius: 10px;
+            border: none;
+            padding: 6px 14px;
+            font-weight: 600;
+        }
+
+        .btn-delete:hover {
+            background: #fecaca;
+        }
+
+        .modal-content {
+            border-radius: 20px;
+            box-shadow: 0 30px 80px rgba(0,0,0,.25);
+        }
+
+        .modal-header,
+        .modal-footer {
+            border: none;
+        }
+        
+        /* EDIT BUTTON */
+.btn-edit {
+    background: #e0e7ff;
+    color: #3730a3;
+    border-radius: 10px;
+    border: none;
+    padding: 6px 14px;
+    font-weight: 600;
+}
+
+.btn-edit:hover {
+    background: #c7d2fe;
+}
+
+/* DISABLED EDIT */
+.btn-edit-disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    border-radius: 10px;
+    border: none;
+    padding: 6px 14px;
+    font-weight: 600;
+    cursor: not-allowed;
+}
+        
