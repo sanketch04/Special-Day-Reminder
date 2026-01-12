@@ -219,3 +219,20 @@ function saveEvent() {
     })
     .catch(err => console.error(err));
 }
+
+
+/* =======================
+   AI CHAT TOGGLE
+======================= */
+function toggleAIChat() {
+    const panel = document.getElementById("ai-chat-panel");
+    if (panel) {
+        panel.classList.toggle("open");
+    }
+}
+
+
+
+
+
+

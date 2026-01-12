@@ -117,7 +117,57 @@
 
 </div>
 
+
+
+<!-- ================= AI FLOATING BUTTON ================= -->
+<div id="ai-float-btn">
+
+    🤖
+</div>
+
+<!-- ================= AI CHAT PANEL ================= -->
+<div id="ai-chat-panel">
+    <div class="ai-chat-header">
+        <span>ASmitra AI</span>
+        <button onclick="toggleAIChat()">✕</button>
+    </div>
+
+    <iframe
+        src="${pageContext.request.contextPath}/OpenAI/ai-chat"
+        frameborder="0"
+        class="ai-chat-iframe">
+    </iframe>
+</div>
+
+
+
+
 <script>
+
+
+/* =======================
+AI CHAT FIX (GLOBAL BIND)
+======================= */
+window.toggleAIChat = function () {
+ const panel = document.getElementById("ai-chat-panel");
+ if (panel) {
+     panel.classList.toggle("open");
+ } else {
+     console.error("AI Chat panel not found");
+ }
+};
+
+/* =======================
+AI BUTTON CLICK BIND
+======================= */
+document.addEventListener("DOMContentLoaded", function () {
+ const btn = document.getElementById("ai-float-btn");
+ if (btn) {
+     btn.addEventListener("click", toggleAIChat);
+ }
+});
+
+
 /* =======================
    GLOBAL STATE
 ======================= */

@@ -18,13 +18,41 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dashboard.css">
 </head>
 
+<style>
+ /* ===== FOOTER ===== */
+.custom-footer {
+    backdrop-filter: blur(14px);
+    background: rgba(0,0,0,0.25);
+    text-align: center;
+    padding: 26px 16px;
+    color: #fff;
+}
+
+.custom-footer a {
+    color: #ffdfdf;
+    text-decoration: none;
+}
+
+/* ===== ANIMATION ===== */
+.animate-fade {
+    animation: fadeUp 0.9s ease;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+</style>
+
 <body class="theme-light">
 
 <!-- ================= NAVBAR ================= -->
 <nav class="dashboard-navbar">
 
     <div class="nav-left">
-        <img src="${pageContext.request.contextPath}/assets/images/ASmitra_logo.png" class="logo">
+        <img src="${pageContext.request.contextPath}/assets/images/logo.png" class="logo">
         <span class="brand">
             <span class="as">AS</span><span class="mitra">mitra</span>
         </span>
@@ -68,7 +96,7 @@
         <div class="events-carousel">
 
             <div class="event-card animate-left">
-                <img src="${pageContext.request.contextPath}/assets/images/today.jpg">
+                <img src="${pageContext.request.contextPath}/assets/images/national_youth_day.webp">
                 <div class="overlay">
                     <h5>Today</h5>
                     <ul>
@@ -80,7 +108,7 @@
             </div>
 
             <div class="event-card animate-up">
-                <img src="${pageContext.request.contextPath}/assets/images/week.jpg">
+                <img src="${pageContext.request.contextPath}/assets/images/indian_army_day.jpg">
                 <div class="overlay">
                     <h5>Next 7 Days</h5>
                     <ul>
@@ -92,7 +120,7 @@
             </div>
 
             <div class="event-card animate-right">
-                <img src="${pageContext.request.contextPath}/assets/images/month.jpg">
+                <img src="${pageContext.request.contextPath}/assets/images/republic_day.avif">
                 <div class="overlay">
                     <h5>Next 30 Days</h5>
                     <ul>
@@ -113,6 +141,25 @@
         <%@ include file="calendar.jsp" %>
     </div>
 </section>
+
+
+<!-- FOOTER -->
+<footer class="custom-footer">
+    <p>© 2026 <strong>ASmitra</strong> · Special Day Reminder</p>
+
+    <p class="footer-links">
+        <i class="bi bi-envelope"></i> atharvgujare@gmail.com |
+        <i class="bi bi-envelope"></i> sanketchounde@gmail.com
+    </p>
+
+    <p class="footer-links">
+        <i class="bi bi-github"></i>
+        <a href="https://github.com/AtharvGujare" target="_blank">Atharv</a> ·
+        <a href="https://github.com/SanketChounde" target="_blank">Sanket</a>
+    </p>
+
+    <small>Created by Sanket Chounde & Atharv Gujare</small>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/dashboard.js"></script>
