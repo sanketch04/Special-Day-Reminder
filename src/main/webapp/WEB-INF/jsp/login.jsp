@@ -79,7 +79,8 @@
         </form>
 
         <div class="text-center mt-3">
-            <a href="forgot-password" class="forgot-link">Forgot Password?</a>
+            <a href="forgot-password" class="forgot-link">Forgot Password?</a>&nbsp;|&nbsp;<a href="register" class="forgot-link">NEW User? Sign UP</a>
+            
         </div>
     </div>
 </div>

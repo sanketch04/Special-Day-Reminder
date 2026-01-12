@@ -14,35 +14,37 @@ body {
 	background: linear-gradient(135deg,#f5f7fa,#c3cfe2);
     
 }
-
-/* ===== NAVBAR ===== */
+/* ================= NAVBAR ================= */
 .dashboard-navbar {
     position: sticky;
     top: 0;
     z-index: 1000;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 28px;
-    backdrop-filter: blur(14px);
+
+    padding: 10px 24px;
     background: rgba(255,255,255,0.25);
-    flex-wrap: wrap;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
-/* LEFT */
+/* ================= LEFT ================= */
 .nav-left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    white-space: nowrap;
 }
 
 .logo {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
 }
 
 .brand {
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 700;
 }
 
@@ -58,11 +60,13 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-/* ===== NAV LINKS ===== */
+/* ================= CENTER NAV LINKS ================= */
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 22px;
+    align-items: center;
+    gap: 20px;
+
     margin: 0;
     padding: 0;
 }
@@ -70,62 +74,60 @@ body {
 .nav-links li a {
     text-decoration: none;
     font-weight: 500;
-    color: inherit;
-    transition: all 0.3s ease;
+    color: #1f2937;
+    padding: 6px 12px;
+    border-radius: 10px;
+    transition: all 0.35s ease;
 }
 
 .nav-links li a:hover {
     transform: scale(1.12);
     color: #ff416c;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
 }
 
 .logout:hover {
     color: red;
 }
 
-/* ===== RIGHT ===== */
+/* ================= RIGHT ================= */
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
 }
 
+/* THEME */
 .theme-btn {
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 18px;
     cursor: pointer;
 }
 
-.profile-pic {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid white;
-}
-
-/* ===== PROFILE LINK ===== */
+/* PROFILE */
 .profile-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+.profile-pic {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
 .profile-link {
-    font-size: 12px;
+    font-size: 11px;
     text-decoration: none;
     color: inherit;
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
+    opacity: 0.85;
 }
 
-.profile-link:hover {
-    opacity: 1;
-    text-decoration: underline;
-}
-
-/* ================= HAMBURGER BUTTON ================= */
+/* ================= HAMBURGER ================= */
 .nav-toggle {
     display: none;
     flex-direction: column;
@@ -136,43 +138,45 @@ body {
 }
 
 .nav-toggle span {
-    width: 24px;
+    width: 22px;
     height: 3px;
     background: #333;
     border-radius: 4px;
 }
 
-/* ================= MOBILE NAV ================= */
-@media (max-width: 768px) {
+/* ================= MOBILE ================= */
+@media (max-width: 992px) {
+
+    .nav-links {
+        position: absolute;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(14px);
+
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+
+    .nav-links.open {
+        max-height: 420px;
+        padding: 10px 0;
+    }
+
+    .nav-links li {
+        padding: 8px 0;
+    }
 
     .nav-toggle {
         display: flex;
     }
-
-    .nav-links {
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        background: rgba(255,255,255,0.95);
-        backdrop-filter: blur(14px);
-        overflow: hidden;
-        max-height: 0;
-        transition: max-height 0.5s ease;
-        order: 3;
-    }
-
-    .nav-links.open {
-        max-height: 500px;
-    }
-
-    .nav-links li {
-        padding: 10px 0;
-    }
-
-    .nav-right {
-        gap: 10px;
-    }
 }
+
 
 /* ===== EVENTS ===== */
 .events-section {

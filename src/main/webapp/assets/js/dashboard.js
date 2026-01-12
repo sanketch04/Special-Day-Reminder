@@ -1,8 +1,3 @@
-/* ===== THEME TOGGLE ===== */
-function toggleTheme() {
-    document.body.classList.toggle("theme-light");
-    document.body.classList.toggle("theme-dark");
-}
 
 /* ===== FADE-UP ON SCROLL ===== */
 const fadeElements = document.querySelectorAll(".fade-up");
@@ -27,10 +22,18 @@ window.addEventListener("load", () => {
         });
 });
 
-/* ===== MOBILE NAV TOGGLE (FIXED) ===== */
+/* ===== THEME TOGGLE ===== */
+function toggleTheme() {
+    document.body.classList.toggle("theme-light");
+    document.body.classList.toggle("theme-dark");
+}
+
+/* ===== MOBILE NAV TOGGLE ===== */
 function toggleNav() {
     const nav = document.getElementById("navLinks");
     if (nav) {
         nav.classList.toggle("open");
     }
 }
+
+

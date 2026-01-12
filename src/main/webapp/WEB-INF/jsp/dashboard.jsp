@@ -51,6 +51,7 @@
 <!-- ================= NAVBAR ================= -->
 <nav class="dashboard-navbar">
 
+    <!-- LEFT : LOGO + BRAND -->
     <div class="nav-left">
         <img src="${pageContext.request.contextPath}/assets/images/logo.png" class="logo">
         <span class="brand">
@@ -58,37 +59,38 @@
         </span>
     </div>
 
-    <!-- HAMBURGER -->
-    <button class="nav-toggle" onclick="toggleNav()">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-
-    <!-- NAV LINKS -->
-       <ul class="nav-links">
-        <li> <a href="${pageContext.request.contextPath}/event/add">Add Event</a></li>
+    <!-- CENTER : NAV LINKS -->
+    <ul class="nav-links" id="navLinks">
+        <li><a href="${pageContext.request.contextPath}/event/add">Add Event</a></li>
         <li><a href="${pageContext.request.contextPath}/event/list">View Events</a></li>
-        <li> <a href="${pageContext.request.contextPath}/email/schedule">Schedule Email</a></li>
+        <li><a href="${pageContext.request.contextPath}/email/schedule">Schedule Email</a></li>
         <li><a href="${pageContext.request.contextPath}/email/list">Emails</a></li>
         <li><a href="${pageContext.request.contextPath}/OpenAI/ai-chat">AI</a></li>
-        <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
-       </ul>
+        <li><a href="${pageContext.request.contextPath}/logout" class="logout">Logout</a></li>
+    </ul>
 
-
+    <!-- RIGHT : THEME + PROFILE + HAMBURGER -->
     <div class="nav-right">
+        <button class="nav-toggle" onclick="toggleNav()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
         <button class="theme-btn" onclick="toggleTheme()">
             <i class="bi bi-moon-stars-fill"></i>
         </button>
 
         <div class="profile-wrapper">
-                <img src="${pageContext.request.contextPath}/uploads/profile/${loggedUser.profilePhoto}"
+            <img src="${pageContext.request.contextPath}/uploads/profile/${loggedUser.profilePhoto}"
                  class="profile-pic">
-
             <a href="profile" class="profile-link">My Profile</a>
         </div>
     </div>
+
 </nav>
+
+
 
 <!-- ================= EVENTS CAROUSEL ================= -->
 <section class="events-section">
