@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* DRAG */
+	/* DRAG */
     mask.addEventListener("mousedown", e => {
         dragging = true;
         startX = e.clientX - posX;
