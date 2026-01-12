@@ -46,7 +46,6 @@
 
 </style>
 
-<body class="theme-light page-enter">
 
 
 <!-- ================= NAVBAR ================= -->

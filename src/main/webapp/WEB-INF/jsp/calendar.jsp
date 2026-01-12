@@ -28,10 +28,10 @@
 
 					<label>Date</label><br>
 					<input type="date"
-					       id="eventDate"
-					       name="eventDate"
-					       readonly
-					       style="width:100%"><br><br>
+						       id="eventDate"
+						       name="eventDate"
+						       style="width:100%">
+						<br><br>
 					
 					<label>Title</label><br>
 					<input type="text"
@@ -74,6 +74,37 @@
 					       value="1"
 					       min="0"
 					       style="width:100%"><br><br>
+					       
+						<label>
+					    <input type="checkbox" id="enableEmail">
+					    Schedule Email
+					</label><br><br>
+
+				<div id="emailOptions" style="display:none">
+				
+				    <label>Receiver Email</label>
+				    <input type="email"
+				           id="receiverEmail"
+				           name="receiverEmail"
+				           style="width:100%"
+				           required><br><br>
+				
+				    <label>Send Date</label>
+				    <input type="date"
+				           id="sendDate"
+				           name="sendDate"
+				           style="width:100%"
+				           required><br><br>
+				
+				    <label>Send Time</label>
+				    <input type="time"
+				           id="sendTime"
+				           name="sendTime"
+				           style="width:100%"
+				           required>
+				</div>
+
+					 
 					
 					<button onclick="saveEvent()">Save</button>
 					<button onclick="closeModal()">Cancel</button>
@@ -138,12 +169,30 @@
         class="ai-chat-iframe">
     </iframe>
 </div>
-
-
-
+<div id="notify-container"></div>
 
 <script>
 
+document.getElementById("enableEmail").onchange = function () {
+    const checked = this.checked;
+    const emailDiv = document.getElementById("emailOptions");
+    emailDiv.style.display = checked ? "block" : "none";
+
+    if (checked) {
+        document.getElementById("sendDate").value =
+            document.getElementById("eventDate").value;
+    }
+};
+
+
+
+function showNotification(text) {
+    const n = document.createElement("div");
+    n.className = "notify";
+    n.innerText = text;
+    document.getElementById("notify-container").appendChild(n);
+    setTimeout(() => n.remove(), 4000);
+}
 
 /* =======================
 AI CHAT FIX (GLOBAL BIND)
@@ -214,10 +263,10 @@ function generateCalendar(year, month) {
         // Highlight today
         const now = new Date();
         if (
-            d === now.getDate() &&
-            month === now.getMonth() &&
-            year === now.getFullYear()
-        ) {
+        	    d === now.getDate() &&
+        	    month === now.getMonth() &&
+        	    year === now.getFullYear()
+        	) {
             dayDiv.classList.add("today");
         }
 
@@ -354,14 +403,19 @@ function saveEvent() {
 
     const date = document.getElementById("eventDate").value;
     const title = document.getElementById("eventTitle").value;
+    const category = document.getElementById("eventCategory").value;
+    const description = document.getElementById("eventDesc").value;
+    const reminderDays = document.getElementById("reminderDays").value;
 
-    const params = new URLSearchParams({
-        eventDate: date,
-        title: title,
-        category: document.getElementById("eventCategory").value,
-        description: document.getElementById("eventDesc").value,
-        reminderDaysBefore: document.getElementById("reminderDays").value
-    });
+    const enableEmail = document.getElementById("enableEmail").checked;
+
+    // 1️⃣ SAVE EVENT
+    const params = new URLSearchParams();
+    params.append("eventDate", date);
+    params.append("title", title);
+    params.append("category", category);
+    params.append("description", description);
+    params.append("reminderDaysBefore", reminderDays);
 
     fetch(APP_CTX + "/event/save", {
         method: "POST",
@@ -371,33 +425,60 @@ function saveEvent() {
     .then(res => res.text())
     .then(data => {
 
-        const result = (data || "").trim().toUpperCase();
-
-        if (result.includes("SUCCESS")) {
-            addEventToCalendar(date, title);
-            alert("Event saved successfully");
-            clearModalFields();
-            closeModal();
-        }
-        else if (result.includes("NOT_LOGGED_IN")) {
-            alert("Please login again");
-        }
-        else {
+        const result = (data || "").toUpperCase();
+        if (!result.includes("SUCCESS")) {
             alert("Failed to save event");
+            return;
         }
+
+        // ✅ Event saved
+        addEventToCalendar(date, title);
+        showNotification("📅 Event saved");
+
+        // 2️⃣ SCHEDULE EMAIL (ONLY IF ENABLED)
+        if (enableEmail) {
+
+            const receiverEmail =
+                document.getElementById("receiverEmail").value;
+            const sendDate =
+                document.getElementById("sendDate").value;
+            const sendTime =
+                document.getElementById("sendTime").value;
+
+            if (!receiverEmail || !sendDate || !sendTime) {
+                alert("Please fill email, date and time");
+                return;
+            }
+
+            const emailParams = new URLSearchParams();
+            emailParams.append("eventInfo", title);
+            emailParams.append("receiverEmail", receiverEmail);
+            emailParams.append("message", "Reminder for event: " + title);
+            emailParams.append("sendDate", sendDate);
+            emailParams.append("sendTime", sendTime);
+            
+            const now = new Date();
+            const sendDateTime = new Date(sendDate + "T" + sendTime);
+
+            if (sendDateTime <= now) {
+                alert("Send time must be in the future");
+                return;
+            }
+
+            fetch(APP_CTX + "/email/schedule", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: emailParams.toString()
+            })
+            .then(() => {
+                showNotification("📧 Email scheduled");
+            });
+        }
+
+        clearModalFields();
+        closeModal();
     })
     .catch(err => console.error(err));
 }
 
-//Smooth reveal when calendar loads
-window.addEventListener("load", () => {
-    const calendar = document.querySelector(".calendar-container");
-    if (calendar) {
-        calendar.classList.add("visible");
-    }
-});
-
 </script>
-
-
-

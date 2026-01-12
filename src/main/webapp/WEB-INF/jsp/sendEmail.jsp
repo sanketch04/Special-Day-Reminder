@@ -16,7 +16,7 @@
     <input type="date" name="sendDate" required><br><br>
 
     <label>Send Time</label><br>
-    <input type="date" name="sendDate" required><br><br>
+    <input type="time" name="sendTime" required><br><br>
 
     <button type="submit">Schedule Email</button>
 
