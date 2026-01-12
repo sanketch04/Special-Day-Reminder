@@ -1,5 +1,5 @@
 /* ================= THEME HANDLED BY theme_change.js ================= */
-
+/* ================= DOM READY ================= */
 /* ================= DOM READY ================= */
 document.addEventListener("DOMContentLoaded", () => {
 

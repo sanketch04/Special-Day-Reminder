@@ -156,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ================= PASSWORD STRENGTH ================= */
+	/* ================= PASSWORD STRENGTH ================= */
     const bar = document.getElementById("strengthBar");
 
     if (pwd && bar) {

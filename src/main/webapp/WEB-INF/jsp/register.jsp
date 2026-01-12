@@ -20,7 +20,7 @@
 
 
 <body class="theme-light">
-
+<!-- NAVBAR -->
 <!-- NAVBAR -->
 <nav class="custom-navbar">
     <div class="nav-grid">
