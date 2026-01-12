@@ -1,21 +1,34 @@
 :root {
     --btn-color: rgba(255,255,255,0.9);
+
+    /* Light theme vars */
+    --card-bg-light: rgba(255,255,255,0.55);
+    --input-bg-light: rgba(255,255,255,0.75);
+    --text-light: #1f2937;
+
+    /* Dark theme vars */
+    --card-bg-dark: rgba(0,0,0,0.35);
+    --input-bg-dark: rgba(255,255,255,0.15);
+    --text-dark: #ffffff;
 }
 
 /* ===== GLOBAL ===== */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    transition: background 0.6s ease;
+    transition: background 0.6s ease, color 0.6s ease;
 }
 
 /* ===== THEMES ===== */
-.theme-default { background: linear-gradient(135deg,#667eea,#764ba2); }
-.theme-dark { background: linear-gradient(135deg,#141e30,#243b55); }
-.theme-instagram { background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af); }
-.theme-google { background: linear-gradient(45deg,#4285F4,#DB4437,#F4B400,#0F9D58); }
-.theme-hacker { background: radial-gradient(circle,#00ff00,#000); }
-.theme-neon { background: linear-gradient(135deg,#00f260,#0575e6); }
+.theme-light {
+    background: linear-gradient(135deg,#eef2ff,#f8fafc);
+    color: var(--text-light);
+}
+
+.theme-dark {
+    background: linear-gradient(135deg,#141e30,#243b55);
+    color: var(--text-dark);
+}
 
 /* ===== NAVBAR ===== */
 .custom-navbar {
@@ -23,11 +36,15 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    backdrop-filter: blur(14px);
-    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(16px);
+    background: rgba(255,255,255,0.35);
     display: flex;
     align-items: center;
     z-index: 1000;
+}
+
+.theme-dark .custom-navbar {
+    background: rgba(0,0,0,0.35);
 }
 
 .nav-grid {
@@ -44,7 +61,7 @@ body {
     font-weight: 700;
 }
 
-/* 🔥 GRADIENT RESTORED */
+/* Brand gradients unchanged */
 .brand-as {
     background: linear-gradient(45deg,#ff416c,#ff4b2b);
     -webkit-background-clip: text;
@@ -69,7 +86,7 @@ body {
     border: none;
     font-size: 22px;
     cursor: pointer;
-    color: white;
+    color: inherit;
 }
 
 /* ===== LOGIN WRAPPER ===== */
@@ -87,9 +104,13 @@ body {
     max-width: 440px;
     padding: 38px 32px;
     border-radius: 22px;
-    background: rgba(255,255,255,0.22);
-    backdrop-filter: blur(18px);
-    margin-bottom:20px
+    backdrop-filter: blur(20px);
+    margin-bottom: 20px;
+    background: var(--card-bg-dark);
+}
+
+.theme-dark .login-card {
+    background: var(--card-bg-dark);
 }
 
 /* MOBILE */
@@ -129,7 +150,14 @@ body {
     padding: 15px 44px 15px 16px;
     border-radius: 14px;
     border: none;
-    background: rgba(255,255,255,0.35);
+    outline: none;
+    background: var(--input-bg-light);
+    color: inherit;
+}
+
+.theme-dark .field input {
+    background: var(--input-bg-dark);
+    color: #fff;
 }
 
 .field label {
@@ -142,6 +170,11 @@ body {
     font-size: 13px;
 }
 
+.theme-dark .field label {
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+}
+
 .toggle-eye {
     position: absolute;
     right: 16px;
@@ -150,7 +183,7 @@ body {
     cursor: pointer;
 }
 
-/* ===== LOGIN BUTTON (FIXED) ===== */
+/* ===== LOGIN BUTTON ===== */
 .btn-login {
     background: var(--btn-color);
     border-radius: 14px;
@@ -167,11 +200,15 @@ body {
 
 /* ===== FOOTER ===== */
 .custom-footer {
-    backdrop-filter: blur(14px);
-    background: rgba(0,0,0,0.25);
+    backdrop-filter: blur(16px);
+    background: rgba(0,0,0,0.15);
     text-align: center;
     padding: 26px 16px;
-    color: #fff;
+    color: inherit;
+}
+
+.theme-dark .custom-footer {
+    background: rgba(0,0,0,0.35);
 }
 
 .custom-footer a {

@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/login.css">
 </head>
 
-<body class="theme-default">
+<body class="theme-light">
+
 
 <!-- NAVBAR -->
 <nav class="custom-navbar">
@@ -105,5 +106,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/login.js"></script>
+
+<script src="${pageContext.request.contextPath}/assets/js/theme_change.js"></script>
 </body>
 </html>

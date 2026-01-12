@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/register.css">
 </head>
 
-<body class="theme-default">
+<body class="theme-light">
+
 
 <!-- NAVBAR -->
 <nav class="custom-navbar">
@@ -220,6 +221,9 @@ function verifyOtp() {
 
 <!-- Custom JS -->
 <script src="${pageContext.request.contextPath}/assets/js/register.js"></script>
+
+<!-- theme change JS -->
+<script src="${pageContext.request.contextPath}/assets/js/theme_change.js"></script>
 
 
 

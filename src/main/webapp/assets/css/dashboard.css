@@ -177,6 +177,103 @@ body {
     }
 }
 
+/* ================= PROFILE DROPDOWN ================= */
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-trigger {
+    cursor: pointer;
+}
+
+.profile-menu {
+    position: absolute;
+    right: 0;
+    top: 55px;
+    width: 260px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(18px);
+    border-radius: 18px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    padding: 12px;
+    display: none;
+    flex-direction: column;
+    animation: dropdownFade 0.3s ease;
+    z-index: 2000;
+}
+
+.profile-menu.open {
+    display: flex;
+}
+
+/* USER INFO */
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+}
+
+.profile-info img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-info small {
+    display: block;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* LINKS */
+.profile-menu a,
+.profile-menu button {
+    padding: 8px 10px;
+    text-decoration: none;
+    color: #1f2937;
+    border-radius: 10px;
+    font-size: 14px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.profile-menu a:hover,
+.profile-menu button:hover {
+    background: rgba(0,0,0,0.08);
+    transform: translateX(4px);
+}
+
+.logout-link {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+/* DIVIDER */
+.profile-menu hr {
+    border: none;
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+    margin: 6px 0;
+}
+
+/* ANIMATION */
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
 
 /* ===== EVENTS ===== */
 .events-section {

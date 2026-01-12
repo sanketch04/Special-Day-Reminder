@@ -81,11 +81,52 @@
             <i class="bi bi-moon-stars-fill"></i>
         </button>
 
-        <div class="profile-wrapper">
-            <img src="${pageContext.request.contextPath}/uploads/profile/${loggedUser.profilePhoto}"
-                 class="profile-pic">
-            <a href="profile" class="profile-link">My Profile</a>
+        <!-- PROFILE DROPDOWN -->
+<div class="profile-dropdown">
+
+    <div class="profile-trigger" onclick="toggleProfileDropdown()">
+        <img src="${pageContext.request.contextPath}/uploads/profile/${loggedUser.profilePhoto}"
+             class="profile-pic">
+    </div>
+
+    <div class="profile-menu" id="profileMenu">
+
+        <!-- USER INFO -->
+        <div class="profile-info">
+            <img src="${pageContext.request.contextPath}/uploads/profile/${loggedUser.profilePhoto}">
+            <div>
+                <strong>${loggedUser.name}</strong>
+                <small>${loggedUser.email}</small>
+            </div>
         </div>
+
+        <hr>
+
+        <!-- LINKS -->
+        <a href="profile">👤 My Profile</a>
+        <a href="settings">⚙️ Account Settings</a>
+        <a href="${pageContext.request.contextPath}/event/list">📅 My Events</a>
+        <a href="${pageContext.request.contextPath}/email/list">✉️ Scheduled Emails</a>
+        <a href="#">🤖 AI Assistant</a>
+        <a href="#">🗓 Calendar View</a>
+
+        <hr>
+
+        <!-- THEME TOGGLE -->
+        <button class="theme-toggle-btn" onclick="toggleTheme()">
+            🌗 Toggle Theme
+        </button>
+
+        <hr>
+
+        <!-- LOGOUT -->
+        <a href="${pageContext.request.contextPath}/logout" class="logout-link">
+            🚪 Logout
+        </a>
+
+    </div>
+</div>
+
     </div>
 
 </nav>
@@ -165,5 +206,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/dashboard.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/theme_change.js"></script>
+
+
 </body>
 </html>
