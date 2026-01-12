@@ -1,63 +1,84 @@
-const themes = [
-    { name: "theme-default", btn: "rgba(255,255,255,0.9)" },
-    { name: "theme-dark", btn: "rgba(200,200,200,0.8)" },
-    { name: "theme-instagram", btn: "rgba(255,85,120,0.9)" },
-    { name: "theme-google", btn: "rgba(66,133,244,0.9)" },
-    { name: "theme-hacker", btn: "rgba(0,255,0,0.75)" },
-    { name: "theme-neon", btn: "rgba(0,240,255,0.85)" }
-];
+/* ================= THEME HANDLED BY theme_change.js ================= */
 
-let currentTheme = localStorage.getItem("themeIndex") || 0;
+/* ================= DOM READY ================= */
+document.addEventListener("DOMContentLoaded", () => {
 
-function applyTheme() {
-    document.body.className = themes[currentTheme].name;
-    document.documentElement.style.setProperty("--btn-color", themes[currentTheme].btn);
-    localStorage.setItem("themeIndex", currentTheme);
-}
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const rememberMe = document.getElementById("rememberMe");
+    const loginBtn = document.getElementById("loginBtn");
 
-applyTheme();
+    /* REMEMBER ME */
+    const savedEmail = localStorage.getItem("email");
+    if (savedEmail && emailInput) {
+        emailInput.value = savedEmail;
+        if (rememberMe) rememberMe.checked = true;
+    }
 
-function toggleTheme() {
-    currentTheme = (currentTheme + 1) % themes.length;
-    applyTheme();
-}
+    /* AUTO HIDE ERROR */
+    setTimeout(() => {
+        document.querySelectorAll(".auto-hide").forEach(e => e.remove());
+    }, 5000);
 
-/* PASSWORD HOLD */
+});
+
+/* ================= PASSWORD VISIBILITY ================= */
 function showPassword() {
-    password.type = "text";
+    const pwd = document.getElementById("password");
+    if (pwd) pwd.type = "text";
 }
+
 function hidePassword() {
-    password.type = "password";
+    const pwd = document.getElementById("password");
+    if (pwd) pwd.type = "password";
 }
 
-/* PASSWORD STRENGTH */
+/* ================= PASSWORD STRENGTH ================= */
 function checkStrength() {
-    const s = document.getElementById("strength");
-    if (password.value.length < 4) s.textContent = "Weak";
-    else if (password.value.length < 8) s.textContent = "Medium";
-    else s.textContent = "Strong";
+    const pwd = document.getElementById("password");
+    const strength = document.getElementById("strength");
+
+    if (!pwd || !strength) return;
+
+    if (pwd.value.length < 4) {
+        strength.textContent = "Weak";
+        strength.style.color = "#ef4444";
+    } else if (pwd.value.length < 8) {
+        strength.textContent = "Medium";
+        strength.style.color = "#f59e0b";
+    } else {
+        strength.textContent = "Strong";
+        strength.style.color = "#22c55e";
+    }
 }
 
-/* REMEMBER ME */
-window.onload = () => {
-    const saved = localStorage.getItem("email");
-    if (saved) email.value = saved;
-};
-
+/* ================= LOGIN SUBMIT + PAGE TRANSITION ================= */
 function handleSubmit() {
-    const btn = document.getElementById("loginBtn");
-    btn.querySelector(".spinner-border").classList.remove("d-none");
-    btn.querySelector(".btn-text").textContent = "Logging in...";
 
-    if (rememberMe.checked) {
+    const btn = document.getElementById("loginBtn");
+    const spinner = btn?.querySelector(".spinner-border");
+    const text = btn?.querySelector(".btn-text");
+
+    const email = document.getElementById("email");
+    const remember = document.getElementById("rememberMe");
+
+    if (spinner) spinner.classList.remove("d-none");   // ✅ FIXED
+    if (text) text.textContent = "Logging in...";
+    if (btn) btn.disabled = true;
+
+    if (remember?.checked && email) {
         localStorage.setItem("email", email.value);
     } else {
         localStorage.removeItem("email");
     }
-    return true;
-}
 
-/* AUTO HIDE ERROR */
-setTimeout(() => {
-    document.querySelectorAll(".auto-hide").forEach(e => e.remove());
-}, 5000);
+    /* PAGE EXIT ANIMATION */
+    document.body.classList.add("page-exit");
+
+    /* DELAY SUBMIT */
+    setTimeout(() => {
+        document.forms[0].submit();
+    }, 450);
+
+    return false; // prevent instant submit
+}

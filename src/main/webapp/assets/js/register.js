@@ -1,176 +1,185 @@
-/* THEME SYSTEM (same as login) */
-const themes = [
-    { name: "theme-default", btn: "rgba(255,255,255,0.9)" },
-    { name: "theme-dark", btn: "rgba(200,200,200,0.8)" },
-    { name: "theme-instagram", btn: "rgba(255,85,120,0.9)" },
-    { name: "theme-google", btn: "rgba(66,133,244,0.9)" },
-    { name: "theme-hacker", btn: "rgba(0,255,0,0.75)" },
-    { name: "theme-neon", btn: "rgba(0,240,255,0.85)" }
-];
+/* =====================================================
+   THEME HANDLING (FIXED & SAFE)
+===================================================== */
 
-let currentTheme = localStorage.getItem("themeIndex") || 0;
-
-function applyTheme() {
-    document.body.className = themes[currentTheme].name;
-    document.documentElement.style.setProperty("--btn-color", themes[currentTheme].btn);
-    localStorage.setItem("themeIndex", currentTheme);
-}
-applyTheme();
 
 function toggleTheme() {
     currentTheme = (currentTheme + 1) % themes.length;
     applyTheme();
 }
 
-/* PASSWORD HOLD */
-function showPassword() {
-    password.type = "text";
+(function () {
+    const THEMES = ["theme-light", "theme-dark"];
+    let savedTheme = localStorage.getItem("theme");
+
+    if (!savedTheme || !THEMES.includes(savedTheme)) {
+        savedTheme = "theme-light";
+        localStorage.setItem("theme", savedTheme);
+    }
+
+    // Apply theme safely (DO NOT overwrite other classes)
+    document.body.classList.remove(...THEMES);
+    document.body.classList.add(savedTheme);
+})();
+
+/* Optional: if navbar theme button exists */
+function toggleTheme() {
+    const THEMES = ["theme-light", "theme-dark"];
+    let current = localStorage.getItem("theme") || "theme-light";
+
+    const next = current === "theme-light" ? "theme-dark" : "theme-light";
+
+    document.body.classList.remove(...THEMES);
+    document.body.classList.add(next);
+
+    localStorage.setItem("theme", next);
 }
-function hidePassword() {
-    password.type = "password";
-}
 
-/* PASSWORD STRENGTH */
-function checkStrength() {
-    const strength = document.getElementById("strength");
-    if (password.value.length < 4) strength.textContent = "Weak";
-    else if (password.value.length < 8) strength.textContent = "Medium";
-    else strength.textContent = "Strong";
-}
+/* =====================================================
+   OTP LOGIC (UNCHANGED FUNCTIONALITY)
+===================================================== */
 
-/* CLIENT SIDE VALIDATION */
-function validateForm() {
-    let valid = true;
+function sendOtp() {
+    const email = document.getElementById("email").value.trim();
 
-    document.querySelectorAll(".error-text").forEach(e => e.textContent = "");
-
-    if (name.value.trim().length < 3) {
-        name.nextElementSibling.nextElementSibling.textContent = "Enter full name";
-        valid = false;
+    if (!email) {
+        showOtpMsg("Please enter email first", "red");
+        return;
     }
 
-    if (!email.value.includes("@")) {
-        email.nextElementSibling.nextElementSibling.textContent = "Invalid email";
-        valid = false;
-    }
-
-    if (password.value.length < 6) {
-        document.getElementById("strength").textContent = "Password too short";
-        valid = false;
-    }
-
-    if (password.value !== confirmPassword.value) {
-        confirmPassword.nextElementSibling.nextElementSibling.textContent = "Passwords do not match";
-        valid = false;
-    }
-
-    if (valid) {
-        const btn = document.getElementById("registerBtn");
-        btn.querySelector(".spinner-border").classList.remove("d-none");
-        btn.querySelector(".btn-text").textContent = "Creating account...";
-    }
-
-    return valid;
-}
-$(function () {
-
-    const nameRegex     = /^[A-Za-z ]{3,50}$/;
-    const emailRegex    = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/;
-    const phoneRegex    = /^[6-9]\d{9}$/;
-    const stateRegex    = /^[A-Za-z ]{2,}$/;
-
-    const validationState = {
-        name: false,
-        email: false,
-        password: false,
-        phone: false,
-        dob: false,
-        gender: false,
-        state: false
-    };
-
-    function updateButtonState() {
-        const allValid = Object.values(validationState).every(v => v === true);
-        $("#registerBtn").prop("disabled", !allValid);
-    }
-
-    function markValid(field) {
-        validationState[field] = true;
-        updateButtonState();
-    }
-
-    function markInvalid(field) {
-        validationState[field] = false;
-        updateButtonState();
-    }
-
-    function showError(field, message) {
-        $(field).closest(".mb-3").find(".error").text(message);
-    }
-
-    function clearError(field) {
-        $(field).closest(".mb-3").find(".error").text("");
-    }
-
-    function clearGenderError() {
-        $("[name='gender']").closest(".mb-3").find(".error").text("");
-    }
-
-    $("[name='name']").on("blur", function () {
-        nameRegex.test(this.value.trim())
-            ? (clearError(this), markValid("name"))
-            : (showError(this, "Enter valid name (min 3 letters)"), markInvalid("name"));
-    });
-
-    $("[name='email']").on("blur", function () {
-        emailRegex.test(this.value.trim())
-            ? (clearError(this), markValid("email"))
-            : (showError(this, "Enter valid email address"), markInvalid("email"));
-    });
-
-    $("[name='password']").on("blur", function () {
-        passwordRegex.test(this.value)
-            ? (clearError(this), markValid("password"))
-            : (showError(this, "Password must contain letter, number & special char"), markInvalid("password"));
-    });
-
-    $("[name='phone']").on("blur", function () {
-        phoneRegex.test(this.value.trim())
-            ? (clearError(this), markValid("phone"))
-            : (showError(this, "Enter valid 10-digit Indian mobile number"), markInvalid("phone"));
-    });
-
-    $("[name='dob']").on("blur", function () {
-        const dob = this.value;
-        if (!dob) return markInvalid("dob");
-
-        const birthDate = new Date(dob);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
-
-        (age >= 18 && age <= 60)
-            ? (clearError(this), markValid("dob"))
-            : (showError(this, "Age must be between 18 and 60"), markInvalid("dob"));
-    });
-
-    $("[name='gender']").on("change", function () {
-        clearGenderError();
-        markValid("gender");
-    });
-
-    $("[name='state']").on("change blur", function () {
-        stateRegex.test(this.value)
-            ? (clearError(this), markValid("state"))
-            : (showError(this, "Please select a valid state"), markInvalid("state"));
-    });
-
-    $("#registerForm").on("submit", function (e) {
-        if (!Object.values(validationState).every(v => v === true)) {
-            e.preventDefault();
+    fetch(`${window.location.pathname.split("/")[1] ? "/" + window.location.pathname.split("/")[1] : ""}/send-register-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `email=${encodeURIComponent(email)}`
+    })
+    .then(res => res.text())
+    .then(res => {
+        if (res === "OTP_SENT") {
+            document.getElementById("otpSection").style.display = "block";
+            showOtpMsg("OTP sent to email", "green");
         }
-    });
+        else if (res === "ALREADY_REGISTERED") {
+            showOtpMsg("Email already registered. Please login.", "red");
+        }
+        else {
+            showOtpMsg("Failed to send OTP", "red");
+        }
+    })
+    .catch(() => showOtpMsg("Server error", "red"));
+}
 
+function verifyOtp() {
+    const email = document.getElementById("email").value.trim();
+    const otp = document.getElementById("otp").value.trim();
+
+    if (!otp) {
+        showOtpMsg("Please enter OTP", "red");
+        return;
+    }
+
+    fetch(`${window.location.pathname.split("/")[1] ? "/" + window.location.pathname.split("/")[1] : ""}/verify-register-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `email=${encodeURIComponent(email)}&otp=${encodeURIComponent(otp)}`
+    })
+    .then(res => res.text())
+    .then(res => {
+        if (res === "VERIFIED") {
+            showOtpMsg("Email verified successfully ✅", "green");
+            document.getElementById("registerBtn").disabled = false;
+        }
+        else {
+            showOtpMsg(res || "Invalid OTP", "red");
+        }
+    })
+    .catch(() => showOtpMsg("Server error", "red"));
+}
+
+function showOtpMsg(msg, color) {
+    const el = document.getElementById("otpMsg");
+    if (!el) return;
+    el.textContent = msg;
+    el.style.color = color;
+}
+
+/* =====================================================
+   BASIC CLIENT-SIDE VALIDATION (NON-BREAKING)
+===================================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("registerForm");
+    if (!form) return;
+
+    form.addEventListener("submit", e => {
+        let valid = true;
+
+        form.querySelectorAll("input[required], select[required]").forEach(input => {
+            const error = input.closest(".mb-3")?.querySelector(".error");
+            if (!input.value.trim()) {
+                if (error) error.textContent = "This field is required";
+                valid = false;
+            } else {
+                if (error) error.textContent = "";
+            }
+        });
+
+        if (!valid) e.preventDefault();
+    });
 });
+
+/* ================= THEME ================= */
+(function () {
+    const themes = ["theme-light", "theme-dark"];
+    const saved = localStorage.getItem("theme") || "theme-light";
+    document.body.classList.remove(...themes);
+    document.body.classList.add(saved);
+})();
+
+function toggleTheme() {
+    const current = localStorage.getItem("theme") || "theme-light";
+    const next = current === "theme-light" ? "theme-dark" : "theme-light";
+    document.body.classList.remove("theme-light", "theme-dark");
+    document.body.classList.add(next);
+    localStorage.setItem("theme", next);
+}
+
+/* ================= SHOW / HIDE PASSWORD ================= */
+document.addEventListener("DOMContentLoaded", () => {
+    const pwd = document.getElementById("password");
+    const eye = document.getElementById("togglePassword");
+
+    if (pwd && eye) {
+        eye.addEventListener("click", () => {
+            pwd.type = pwd.type === "password" ? "text" : "password";
+            eye.textContent = pwd.type === "password" ? "👁️" : "🙈";
+        });
+    }
+
+    /* ================= PASSWORD STRENGTH ================= */
+    const bar = document.getElementById("strengthBar");
+
+    if (pwd && bar) {
+        pwd.addEventListener("input", () => {
+            const val = pwd.value;
+            let score = 0;
+
+            if (val.length >= 6) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            bar.className = "";
+            if (score <= 1) {
+                bar.style.width = "30%";
+                bar.classList.add("strength-weak");
+            } else if (score === 2 || score === 3) {
+                bar.style.width = "65%";
+                bar.classList.add("strength-medium");
+            } else {
+                bar.style.width = "100%";
+                bar.classList.add("strength-strong");
+            }
+        });
+    }
+});
+

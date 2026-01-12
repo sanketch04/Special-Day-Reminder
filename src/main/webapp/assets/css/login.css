@@ -1,50 +1,44 @@
+/* ================= ROOT ================= */
 :root {
-    --btn-color: rgba(255,255,255,0.9);
-
-    /* Light theme vars */
-    --card-bg-light: rgba(255,255,255,0.55);
-    --input-bg-light: rgba(255,255,255,0.75);
-    --text-light: #1f2937;
-
-    /* Dark theme vars */
-    --card-bg-dark: rgba(0,0,0,0.35);
-    --input-bg-dark: rgba(255,255,255,0.15);
-    --text-dark: #ffffff;
+    --radius: 18px;
+    --blur: 22px;
 }
 
-/* ===== GLOBAL ===== */
+/* ================= GLOBAL ================= */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: "Segoe UI", Arial, sans-serif;
     transition: background 0.6s ease, color 0.6s ease;
 }
 
-/* ===== THEMES ===== */
+/* ================= THEMES ================= */
 .theme-light {
-    background: linear-gradient(135deg,#eef2ff,#f8fafc);
-    color: var(--text-light);
+    background: linear-gradient(135deg, #f4f6fb, #e9eef5);
+    color: #1f2937;
 }
 
 .theme-dark {
-    background: linear-gradient(135deg,#141e30,#243b55);
-    color: var(--text-dark);
+    background: linear-gradient(135deg, #0f172a, #020617);
+    color: #e5e7eb;
 }
 
-/* ===== NAVBAR ===== */
+/* ================= NAVBAR ================= */
 .custom-navbar {
-    height: 80px;
+    height: 72px;
     position: fixed;
     top: 0;
     width: 100%;
-    backdrop-filter: blur(16px);
-    background: rgba(255,255,255,0.35);
+    backdrop-filter: blur(var(--blur));
+    background: #c8c8c8;
     display: flex;
     align-items: center;
     z-index: 1000;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
 }
 
 .theme-dark .custom-navbar {
-    background: rgba(0,0,0,0.35);
+    background: rgba(15,23,42,0.65);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .nav-grid {
@@ -52,16 +46,15 @@ body {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 32px;
 }
 
 .brand-title {
-    text-align: center;
-    font-size: 28px;
+    font-size: 25px;
     font-weight: 700;
+    text-align: center;
 }
 
-/* Brand gradients unchanged */
 .brand-as {
     background: linear-gradient(45deg,#ff416c,#ff4b2b);
     -webkit-background-clip: text;
@@ -74,154 +67,252 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-.login-context {
-    font-size: 12px;
-    opacity: 0.75;
+.login-context{
+	font-size:10px;
 }
 
-/* THEME BUTTON */
 .theme-toggle-btn {
-    justify-self: end;
     background: none;
     border: none;
-    font-size: 22px;
+    font-size: 20px;
     cursor: pointer;
     color: inherit;
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
 }
 
-/* ===== LOGIN WRAPPER ===== */
+.theme-toggle-btn:hover {
+    transform: rotate(12deg) scale(1.1);
+    text-shadow: 0 0 12px rgba(99,102,241,0.8);
+}
+
+/* ================= LAYOUT ================= */
 .login-wrapper {
-    min-height: calc(100vh - 80px);
+    min-height: calc(100vh - 72px);
     padding-top: 110px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
-/* ===== LOGIN CARD ===== */
+/* ================= CARD ================= */
 .login-card {
     width: 100%;
-    max-width: 440px;
-    padding: 38px 32px;
-    border-radius: 22px;
-    backdrop-filter: blur(20px);
-    margin-bottom: 20px;
-    background: var(--card-bg-dark);
+    max-width: 420px;
+    padding: 42px 36px;
+    border-radius: var(--radius);
+    backdrop-filter: blur(var(--blur));
+    background: rgba(255,255,255,0.75);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.6);
+    margin-bottom:30px;
+    animation: cardFadeUp 0.9s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .theme-dark .login-card {
-    background: var(--card-bg-dark);
+    background: rgba(15,23,42,0.75);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
-/* MOBILE */
-@media (max-width: 576px) {
-    .login-card {
-        max-width: 95%;
-        padding: 42px 26px;
-    }
+/* ✨ CARD GLOW */
+.login-card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(99,102,241,0.4),
+        transparent
+    );
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none; /* 🔥 FIX */
 }
 
-/* ===== TEXT ===== */
+
+.login-card:hover::before {
+    opacity: 1;
+}
+
+/* ================= TEXT ================= */
 .welcome-text {
-    font-size: 36px;
+    font-size: 38px;
     text-align: center;
-    animation: zoomFade 3s infinite alternate;
-}
-
-@keyframes zoomFade {
-    from { transform: scale(1); opacity: 0.85; }
-    to { transform: scale(1.08); opacity: 1; }
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    animation: textGlow 3s ease-in-out infinite alternate;
 }
 
 .subtitle {
     text-align: center;
-    opacity: 0.8;
-    margin-bottom: 28px;
+    opacity: 0.75;
+    margin-bottom: 30px;
 }
 
-/* ===== FORM ===== */
+/* ================= FORM ================= */
 .field {
     position: relative;
-    margin-bottom: 26px;
+    margin-bottom: 24px;
 }
 
 .field input {
     width: 100%;
-    padding: 15px 44px 15px 16px;
+    padding: 16px 46px 16px 16px;
     border-radius: 14px;
-    border: none;
-    outline: none;
-    background: var(--input-bg-light);
-    color: inherit;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: #d0d3fd;
+    transition: all 0.35s ease;
+    
 }
 
 .theme-dark .field input {
-    background: var(--input-bg-dark);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
     color: #fff;
+}
+
+.field input:focus {
+    outline: none;
+    transform: translateY(-2px) scale(1.01);
+    box-shadow:
+        0 0 0 2px rgba(99,102,241,0.25),
+        0 12px 30px rgba(99,102,241,0.35);
 }
 
 .field label {
-    position: absolute;
-    top: -5px;
-    left: 14px;
-    background: rgba(255,255,255,0.9);
-    padding: 2px 8px;
-    border-radius: 8px;
     font-size: 13px;
+    margin-bottom: 6px;
+    display: block;
+    opacity: 0.85;
+    position:absolute;
+    top:-16px;
+    left:8px;
+    border:1px solid green;
+    border-radius:9%;
+    padding-right:5px;
+    padding-left:5px;
+    background-color:#a39bf9;
 }
 
-.theme-dark .field label {
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-}
-
+/* 👁️ Eye glow */
 .toggle-eye {
     position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 14px;
+    top: 25%;
+    transform: translateY(-20%);
     cursor: pointer;
+    transition: transform 0.25s ease, text-shadow 0.25s ease;
 }
 
-/* ===== LOGIN BUTTON ===== */
+.toggle-eye:hover {
+    transform: scale(1.2);
+    text-shadow: 0 0 10px rgba(99,102,241,0.8);
+}
+
+/* ================= BUTTON ================= */
 .btn-login {
-    background: var(--btn-color);
+    width: 100%;
+    padding: 14px;
     border-radius: 14px;
-    padding: 12px;
+    border: none;
     font-weight: 600;
-    opacity: 0.92;
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    background: linear-gradient(135deg,#4f46e5,#6366f1);
+    color: white;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-login::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.4),
+        transparent
+    );
+    transform: translateX(-100%);
+}
+
+.btn-login:hover::after {
+    transform: translateX(100%);
+    transition: transform 0.8s ease;
 }
 
 .btn-login:hover {
-    opacity: 1;
-    transform: translateY(-1px);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 40px rgba(79,70,229,0.6);
 }
 
-/* ===== FOOTER ===== */
+
+.below-links{
+	margin-top:10px;
+	margin-left:20px;
+}
+
+/* ================= FOOTER ================= */
 .custom-footer {
-    backdrop-filter: blur(16px);
-    background: rgba(0,0,0,0.15);
+    backdrop-filter: blur(var(--blur));
+    background: rgba(15,23,42,0.35);
+    color: #e5e7eb;
     text-align: center;
     padding: 26px 16px;
-    color: inherit;
 }
 
-.theme-dark .custom-footer {
-    background: rgba(0,0,0,0.35);
+.theme-light .custom-footer {
+    background: rgba(255,255,255,0.65);
+    color: #374151;
 }
 
 .custom-footer a {
-    color: #ffdfdf;
     text-decoration: none;
+    font-weight: 500;
+    color: inherit;
+    transition: text-shadow 0.3s ease;
 }
 
-/* ===== ANIMATION ===== */
-.animate-fade {
-    animation: fadeUp 0.9s ease;
+.custom-footer a:hover {
+    text-shadow: 0 0 8px rgba(99,102,241,0.7);
 }
 
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(25px); }
-    to { opacity: 1; transform: translateY(0); }
+/* ================= ANIMATIONS ================= */
+@keyframes cardFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(35px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
+
+@keyframes textGlow {
+    from {
+        text-shadow: 0 0 8px rgba(99,102,241,0.3);
+    }
+    to {
+        text-shadow: 0 0 18px rgba(99,102,241,0.8);
+    }
+}
+
+/* ================= PAGE EXIT ANIMATION ================= */
+.page-exit {
+    animation: rippleExit 0.45s ease forwards;
+}
+
+@keyframes rippleExit {
+    0% { clip-path: circle(100% at 50% 50%); }
+    100% { clip-path: circle(0% at 50% 50%); opacity: 0; }
+}
+
+
+
+

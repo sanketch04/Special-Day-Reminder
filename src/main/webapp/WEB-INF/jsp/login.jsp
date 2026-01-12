@@ -78,11 +78,13 @@
                 <span class="spinner-border spinner-border-sm d-none"></span>
             </button>
         </form>
+           
+           <div class="below-links">
+           <a href="<c:url value='/forgot-password'/>">Forgot Password?</a>
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+           <a href="<c:url value='/register'/>">NEW User? Sign UP</a>
+           </div>
 
-        <div class="text-center mt-3">
-            <a href="forgot-password" class="forgot-link">Forgot Password?</a>&nbsp;|&nbsp;<a href="register" class="forgot-link">NEW User? Sign UP</a>
-            
-        </div>
     </div>
 </div>
 

@@ -46,7 +46,8 @@
 
 </style>
 
-<body class="theme-light">
+<body class="theme-light page-enter">
+
 
 <!-- ================= NAVBAR ================= -->
 <nav class="dashboard-navbar">
