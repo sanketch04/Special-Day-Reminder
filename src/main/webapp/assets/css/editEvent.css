@@ -1,0 +1,119 @@
+ :root {
+            --primary: #6366f1;
+            --primary-dark: #4338ca;
+            --glass: rgba(255,255,255,0.85);
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at top, #e0e7ff, #f8fafc);
+            font-family: 'Inter', system-ui, sans-serif;
+            display: grid;
+            place-items: center;
+            color: #0f172a;
+        }
+
+        .edit-card {
+            width: 100%;
+            max-width: 620px;
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            border-radius: 28px;
+            padding: 40px;
+            box-shadow:
+                0 40px 100px rgba(0,0,0,.25),
+                inset 0 0 0 1px rgba(255,255,255,.6);
+            animation: rise .6s ease;
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(.96);
+            }
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        h2 {
+            font-weight: 700;
+            margin-bottom: 28px;
+            letter-spacing: -0.6px;
+            text-align: center;
+        }
+
+        /* Floating field */
+        .field {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            width: 100%;
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid #e5e7eb;
+            font-size: 15px;
+            background: #fff;
+            transition: all .25s ease;
+        }
+
+        .field textarea {
+            resize: none;
+        }
+
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 5px rgba(99,102,241,.18);
+            outline: none;
+            transform: translateY(-1px);
+        }
+
+        .field label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        /* Buttons */
+        .btn-update {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            color: #fff;
+            padding: 14px;
+            font-weight: 600;
+            border-radius: 16px;
+            transition: all .3s ease;
+        }
+
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 40px rgba(99,102,241,.45);
+        }
+
+        .btn-cancel {
+            background: #e5e7eb;
+            border-radius: 16px;
+            font-weight: 600;
+            padding: 14px;
+            transition: all .25s ease;
+        }
+
+        .btn-cancel:hover {
+            background: #d1d5db;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 576px) {
+            .edit-card {
+                padding: 28px 22px;
+            }
+        }
