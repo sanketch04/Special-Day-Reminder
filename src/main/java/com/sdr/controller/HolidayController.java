@@ -29,15 +29,23 @@ public class HolidayController {
 
         List<HolidayEventDTO> result = new ArrayList<>();
 
-        // 🇮🇳 India
-        result.addAll(service.getHolidays(
+        // 🇮🇳 India holidays
+        result.addAll(
+            service.getHolidays(
                 GoogleCalendarConfig.INDIA_HOLIDAY_CALENDAR,
-                year, month));
+                year,
+                month
+            )
+        );
 
-        // 🌍 International
-//        result.addAll(service.getHolidays(
+//        // 🌍 International holidays
+//        result.addAll(
+//            service.getHolidays(
 //                GoogleCalendarConfig.WORLD_HOLIDAY_CALENDAR,
-//                year, month));
+//                year,
+//                month
+//            )
+//        );
 
         return result;
     }

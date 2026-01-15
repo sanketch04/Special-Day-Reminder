@@ -9,6 +9,5 @@ public class GoogleCalendarConfig {
 //    public static final String WORLD_HOLIDAY_CALENDAR =
 //            "en@holiday.calendar.google.com";
 
-    // API key (create from Google Cloud Console)
-    public static final String API_KEY = "AIzaSyB3EPXnc36VV7ZOH02FgvYxqKOGwtYKMrE";
+    
 }
