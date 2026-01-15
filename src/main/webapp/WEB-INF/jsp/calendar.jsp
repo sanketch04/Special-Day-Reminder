@@ -109,8 +109,6 @@
   </div>
 </div>
 
-
-
 <div class="calendar-top flicker-in">
 
     <div class="calendar-title">
