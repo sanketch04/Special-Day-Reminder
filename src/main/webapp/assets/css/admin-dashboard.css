@@ -1,0 +1,125 @@
+/* RESET */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #020617;
+    color: #e5e7eb;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND */
+.admin-bg {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(79,70,229,0.25), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(16,185,129,0.18), transparent 40%),
+        linear-gradient(135deg,#020617,#020617);
+    z-index: -1;
+}
+
+/* HEADER */
+.admin-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+
+.admin-header h2 {
+    font-weight: 700;
+}
+
+.admin-header p {
+    opacity: 0.7;
+}
+
+/* DASHBOARD GRID */
+.admin-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* CARD */
+.admin-card {
+    background: rgba(15,23,42,0.85);
+    backdrop-filter: blur(18px);
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    transition: all 0.4s ease;
+}
+
+.admin-card i {
+    font-size: 42px;
+    margin-bottom: 16px;
+    color: #6366f1;
+}
+
+.admin-card h4 {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.admin-card p {
+    font-size: 14px;
+    opacity: 0.75;
+    margin-bottom: 22px;
+}
+
+/* BUTTON */
+.btn-admin {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 14px;
+    background: linear-gradient(135deg,#4f46e5,#6366f1);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-admin:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(79,70,229,0.5);
+}
+
+/* HOVER */
+.admin-card:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+
+/* LOGOUT CARD */
+.admin-card.danger i {
+    color: #ef4444;
+}
+
+.btn-admin.danger {
+    background: linear-gradient(135deg,#dc2626,#ef4444);
+}
+
+/* SCROLL ANIMATION */
+.fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease;
+}
+
+.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .admin-header {
+        padding-top: 40px;
+    }
+}
