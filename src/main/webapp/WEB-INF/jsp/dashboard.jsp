@@ -138,43 +138,27 @@
 <section class="events-section">
     <div class="container">
         <div class="events-carousel">
-
-            <div class="event-card animate-left">
-                <img src="${pageContext.request.contextPath}/assets/images/national_youth_day.webp">
-                <div class="overlay">
-                    <h5>Today</h5>
-                    <ul>
-                        <c:forEach items="${todayEvents}" var="e">
-                            <li>${e.title} – ${e.eventDate}</li>
-                        </c:forEach>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="event-card animate-up">
-                <img src="${pageContext.request.contextPath}/assets/images/indian_army_day.jpg">
-                <div class="overlay">
-                    <h5>Next 7 Days</h5>
-                    <ul>
-                        <c:forEach items="${next7Events}" var="e">
-                            <li>${e.title} – ${e.eventDate}</li>
-                        </c:forEach>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="event-card animate-right">
-                <img src="${pageContext.request.contextPath}/assets/images/republic_day.avif">
-                <div class="overlay">
-                    <h5>Next 30 Days</h5>
-                    <ul>
-                        <c:forEach items="${next30Events}" var="e">
-                            <li>${e.title} – ${e.eventDate}</li>
-                        </c:forEach>
-                    </ul>
-                </div>
-            </div>
-
+				
+				 <div class="event-card animate-left">
+				    <img id="img1">
+				    <div class="overlay">
+				        <h5 id="title1"></h5>
+				    </div>
+				</div>
+				
+				<div class="event-card animate-up">
+				    <img id="img2">
+				    <div class="overlay">
+				        <h5 id="title2"></h5>
+				    </div>
+				</div>
+				
+				<div class="event-card animate-right">
+				    <img id="img3">
+				    <div class="overlay">
+				        <h5 id="title3"></h5>
+				    </div>
+				</div>
         </div>
     </div>
 </section>
@@ -185,6 +169,8 @@
         <%@ include file="calendar.jsp" %>
     </div>
 </section>
+
+
 
 
 <!-- FOOTER -->
@@ -208,6 +194,35 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/dashboard.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/theme_change.js"></script>
+
+<script>
+function loadFestivalImagesByMonth(monthIndex) {
+
+    fetch(APP_CTX + "/api/festivals?month=" + monthIndex)
+        .then(res => res.json())
+        .then(cards => {
+
+            const defaults = [
+                APP_CTX + "/assets/festivals/default/default1.jpg",
+                APP_CTX + "/assets/festivals/default/default2.jpg",
+                APP_CTX + "/assets/festivals/default/default3.jpg"
+            ];
+
+            for (let i = 0; i < 3; i++) {
+                const img = document.getElementById("img" + (i + 1));
+                const title = document.getElementById("title" + (i + 1));
+
+                if (!img || !title) continue;
+
+                img.src = cards[i]?.image || defaults[i]; // ✅ FIX
+                title.innerText = cards[i]?.title || "";
+            }
+        })
+        .catch(err => console.error("Festival API error", err));
+}
+</script>
+
+
 
 
 </body>

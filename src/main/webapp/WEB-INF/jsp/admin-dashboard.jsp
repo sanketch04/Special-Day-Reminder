@@ -55,6 +55,13 @@
         <p>View and update admin profile</p>
         <a href="<%= ctx %>/admin/profile" class="btn-admin">Open</a>
     </div>
+    
+    <div class="admin-card fade-up danger">
+        <i class="bi bi-box-img"></i>
+        <h4>Add Image</h4>
+        <p>Add Festival Images</p>
+        <a href="<%= ctx %>/admin/upload-festival" class="btn-admin ">Add Image</a>
+    </div>
 
     <div class="admin-card fade-up danger">
         <i class="bi bi-box-arrow-right"></i>
@@ -62,7 +69,8 @@
         <p>End admin session securely</p>
         <a href="<%= ctx %>/admin/logout" class="btn-admin danger">Logout</a>
     </div>
-
+	
+	
 </section>
 
 <script src="<%= ctx %>/assets/js/admin-dashboard.js"></script>

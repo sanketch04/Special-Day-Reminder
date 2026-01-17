@@ -1,6 +1,9 @@
 package com.sdr.controller;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sdr.entity.Admin;
 import com.sdr.entity.User;
@@ -91,6 +95,34 @@ public class AdminController {
         
         return "admin-users";
     }
+    
+    //upload
+    @GetMapping("/upload-festival")
+    public String festivLadminAdd(HttpSession session) {
+        if (session.getAttribute("loggedAdmin") == null) {
+            return "redirect:/admin/login";
+        }
+        return "admin-festival-upload";
+    }
+    
+    @PostMapping("/festival/upload")
+	public String uploadFestivalImages(
+	        @RequestParam String month,
+	        @RequestParam MultipartFile[] images,
+	        HttpServletRequest request) throws IOException {
+
+	    String path = request.getServletContext()
+	        .getRealPath("/assets/festivals/" + month);
+
+	    File dir = new File(path);
+	    if (!dir.exists()) dir.mkdirs();
+
+	    for (MultipartFile img : images) {
+	        img.transferTo(new File(dir, img.getOriginalFilename()));
+	    }
+
+	    return "admin-dashboard";
+	}
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

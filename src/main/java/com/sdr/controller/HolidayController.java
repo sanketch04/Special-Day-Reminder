@@ -16,12 +16,16 @@ import com.sdr.service.HolidayService;
 @RequestMapping("/admin/api")
 public class HolidayController {
 
-    private final HolidayService service;
+    private final HolidayService holidayService;
 
-    public HolidayController(HolidayService service) {
-        this.service = service;
+    public HolidayController(HolidayService holidayService) {
+        this.holidayService = holidayService;
     }
 
+    /**
+     * API used by calendar.js
+     * month comes from UI as 0–11 (JS standard)
+     */
     @GetMapping("/holidays")
     public List<HolidayEventDTO> holidays(
             @RequestParam int year,
@@ -29,23 +33,14 @@ public class HolidayController {
 
         List<HolidayEventDTO> result = new ArrayList<>();
 
-        // 🇮🇳 India holidays
+        // 🇮🇳 India public holidays (Google Calendar)
         result.addAll(
-            service.getHolidays(
+            holidayService.getHolidays(
                 GoogleCalendarConfig.INDIA_HOLIDAY_CALENDAR,
                 year,
-                month
+                month   // ❗ DO NOT +1 HERE
             )
         );
-
-//        // 🌍 International holidays
-//        result.addAll(
-//            service.getHolidays(
-//                GoogleCalendarConfig.WORLD_HOLIDAY_CALENDAR,
-//                year,
-//                month
-//            )
-//        );
 
         return result;
     }
