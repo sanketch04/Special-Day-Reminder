@@ -315,6 +315,296 @@ body {
 
 /* ================= PAGE EXIT ANIMATION ================= */
 
+/* ================= SPLIT SCREEN ================= */
+.split-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* LEFT PANEL */
+.left-panel {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    height:90vh;
+    margin-top:25px;
+    margin-left:25px;
+}
+
+.bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5);
+}
+
+.brand-wrapper {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.brand-logo {
+    font-size: 72px;
+    font-weight: 800;
+}
+
+.tagline {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* FLOATING TEXT */
+.floating {
+    animation: floatText 4s ease-in-out infinite;
+}
+
+@keyframes floatText {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+}
+
+/* RIGHT PANEL */
+.right-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* GLASS LOGIN */
+.login-card {
+    backdrop-filter: blur(24px);
+}
+
+/* ================= FLOATING MENU (FIXED & PREMIUM) ================= */
+
+.menu-container {
+    position: fixed;          /* 🔥 viewport-based */
+    top: 24px;
+    right: 28px;
+    z-index: 9999;            /* 🔥 above everything */
+}
+
+/* Three dots button */
+.menu-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.theme-dark .menu-btn {
+    background: rgba(15,23,42,0.6);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.menu-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+}
+
+/* Popup menu */
+.menu-popup {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    min-width: 220px;
+    padding: 14px 12px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.4);
+
+    opacity: 0;
+    transform: translateY(-10px) scale(0.96);
+    pointer-events: none;
+    transition: all 0.25s ease;
+}
+
+.theme-dark .menu-popup {
+    background: rgba(15,23,42,0.9);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* OPEN STATE */
+.menu-popup.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* Menu items */
+.menu-popup a,
+.menu-popup button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.menu-popup a:hover,
+.menu-popup button:hover {
+    background: rgba(99,102,241,0.12);
+}
+
+/* Divider */
+.menu-popup hr {
+    margin: 8px 0;
+    border: none;
+    height: 1px;
+    background: rgba(0,0,0,0.08);
+}
+
+.theme-dark .menu-popup hr {
+    background: rgba(255,255,255,0.08);
+}
+
+
+/* ================= FOOTER ================= */
+.meta-footer {
+    padding: 18px;
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+.meta-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+/* ================= PAGE LOAD SLIDE ANIMATIONS ================= */
+
+/* LEFT BRAND — FROM RIGHT */
+.slide-in-brand {
+    opacity: 0;
+    transform: translateX(100vw);
+    animation: brandFromRight 1.2s cubic-bezier(0.80, 1, 0.99, 1) forwards;
+}
+
+/* LOGIN CARD — FROM RIGHT */
+/* .slide-in-login { */
+/*     opacity: 0; */
+/*     transform: translateX(100vw); */
+/*     animation: loginFromRight 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards; */
+/*     animation-delay: 0.15s; */
+/* } */
+
+/* KEYFRAMES */
+@keyframes brandFromRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes loginFromRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ================= RESPONSIVE ================= */
+
+.mobile-login {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .split-container {
+        flex-direction: column;
+    }
+
+    .menu-container {
+        top: 16px;
+        right: 16px;
+    }
+
+    .left-panel {
+        width: 100%;
+        height: 60vh;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .brand-wrapper {
+        padding-top: 60px;
+        height: auto;
+    }
+
+    .brand-logo {
+        font-size: 46px;
+    }
+
+    .tagline {
+        font-size: 14px;
+    }
+
+    /* Hide desktop login */
+    .desktop-login {
+        display: none;
+    }
+
+    /* Mobile login over video */
+    .mobile-login {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        padding: 0 16px;
+    }
+
+    .mobile-login .login-card {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .right-panel {
+        display: none;
+    }
+
+    .meta-footer {
+        padding: 14px 10px;
+        font-size: 11px;
+    }
+}
+
+
+
 
 
 

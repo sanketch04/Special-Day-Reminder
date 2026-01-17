@@ -201,7 +201,9 @@ $(document).ready(function () {
 <div class="chat-box">
 
 <div class="chat-header">
-    <img src="assets/asmitra-logo.png" alt="ASmitra Logo" class="chat-logo">
+    <img src="${pageContext.request.contextPath}/assets/images/ai-logo.gif"
+     alt="ASmitra Logo"
+     class="chat-logo">
     <h2>ASmitra</h2>
 </div>
 

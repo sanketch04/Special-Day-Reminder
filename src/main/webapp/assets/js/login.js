@@ -82,3 +82,10 @@ function handleSubmit() {
 
     return false; // prevent instant submit
 }
+
+function toggleMenu() {
+    const menu = document.getElementById("menuPopup");
+    menu.classList.toggle("show");
+}
+
+

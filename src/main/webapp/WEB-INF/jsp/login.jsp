@@ -20,95 +20,110 @@
 
 <body class="theme-light">
 
-<!-- NAVBAR -->
-<!-- NAVBAR -->
-<nav class="custom-navbar">
-    <div class="nav-grid">
-        <div></div>
+<!-- MENU -->
+<div class="menu-container">
+    <button class="menu-btn" onclick="toggleMenu()">
+        <i class="bi bi-three-dots-vertical"></i>
+    </button>
 
-        <div class="brand-title">
-            <span class="brand-as">AS</span><span class="brand-mitra">mitra</span>
-            <div class="login-context">User Login</div>
-        </div>
+    <div class="menu-popup" id="menuPopup">
+        <a href="#">About</a>
+        <a href="<c:url value='/register'/>"> Sign UP</a>
 
-        <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Change theme">
-            <i class="bi bi-palette-fill"></i>
+         <a href="<c:url value='/forgot-password'/>">Forgot Password?</a>
+        <a href="#">Other Projects</a>
+        <hr>
+        <button onclick="toggleTheme()" class="theme-switch">
+            <i class="bi bi-moon-stars-fill"></i> Toggle Theme
         </button>
     </div>
-</nav>
+</div>
 
-<!-- LOGIN -->
-<div class="login-wrapper">
-    <div class="login-card animate-fade">
+<!-- SPLIT / STACK CONTAINER -->
+<div class="split-container">
 
-        <h1 class="welcome-text">Welcome back !</h1>
-        <p class="subtitle">Login to your account</p>
+    <!-- LEFT -->
+    <div class="left-panel">
+        <video autoplay muted loop playsinline class="bg-video">
+            <source src="${pageContext.request.contextPath}/assets/video/login_bg.mp4" type="video/mp4">
+        </video>
 
-        <c:if test="${not empty error}">
-            <div class="alert alert-danger auto-hide">${error}</div>
-        </c:if>
+        <div class="brand-wrapper slide-in-brand">
+            <h1 class="brand-logo">
+                <span class="brand-as">AS</span><span class="brand-mitra">mitra</span>
+            </h1>
+            <p class="tagline">Remember Moments, Not Just Dates</p>
+        </div>
 
-        <form action="login" method="post" onsubmit="return handleSubmit()">
+        <!-- MOBILE LOGIN OVER VIDEO -->
+        <div class="mobile-login">
+            <jsp:include page="login-form.jsp" />
+        </div>
+       </div>
 
-            <div class="field">
-                <input type="email" id="email" name="email" required>
-                <label for="email">Email</label>
+    <!-- RIGHT -->
+    <div class="right-panel">
+        <div class="login-card slide-in-login desktop-login">
+
+            <h1 class="welcome-text">Welcome back</h1>
+            <p class="subtitle">Login to your account</p>
+
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger auto-hide">${error}</div>
+            </c:if>
+
+            <form action="${pageContext.request.contextPath}/login" method="post">
+
+
+                <div class="field">
+                    <input type="email" id="email" name="email" required>
+                    <label>Email</label>
+                </div>
+
+                <div class="field password-field">
+                    <input type="password" id="password" name="password" required oninput="checkStrength()">
+                    <label>Password</label>
+
+                    <i class="bi bi-eye-slash-fill toggle-eye"
+                       onmousedown="showPassword()"
+                       onmouseup="hidePassword()"></i>
+
+                    <small id="strength"></small>
+                </div>
+
+                <div class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+
+                <button id="loginBtn" class="btn btn-login w-100">
+                    <span class="btn-text">Login</span>
+                    <span class="spinner-border spinner-border-sm d-none"></span>
+                </button>
+                
+                
+            </form>
+
+            <div class="below-links">
+                <a href="<c:url value='/forgot-password'/>">Forgot Password?</a>
+                <a href="<c:url value='/register'/>">New user? Sign up</a>
             </div>
-
-            <div class="field password-field">
-                <input type="password" id="password" name="password" required oninput="checkStrength()">
-                <label for="password">Password</label>
-
-                <i class="bi bi-eye-slash-fill toggle-eye"
-                   onmousedown="showPassword()"
-                   onmouseup="hidePassword()"
-                   ontouchstart="showPassword()"
-                   ontouchend="hidePassword()"></i>
-
-                <small id="strength"></small>
-            </div>
-
-            <div class="remember-me">
-                <input type="checkbox" id="rememberMe">
-                <label for="rememberMe">Remember me</label>
-            </div>
-
-            <button id="loginBtn" class="btn btn-login w-100">
-                <span class="btn-text">Login</span>
-                <span class="spinner-border spinner-border-sm d-none"></span>
-            </button>
-        </form>
-           
-           <div class="below-links">
-           <a href="<c:url value='/forgot-password'/>">Forgot Password?</a>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-           <a href="<c:url value='/register'/>">NEW User? Sign UP</a>
-           </div>
-
+        </div>
     </div>
 </div>
 
 <!-- FOOTER -->
-<footer class="custom-footer">
-    <p>© 2026 <strong>ASmitra</strong> · Special Day Reminder</p>
-
-    <p class="footer-links">
-        <i class="bi bi-envelope"></i> atharvgujare@gmail.com |
-        <i class="bi bi-envelope"></i> sanketchounde@gmail.com
-    </p>
-
-    <p class="footer-links">
-        <i class="bi bi-github"></i>
-        <a href="https://github.com/AtharvGujare" target="_blank">Atharv</a> ·
-        <a href="https://github.com/SanketChounde" target="_blank">Sanket</a>
-    </p>
-
-    <small>Created by Sanket Chounde & Atharv Gujare</small>
+<footer class="meta-footer">
+    <div class="meta-links">
+        Meta · About · Blog · Jobs · Help · API · Privacy · Terms · Locations ·
+        Instagram Lite · Meta AI · Threads · Contact uploading and non-users · Meta Verified
+    </div>
+    <div class="copyright">
+        © 2026 ASmitra. All rights reserved.
+    </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/login.js"></script>
-
 <script src="${pageContext.request.contextPath}/assets/js/theme_change.js"></script>
 </body>
 </html>
