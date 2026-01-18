@@ -25,6 +25,7 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+    
 
     @Autowired
     private UserService userService;
@@ -54,10 +55,14 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(HttpSession session) {
+    public String dashboard(HttpSession session,Model model) {
         if (session.getAttribute("loggedAdmin") == null) {
             return "redirect:/admin/login";
         }
+        long tUsers=adminService.countUsers();
+        model.addAttribute("tUser",tUsers);
+        long tEvents=adminService.countEvents();
+        model.addAttribute("tEvents",tEvents);
         return "admin-dashboard";
     }
 

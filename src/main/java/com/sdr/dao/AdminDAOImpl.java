@@ -37,6 +37,29 @@ public class AdminDAOImpl implements AdminDAO {
                 .createQuery("FROM AdminEvent WHERE active = true", AdminEvent.class)
                 .list();
     }
+    
+    @Override
+    public long countUsers() {
+
+        String hql = "select count(u.id) from User u";
+
+        return (long) sessionFactory
+                .getCurrentSession()
+                .createQuery(hql)
+                .uniqueResult();
+    }
+    
+    @Override
+    public long countEvents() {
+
+        String hql = "select count(e.id) from Event e";
+
+        return (long) sessionFactory
+                .getCurrentSession()
+                .createQuery(hql)
+                .uniqueResult();
+    }
+
 
     @Override
     public void save(AdminEvent event) {
@@ -49,6 +72,8 @@ public class AdminDAOImpl implements AdminDAO {
         if (e != null) {
             sessionFactory.getCurrentSession().delete(e);
         }
+        
+        
     }
 }
 

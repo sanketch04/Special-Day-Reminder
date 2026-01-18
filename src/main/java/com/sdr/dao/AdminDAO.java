@@ -11,4 +11,8 @@ public interface AdminDAO {
     List<AdminEvent> getAll();
     void save(AdminEvent event);
     void delete(int id);
+    long countUsers();
+
+    long countEvents();
+
 }

@@ -33,5 +33,11 @@ public class AdminService {
     public void delete(int id) {
     	adminDAO.delete(id);
     }
+    public long countUsers() {
+    	return adminDAO.countUsers();
+    }
+    public long countEvents() {
+    	return adminDAO.countEvents();
+    }
 }
 

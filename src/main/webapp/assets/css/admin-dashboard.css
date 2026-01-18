@@ -1,14 +1,10 @@
-/* RESET */
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
-    font-family: "Segoe UI", Arial, sans-serif;
+    font-family: "Inter","Segoe UI",Arial,sans-serif;
     background: #020617;
     color: #e5e7eb;
-    overflow-x: hidden;
 }
 
 /* BACKGROUND */
@@ -16,110 +12,107 @@ body {
     position: fixed;
     inset: 0;
     background:
-        radial-gradient(circle at 20% 20%, rgba(79,70,229,0.25), transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(16,185,129,0.18), transparent 40%),
-        linear-gradient(135deg,#020617,#020617);
+        radial-gradient(circle at 15% 20%, rgba(79,70,229,0.2), transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(16,185,129,0.15), transparent 40%);
     z-index: -1;
 }
 
 /* HEADER */
 .admin-header {
+    padding: 56px 20px 32px;
     text-align: center;
-    padding: 60px 20px 40px;
 }
 
-.admin-header h2 {
-    font-weight: 700;
+.admin-header p { opacity: 0.6; }
+
+/* KPI */
+.admin-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+    gap: 24px;
+    margin-bottom: 40px;
 }
 
-.admin-header p {
-    opacity: 0.7;
+.kpi-card {
+    background: rgba(15,23,42,0.85);
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
 }
 
-/* DASHBOARD GRID */
+.kpi-card i { font-size: 34px; color:#6366f1; }
+.kpi-label { font-size: 13px; opacity: 0.6; }
+.kpi-card h3 { margin:0; font-weight:700; }
+
+/* DASHBOARD */
 .admin-dashboard {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 30px;
-    padding: 40px;
-    max-width: 1100px;
-    margin: auto;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 28px;
+    margin-bottom: 50px;
 }
 
-/* CARD */
 .admin-card {
     background: rgba(15,23,42,0.85);
-    backdrop-filter: blur(18px);
     border-radius: 20px;
-    padding: 36px 28px;
-    text-align: center;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
-    transition: all 0.4s ease;
+    padding: 30px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.65);
+    transition: transform .3s ease;
 }
+
+.admin-card:hover { transform: translateY(-6px); }
 
 .admin-card i {
-    font-size: 42px;
-    margin-bottom: 16px;
-    color: #6366f1;
+    font-size: 32px;
+    color:#6366f1;
+    margin-bottom:12px;
 }
 
-.admin-card h4 {
+.admin-card p { opacity:.7; }
+
+/* UTILITIES */
+.admin-utilities {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 26px;
+    padding-bottom: 60px;
+}
+
+.utility-card {
+    background: rgba(15,23,42,0.85);
+    border-radius: 18px;
+    padding: 24px;
+}
+
+.utility-card h5 {
+    margin-bottom: 12px;
     font-weight: 600;
-    margin-bottom: 6px;
 }
 
-.admin-card p {
-    font-size: 14px;
-    opacity: 0.75;
-    margin-bottom: 22px;
+.utility-card ul {
+    padding-left: 18px;
+    opacity: .75;
+}
+
+.utility-card.danger {
+    border-left: 4px solid #ef4444;
 }
 
 /* BUTTON */
 .btn-admin {
-    display: inline-block;
-    padding: 10px 22px;
-    border-radius: 14px;
+    display:inline-block;
+    margin-top:14px;
+    padding:10px 22px;
+    border-radius:14px;
     background: linear-gradient(135deg,#4f46e5,#6366f1);
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.btn-admin:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 30px rgba(79,70,229,0.5);
-}
-
-/* HOVER */
-.admin-card:hover {
-    transform: translateY(-10px) scale(1.02);
-}
-
-/* LOGOUT CARD */
-.admin-card.danger i {
-    color: #ef4444;
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
 }
 
 .btn-admin.danger {
     background: linear-gradient(135deg,#dc2626,#ef4444);
-}
-
-/* SCROLL ANIMATION */
-.fade-up {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s ease;
-}
-
-.fade-up.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* RESPONSIVE */
-@media (max-width: 600px) {
-    .admin-header {
-        padding-top: 40px;
-    }
 }
