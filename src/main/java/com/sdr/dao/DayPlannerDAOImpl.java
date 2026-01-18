@@ -66,6 +66,14 @@ public class DayPlannerDAOImpl implements DayPlannerDAO {
             .setParameter("uid", userId)
             .list();
     }
+    
+    @Override
+    public List<DayPlanner> getDayPlanned() {
+        return sf.getCurrentSession()
+                 .createQuery("FROM DayPlanner", DayPlanner.class)
+                 .list();
+    }
+
 
 
 

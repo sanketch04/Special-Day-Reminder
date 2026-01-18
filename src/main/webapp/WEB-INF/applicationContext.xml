@@ -30,7 +30,7 @@
         <property name="url"
                   value="jdbc:mysql://localhost:3306/SDR?useSSL=false&amp;allowPublicKeyRetrieval=true"/>
         <property name="username" value="root"/>
-        <property name="password" value="root"/>
+        <property name="password" value="sanket"/>
     </bean>
 
     <!-- ===================== -->

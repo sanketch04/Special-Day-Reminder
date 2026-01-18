@@ -14,5 +14,10 @@ public interface AdminDAO {
     long countUsers();
 
     long countEvents();
+    
 
+    long countSceduledEvent();
+    long countAdminEvents();
+
+    long countDayPlanned();
 }

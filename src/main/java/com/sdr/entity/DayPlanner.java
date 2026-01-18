@@ -1,6 +1,7 @@
 package com.sdr.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.persistence.Entity;
@@ -10,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -43,7 +46,27 @@ public class DayPlanner {
 
     private boolean uiNotified;
 
+    private LocalDateTime lastStatusChange;
+    
+    
+    public LocalDateTime getLastStatusChange() {
+        return lastStatusChange;
+    }
 
+    public void setLastStatusChange(LocalDateTime lastStatusChange) {
+        this.lastStatusChange = lastStatusChange;
+    }
+
+    @PrePersist
+    public void onCreate() {
+        this.lastStatusChange = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.lastStatusChange = LocalDateTime.now();
+    }
+    
     public boolean isUiNotified() {
 		return uiNotified;
 	}

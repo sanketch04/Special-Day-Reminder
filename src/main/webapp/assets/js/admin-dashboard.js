@@ -32,3 +32,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+document.querySelectorAll(".kpi-card").forEach(card => {
+    card.addEventListener("mouseenter", () => {
+        card.style.outline = "2px solid rgba(99,102,241,0.4)";
+        card.style.outlineOffset = "4px";
+    });
+    card.addEventListener("mouseleave", () => {
+        card.style.outline = "none";
+    });
+});

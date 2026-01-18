@@ -59,7 +59,39 @@ public class AdminDAOImpl implements AdminDAO {
                 .createQuery(hql)
                 .uniqueResult();
     }
+    
+    @Override
+    public long countSceduledEvent() {
 
+        String hql = "select count(e.id) from ScheduledEmail e";
+
+        return (long) sessionFactory
+                .getCurrentSession()
+                .createQuery(hql)
+                .uniqueResult();
+    }
+    
+    @Override
+    public long countAdminEvents() {
+
+        String hql = "select count(e.id) from AdminEvent e";
+
+        return (long) sessionFactory
+                .getCurrentSession()
+                .createQuery(hql)
+                .uniqueResult();
+    }
+    
+    @Override
+    public long countDayPlanned() {
+
+        String hql = "select count(e.id) from DayPlanner e";
+
+        return (long) sessionFactory
+                .getCurrentSession()
+                .createQuery(hql)
+                .uniqueResult();
+    }
 
     @Override
     public void save(AdminEvent event) {
@@ -75,5 +107,7 @@ public class AdminDAOImpl implements AdminDAO {
         
         
     }
+
+	
 }
 

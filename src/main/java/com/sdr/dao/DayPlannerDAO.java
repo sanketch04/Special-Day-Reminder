@@ -17,5 +17,7 @@ public interface DayPlannerDAO {
     
     List<DayPlanner> findPlansForNotification(int userId);
     List<DayPlanner> findPlansForNotification();
+    
 
+	List<DayPlanner> getDayPlanned();
 }

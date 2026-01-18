@@ -38,6 +38,9 @@ public class DayPlannerService {
     public List<DayPlanner> getRecentlyUpdatedPlans(int userId) {
         return dao.findPlansForNotification(userId);
     }
+    public List<DayPlanner> getDayPlanned() {
+        return dao.getDayPlanned();
+    }
 
 
 }

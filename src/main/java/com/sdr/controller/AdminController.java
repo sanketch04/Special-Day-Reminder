@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sdr.entity.Admin;
+import com.sdr.entity.DayPlanner;
 import com.sdr.entity.User;
 import com.sdr.service.AdminService;
+import com.sdr.service.DayPlannerService;
 import com.sdr.service.UserService;
 @Controller
 @RequestMapping("/admin")
@@ -25,6 +27,9 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+    
+    @Autowired
+    private DayPlannerService dayPlanner;
     
 
     @Autowired
@@ -63,6 +68,16 @@ public class AdminController {
         model.addAttribute("tUser",tUsers);
         long tEvents=adminService.countEvents();
         model.addAttribute("tEvents",tEvents);
+        
+        long tEmail=adminService.countScheduledEmail();
+        model.addAttribute("tEmail",tEmail);
+        
+        long tAevents=adminService.countAdminEvents();
+        model.addAttribute("tAevents",tAevents);
+        
+        long tDayPlanned=adminService.countDayPlanner();
+        model.addAttribute("tDayPlanned",tDayPlanned);
+        
         return "admin-dashboard";
     }
 
@@ -72,8 +87,29 @@ public class AdminController {
             return "redirect:/admin/login";
         }
 
-        model.addAttribute("events", adminService.getAll());
         return "admin-events";
+    }
+    
+    @GetMapping("/eventsAdminList")
+    public String adminEventsList(Model model, HttpSession session) {
+        if (session.getAttribute("loggedAdmin") == null) {
+            return "redirect:/admin/login";
+        }
+
+        model.addAttribute("events", adminService.getAll());
+        return "admin-event-list";
+    }
+    
+    @GetMapping("/dayPlanned")
+    public String dayPlanned(Model model, HttpSession session) {
+        if (session.getAttribute("loggedAdmin") == null) {
+            return "redirect:/admin/login";
+        }
+
+        List<DayPlanner> dayPlan=dayPlanner.getDayPlanned();
+        model.addAttribute("dayPlan",dayPlan);
+        
+        return "dayPlanned";
     }
 
     @GetMapping("/profile")

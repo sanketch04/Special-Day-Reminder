@@ -39,5 +39,14 @@ public class AdminService {
     public long countEvents() {
     	return adminDAO.countEvents();
     }
+    public long countScheduledEmail() {
+    	return adminDAO.countSceduledEvent();
+    }
+    public long countAdminEvents() {
+    	return adminDAO.countAdminEvents();
+    }
+    public long countDayPlanner() {
+    	return adminDAO.countDayPlanned();
+    }
 }
 
