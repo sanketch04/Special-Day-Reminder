@@ -48,5 +48,8 @@ public class AdminService {
     public long countDayPlanner() {
     	return adminDAO.countDayPlanned();
     }
-}
 
+    public void update(Admin admin) {
+        adminDAO.update(admin);
+    }
+}

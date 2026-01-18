@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <%
     String ctx = request.getContextPath();
 %>
@@ -17,6 +19,9 @@
 <!-- Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
+<!-- Charts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <!-- Custom CSS -->
 <link rel="stylesheet" href="<%= ctx %>/assets/css/admin-dashboard.css">
 </head>
@@ -32,10 +37,23 @@
 
         <div class="topbar-right">
             <div class="profile-mini">
-                <i class="bi bi-person-circle"></i>
-                <span>${admin}</span>
 
-                <!-- Hover Dropdown -->
+                <c:choose>
+                    <c:when test="${not empty sessionScope.loggedAdmin.profilePhoto}">
+                        <img class="topbar-avatar"
+                             src="<%= ctx %>/uploads/admin/${sessionScope.loggedAdmin.profilePhoto}"
+                             alt="Admin Avatar">
+                    </c:when>
+                    <c:otherwise>
+                        <i class="bi bi-person-circle"></i>
+                    </c:otherwise>
+                </c:choose>
+
+                <span class="admin-name">
+                    ${sessionScope.loggedAdmin.name}
+                </span>
+
+                <!-- Dropdown -->
                 <div class="profile-dropdown">
                     <a href="<%= ctx %>/admin/profile">
                         <i class="bi bi-person"></i> View Profile
@@ -44,10 +62,12 @@
                         <i class="bi bi-box-arrow-right"></i> Logout
                     </a>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
+
 
 <div class="admin-bg"></div>
 
@@ -55,8 +75,7 @@
 <header class="admin-header">
     <div class="container">
         <h1 class="admin-welcome">
-            Welcome, <span>${admin}</span>
-            <span class="role-badge">Super Admin</span>
+            Welcome, <span><span>${sessionScope.loggedAdmin.name}</span></span>
         </h1>
         <h2 class="admin-title">Admin Dashboard</h2>
         <p class="admin-subtitle">ASmitra · Special Day Reminder System</p>
@@ -64,7 +83,7 @@
 </header>
 
 <!-- KPI SECTION -->
-<section class="admin-kpis container">
+<section class="admin-kpis container reveal delay-1">
 
     <div class="kpi-card kpi-users">
         <i class="bi bi-people-fill"></i>
@@ -105,6 +124,14 @@
             <h3 class="kpi-counter" data-value="${tEmail}">0</h3>
         </div>
     </div>
+    
+    <div class="kpi-card kpi-emails">
+        <i class="bi-bar-chart"></i>
+        <div>
+            <span class="kpi-label">View Analytics</span>
+            <h3><a href="<%= ctx %>/admin/analytics" class="btn-admin">Analytics</a> </h3>
+        </div>
+    </div>
 
     <div class="kpi-card kpi-status">
         <i class="bi bi-shield-check"></i>
@@ -117,8 +144,10 @@
 </section>
 
 <!-- MAIN ACTIONS -->
-<section class="admin-dashboard container">
+<section class="admin-dashboard container reveal delay-2">
 
+	
+	
     <div class="admin-card clickable accent-events">
         <i class="bi bi-calendar-event"></i>
         <h4>Manage Events</h4>
@@ -160,11 +189,15 @@
         <p>View admin event data</p>
         <a href="<%= ctx %>/admin/eventsAdminList" class="btn-admin">Open</a>
     </div>
-
+	
+	
+	
 </section>
+	
 
 <!-- PROFILE OVERVIEW -->
-<section class="admin-profile container">
+<section class="admin-profile container reveal delay-3">
+
 
     <div class="profile-card">
         <div class="profile-avatar">
@@ -186,7 +219,8 @@
 
 
 <!-- INSIGHTS -->
-<section class="admin-utilities container">
+<section class="admin-utilities container reveal delay-4">
+
 
     <div class="utility-card">
         <h5>Today’s Focus</h5>
@@ -215,5 +249,7 @@
 </section>
 
 <script src="<%= ctx %>/assets/js/admin-dashboard.js"></script>
+<script src="<%= ctx %>/assets/js/admin-analytics.js"></script>
+
 </body>
 </html>

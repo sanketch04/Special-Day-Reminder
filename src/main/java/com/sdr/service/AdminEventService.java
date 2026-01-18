@@ -45,4 +45,12 @@ public class AdminEventService {
 
         return admin;
     }
+    public AdminEvent getById(int id) {
+        return adminEventDAO.getById(id);
+    }
+
+    public void update(AdminEvent event) {
+        adminEventDAO.save(event); 
+    }
+
 }

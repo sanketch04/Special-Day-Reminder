@@ -13,6 +13,8 @@ import com.sdr.entity.AdminEvent;
 @Repository
 public class AdminEventDAO {
 
+	
+	
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -38,10 +40,11 @@ public class AdminEventDAO {
         }
     }
 
-	public List<AdminEvent> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List<AdminEvent> getAll() {
+        return sessionFactory.getCurrentSession()
+            .createQuery("from AdminEvent order by eventMonth, eventDay", AdminEvent.class)
+            .getResultList();
+    }
 
 	    public Admin findByEmail(String email) {
 	        Session session = sessionFactory.getCurrentSession();
@@ -53,4 +56,21 @@ public class AdminEventDAO {
 	        .setParameter("email", email)
 	        .uniqueResult();
 	    }
+	    
+	    public void update(Admin admin) {
+	        sessionFactory.getCurrentSession().update(admin);
+	    }
+	    public AdminEvent getById(int id) {
+	        return sessionFactory
+	                .getCurrentSession()
+	                .get(AdminEvent.class, id);
+	    }
+	    
+	    
+	    public void update(AdminEvent event) {
+	        sessionFactory.getCurrentSession().update(event);
+	    }
+ 
+
+
 }

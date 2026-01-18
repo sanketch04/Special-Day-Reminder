@@ -5,7 +5,6 @@
 let adminEvents = [];
 let yearSelect, monthSelect, calendarBody;
 
-const APP_CTX = "<%= request.getContextPath() %>";
 
 /* =======================
    CALENDAR RENDER
@@ -131,15 +130,33 @@ window.onload = function () {
     yearSelect.value = today.getFullYear();
     monthSelect.value = today.getMonth();
 
-    function loadAdminEvents(monthIndex) {
-        const month = Number(monthIndex) + 1;
-        const url = APP_CTX + "/admin/api/events?month=" + month;
+	function loadAdminEvents(monthIndex) {
 
-        return fetch(url)
-            .then(res => res.json())
-            .then(data => adminEvents = data || [])
-            .catch(err => console.error(err));
-    }
+	    const month = Number(monthIndex) + 1;
+	    const url = APP_CTX + "/admin/api/events?month=" + month;
+
+	    return fetch(url)
+	        .then(res => {
+
+	            // 🔥 if redirected to login or error page
+	            const contentType = res.headers.get("content-type");
+
+	            if (!contentType || !contentType.includes("application/json")) {
+	                console.warn("Session expired or invalid response");
+	                return []; // return empty events
+	            }
+
+	            return res.json();
+	        })
+	        .then(data => {
+	            adminEvents = data || [];
+	            return adminEvents;
+	        })
+	        .catch(err => {
+	            console.error("Calendar load error:", err);
+	            adminEvents = [];
+	        });
+	}
 
     loadAdminEvents(monthSelect.value).then(() => {
         generateCalendar(yearSelect.value, monthSelect.value);
@@ -194,11 +211,15 @@ function saveEvent() {
         reminderDaysBefore: document.getElementById("reminderDays").value
     });
 
-    fetch(APP_CTX + "/event/save", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: params.toString()
-    })
+	fetch(APP_CTX + "/event/save", {
+	    method: "POST",
+	    credentials: "same-origin",   // 🔥 THIS LINE FIXES IT
+	    headers: {
+	        "Content-Type": "application/x-www-form-urlencoded"
+	    },
+	    body: params.toString()
+	})
+
     .then(res => res.text())
     .then(data => {
 

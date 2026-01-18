@@ -54,7 +54,7 @@
                 <i class="bi bi-key field-icon"></i>
             </div>
 
-            <button type="submit" class="btn-admin">
+            <button type="submit" class="btn-admin btn-login">
                 <span>Secure Login</span>
                 <i class="bi bi-arrow-right-circle"></i>
             </button>
@@ -66,6 +66,12 @@
 
     </div>
 </div>
+
+<script>
+document.querySelector("form")?.addEventListener("submit", function () {
+    document.body.classList.add("fade-in");
+});
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
