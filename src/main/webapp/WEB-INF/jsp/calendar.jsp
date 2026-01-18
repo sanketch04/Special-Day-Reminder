@@ -11,8 +11,8 @@
     position:fixed;
     inset:0;
     background:rgba(0,0,0,0.5);
-    z-index:1000;
-">
+    z-index:1000;">
+
 
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content p-3">
@@ -178,26 +178,7 @@
 
 
 
-<!-- ================= AI FLOATING BUTTON ================= -->
-<div id="ai-float-btn">
 
-    🤖
-</div>
-
-<!-- ================= AI CHAT PANEL ================= -->
-<div id="ai-chat-panel">
-    <div class="ai-chat-header">
-        <span>ASmitra AI</span>
-        <button onclick="toggleAIChat()">✕</button>
-    </div>
-
-    <iframe
-        src="${pageContext.request.contextPath}/OpenAI/ai-chat"
-        frameborder="0"
-        class="ai-chat-iframe">
-    </iframe>
-</div>
-<div id="notify-container"></div>
 
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -243,13 +224,6 @@ function showNotification(text) {
     setTimeout(() => n.remove(), 4000);
 }
 
-/* =======================
-   AI CHAT
-======================= */
-function toggleAIChat() {
-    document.getElementById("ai-chat-panel")?.classList.toggle("open");
-}
-document.getElementById("ai-float-btn")?.addEventListener("click", toggleAIChat);
 
 /* =======================
    FESTIVAL IMAGES (FIXED)

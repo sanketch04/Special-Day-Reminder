@@ -22,6 +22,20 @@ window.addEventListener("load", () => {
         });
 });
 
+const evxObserver = new IntersectionObserver((entries) => {
+   entries.forEach(entry => {
+     if(entry.isIntersecting){
+       entry.target.classList.add("evx-show");
+     }
+   });
+ }, { threshold: 0.12 });
+
+ // section reveal
+ document.querySelectorAll(".evx-section-reveal").forEach(el => evxObserver.observe(el));
+
+ // cards reveal
+ document.querySelectorAll(".evx-reveal").forEach(el => evxObserver.observe(el));
+
 /* ===== THEME TOGGLE ===== */
 function toggleTheme() {
     document.body.classList.toggle("theme-light");

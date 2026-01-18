@@ -53,7 +53,7 @@
 
     <!-- LEFT : LOGO + BRAND -->
     <div class="nav-left">
-        <img src="${pageContext.request.contextPath}/assets/images/logo.png" class="logo">
+        <img src="${pageContext.request.contextPath}/assets/images/ASmitra_logo.gif" class="logo">
         <span class="brand">
             <span class="as">AS</span><span class="mitra">mitra</span>
         </span>
@@ -65,9 +65,10 @@
         <li><a href="${pageContext.request.contextPath}/event/list">View Events</a></li>
         <li><a href="${pageContext.request.contextPath}/email/schedule">Schedule Email</a></li>
         <li><a href="${pageContext.request.contextPath}/email/list">Email's</a></li>
-        <li><a href="${pageContext.request.contextPath}/OpenAI/ai-chat">AI</a></li>
         <li><a href="${pageContext.request.contextPath}/planner">Day Planner</a></li>
-        <li><a href="${pageContext.request.contextPath}/logout" class="logout">Logout</a></li>
+        <li><a href="${pageContext.request.contextPath}/OpenAI/ai-chat">AI</a></li>
+        
+        
     </ul>
 
     <!-- RIGHT : THEME + PROFILE + HAMBURGER -->
@@ -78,9 +79,6 @@
             <span></span>
         </button>
 
-        <button class="theme-btn" onclick="toggleTheme()">
-            <i class="bi bi-moon-stars-fill"></i>
-        </button>
 
         <!-- PROFILE DROPDOWN -->
 <div class="profile-dropdown">
@@ -163,6 +161,111 @@
     </div>
 </section>
 
+
+<!-- ================= PREMIUM EVENTS PANEL (NO IMAGES) ================= -->
+<section class="evx-section evx-section-reveal">
+    <div class="evx-container">
+
+        <div class="evx-grid">
+
+            <!-- Card 1 -->
+            <div class="evx-card evx-reveal" style="--delay: 0ms;">
+                <div class="evx-head">
+                    <div class="evx-badge evx-badge-today">Today</div>
+                    <div class="evx-subtitle">Events happening today</div>
+                </div>
+
+                <ul class="evx-list">
+                    <c:choose>
+                        <c:when test="${not empty todayEvents}">
+                            <c:forEach items="${todayEvents}" var="e">
+                                <li class="evx-item">
+                                    <span class="evx-title">${e.title}</span>
+                                    <span class="evx-date">${e.eventDate}</span>
+                                </li>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="evx-empty">No events today ✨</li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="evx-card evx-reveal" style="--delay: 120ms;">
+                <div class="evx-head">
+                    <div class="evx-badge evx-badge-week">Next 7 Days</div>
+                    <div class="evx-subtitle">Upcoming this week</div>
+                </div>
+
+                <ul class="evx-list">
+                    <c:choose>
+                        <c:when test="${not empty next7Events}">
+                            <c:forEach items="${next7Events}" var="e">
+                                <li class="evx-item">
+                                    <span class="evx-title">${e.title}</span>
+                                    <span class="evx-date">${e.eventDate}</span>
+                                </li>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="evx-empty">No events in next 7 days ✅</li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="evx-card evx-reveal" style="--delay: 240ms;">
+                <div class="evx-head">
+                    <div class="evx-badge evx-badge-month">Next 30 Days</div>
+                    <div class="evx-subtitle">Full month overview</div>
+                </div>
+
+                <ul class="evx-list">
+                    <c:choose>
+                        <c:when test="${not empty next30Events}">
+                            <c:forEach items="${next30Events}" var="e">
+                                <li class="evx-item">
+                                    <span class="evx-title">${e.title}</span>
+                                    <span class="evx-date">${e.eventDate}</span>
+                                </li>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="evx-empty">No events in next 30 days 🎯</li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= AI FLOATING BUTTON ================= -->
+<div id="ai-float-btn">
+  <img src="${pageContext.request.contextPath}/assets/images/Asmitra-bot.png" class="ai-bot">
+</div>
+
+<!-- ================= AI CHAT PANEL ================= -->
+<div id="ai-chat-panel">
+    <div class="ai-chat-header">
+        <span>ASmitra AI</span>
+        <button onclick="toggleAIChat()">✕</button>
+    </div>
+
+    <iframe
+        src="${pageContext.request.contextPath}/OpenAI/ai-chat"
+        frameborder="0"
+        class="ai-chat-iframe">
+    </iframe>
+</div>
+<div id="notify-container"></div>
+
+
+ 
 <!-- ================= CALENDAR ================= -->
 <section class="calendar-section fade-up">
     <div class="calendar-glass">
@@ -220,6 +323,15 @@ function loadFestivalImagesByMonth(monthIndex) {
         })
         .catch(err => console.error("Festival API error", err));
 }
+
+/* =======================
+AI CHAT
+======================= */
+function toggleAIChat() {
+ document.getElementById("ai-chat-panel")?.classList.toggle("open");
+}
+document.getElementById("ai-float-btn")?.addEventListener("click", toggleAIChat);
+
 </script>
 
 
