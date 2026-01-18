@@ -98,7 +98,11 @@
         <!-- ROW 7 -->
         <div class="row mt-3 text-end">
           <div class="col-12">
-            <button class="btn btn-primary" onclick="saveEvent()">Save</button>
+            <button class="btn btn-primary" id="saveBtn" onclick="saveEvent()">
+				    <span class="btn-text">Save</span>
+				    <span class="btn-loader"></span>
+				</button>
+
             <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
           </div>
         </div>
@@ -215,13 +219,17 @@ document.getElementById("enableEmail").onchange = function () {
 /* =======================
    NOTIFICATION
 ======================= */
-function showNotification(text) {
-    const n = document.createElement("div");
-    n.className = "notify";
-    n.innerText = text;
-    document.getElementById("notify-container").appendChild(n);
-    setTimeout(() => n.remove(), 4000);
+function showToast(message, type = "success") {
+    const toast = document.createElement("div");
+    toast.className = "notify toast-" + type;
+    toast.innerText = message;
+
+    document.getElementById("notify-container").appendChild(toast);
+
+    setTimeout(() => toast.classList.add("hide"), 3000);
+    setTimeout(() => toast.remove(), 3600);
 }
+
 
 
 /* =======================

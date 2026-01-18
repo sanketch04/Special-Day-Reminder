@@ -199,6 +199,9 @@ function clearModalFields() {
    SAVE EVENT
 ======================= */
 function saveEvent() {
+	const btn = document.getElementById("saveBtn");
+	btn.classList.add("loading");
+	btn.disabled = true;
 
     const date = document.getElementById("eventDate").value;
     const title = document.getElementById("eventTitle").value;
@@ -227,18 +230,26 @@ function saveEvent() {
 
         if (result.includes("SUCCESS")) {
             addEventToCalendar(date, title);
-            alert("Event saved successfully");
+            showToast("Event saved successfully", "success");
             clearModalFields();
             closeModal();
+
         }
         else if (result.includes("NOT_LOGGED_IN")) {
-            alert("Please login again");
+            showToast("Please login again", "warning");
+
         }
         else {
-            alert("Failed to save event");
+            showToast("Failed to save event", "error");
+
         }
+
+		btn.classList.remove("loading");
+				btn.disabled = false;
+		
     })
     .catch(err => console.error(err));
+	
 }
 
 

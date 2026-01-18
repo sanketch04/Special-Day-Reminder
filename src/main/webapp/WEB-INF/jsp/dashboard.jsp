@@ -43,10 +43,31 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* ===== PROFILE IMAGE FIX ===== */
+.profile-trigger {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-trigger img.profile-pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* 🔥 MOST IMPORTANT */
+    border-radius: 50%;
+    display: block;
+}
+
 
 </style>
 
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/voice.css">
 
 <!-- ================= NAVBAR ================= -->
 <nav class="dashboard-navbar">
@@ -70,7 +91,9 @@
         
         
     </ul>
-
+	
+	
+<!-- voice-mic section ends -->
     <!-- RIGHT : THEME + PROFILE + HAMBURGER -->
     <div class="nav-right">
         <button class="nav-toggle" onclick="toggleNav()">
@@ -78,6 +101,12 @@
             <span></span>
             <span></span>
         </button>
+
+<button id="voiceBtn" class="voice-btn voice-btn-elite" title="Voice Command">
+    <i class="bi bi-mic-fill"></i>
+    <span class="voice-ring"></span>
+    <span class="voice-ring"></span>
+</button>
 
 
         <!-- PROFILE DROPDOWN -->
@@ -106,14 +135,14 @@
         <a href="settings">⚙️ Account Settings</a>
         <a href="${pageContext.request.contextPath}/event/list">📅 My Events</a>
         <a href="${pageContext.request.contextPath}/email/list">✉️ Scheduled Emails</a>
-        <a href="#">🤖 AI Assistant</a>
+        <a href="${pageContext.request.contextPath}/OpenAI/ai-chat">🤖 AI Assistant</a>
         <a href="#">🗓 Calendar View</a>
 
         <hr>
 
         <!-- THEME TOGGLE -->
         <button class="theme-toggle-btn" onclick="toggleTheme()">
-            🌗 Toggle Theme
+            🌗 Change Theme
         </button>
 
         <hr>
@@ -294,6 +323,8 @@
     <small>Created by Sanket Chounde & Atharv Gujare</small>
 </footer>
 
+
+<script src="${pageContext.request.contextPath}/assets/js/voice.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/dashboard.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/theme_change.js"></script>
