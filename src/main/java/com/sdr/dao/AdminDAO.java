@@ -15,9 +15,13 @@ public interface AdminDAO {
 
     long countEvents();
     
+    Admin findById(int id);
+
+    void update(Admin admin);
 
     long countSceduledEvent();
     long countAdminEvents();
 
     long countDayPlanned();
+    
 }

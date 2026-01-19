@@ -98,7 +98,11 @@
         <!-- ROW 7 -->
         <div class="row mt-3 text-end">
           <div class="col-12">
-            <button class="btn btn-primary" onclick="saveEvent()">Save</button>
+            <button class="btn btn-primary" id="saveBtn" onclick="saveEvent()">
+				    <span class="btn-text">Save</span>
+				    <span class="btn-loader"></span>
+				</button>
+
             <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
           </div>
         </div>
@@ -180,6 +184,7 @@
 
 
 
+<script src="${pageContext.request.contextPath}/assets/js/calendar.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
@@ -195,8 +200,6 @@
 /* =======================
    GLOBAL STATE
 ======================= */
-let adminEvents = [];
-let yearSelect, monthSelect, calendarBody;
 
 const APP_CTX = "<%= request.getContextPath() %>";
 
@@ -216,13 +219,17 @@ document.getElementById("enableEmail").onchange = function () {
 /* =======================
    NOTIFICATION
 ======================= */
-function showNotification(text) {
-    const n = document.createElement("div");
-    n.className = "notify";
-    n.innerText = text;
-    document.getElementById("notify-container").appendChild(n);
-    setTimeout(() => n.remove(), 4000);
+function showToast(message, type = "success") {
+    const toast = document.createElement("div");
+    toast.className = "notify toast-" + type;
+    toast.innerText = message;
+
+    document.getElementById("notify-container").appendChild(toast);
+
+    setTimeout(() => toast.classList.add("hide"), 3000);
+    setTimeout(() => toast.remove(), 3600);
 }
+
 
 
 /* =======================
@@ -249,46 +256,6 @@ function loadFestivalImagesByMonth(monthIndex) {
 
 }
 
-/* =======================
-   CALENDAR RENDER
-======================= */
-function generateCalendar(year, month) {
-
-    calendarBody.innerHTML = "";
-    year = Number(year);
-    month = Number(month);
-
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-    for (let i = 0; i < firstDay; i++) {
-        calendarBody.appendChild(document.createElement("div"));
-    }
-
-    for (let d = 1; d <= daysInMonth; d++) {
-
-        const dayDiv = document.createElement("div");
-        dayDiv.className = "day";
-        dayDiv.onclick = () =>
-            openModal(`${year}-${month + 1}-${d}`);
-
-        const num = document.createElement("div");
-        num.className = "date-number";
-        num.textContent = d;
-        dayDiv.appendChild(num);
-
-        adminEvents.forEach(ev => {
-            if (ev.eventDay === d && ev.eventMonth === month + 1) {
-                const e = document.createElement("div");
-                e.className = "event-chip event-" + ev.category;
-                e.textContent = ev.title;
-                dayDiv.appendChild(e);
-            }
-        });
-
-        calendarBody.appendChild(dayDiv);
-    }
-}
 
 /* =======================
    LOAD EVENTS

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sdr.entity.Admin;
 import com.sdr.entity.DayPlanner;
@@ -100,6 +101,29 @@ public class AdminController {
         return "admin-event-list";
     }
     
+    
+    
+    @GetMapping("/analytics")
+    public String analyticsPage(Model model) {
+        // same attributes you already send to dashboard
+    	long tUsers=adminService.countUsers();
+        model.addAttribute("tUser",tUsers);
+        long tEvents=adminService.countEvents();
+        model.addAttribute("tEvents",tEvents);
+        
+        long tEmail=adminService.countScheduledEmail();
+        model.addAttribute("tEmail",tEmail);
+        
+        long tAevents=adminService.countAdminEvents();
+        model.addAttribute("tAevents",tAevents);
+        
+        long tDayPlanned=adminService.countDayPlanner();
+        model.addAttribute("tDayPlanned",tDayPlanned);
+        
+        return "admin-analytics";
+    }
+
+    
     @GetMapping("/dayPlanned")
     public String dayPlanned(Model model, HttpSession session) {
         if (session.getAttribute("loggedAdmin") == null) {
@@ -115,12 +139,65 @@ public class AdminController {
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model) {
         Admin admin = (Admin) session.getAttribute("loggedAdmin");
+
         if (admin == null) {
             return "redirect:/admin/login";
         }
-        model.addAttribute("admin", admin);
+
+        model.addAttribute("ADMIN_LOGGED_IN", admin); 
         return "admin-profile";
     }
+    
+    @PostMapping("/profile/update")
+    public String updateProfile(
+            @RequestParam("name") String name,
+            @RequestParam(value = "photo", required = false) MultipartFile photo,
+            HttpServletRequest request,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        Admin admin = (Admin) session.getAttribute("loggedAdmin");
+        if (admin == null) {
+            return "redirect:/admin/login";
+        }
+
+        try {
+            admin.setName(name);
+
+            if (photo != null && !photo.isEmpty()) {
+
+                String uploadDir = request.getServletContext()
+                        .getRealPath("/uploads/admin/");
+                File dir = new File(uploadDir);
+                if (!dir.exists()) dir.mkdirs();
+
+                String fileName = System.currentTimeMillis() + "_"
+                        + photo.getOriginalFilename();
+
+                File dest = new File(dir, fileName);
+                photo.transferTo(dest);
+
+                // 🔥 THIS MUST MAP TO DB COLUMN
+                admin.setProfilePhoto(fileName);
+            }
+
+            adminService.update(admin);
+            session.setAttribute("loggedAdmin", admin);
+
+            redirectAttributes.addFlashAttribute(
+                    "success", "Profile updated successfully");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute(
+                    "error", "Profile update failed");
+        }
+
+        return "redirect:/admin/profile";
+    }
+
+
+
 
     @GetMapping("/users")
     public String viewUsers(HttpSession session, Model model) {

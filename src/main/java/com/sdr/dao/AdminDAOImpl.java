@@ -2,14 +2,19 @@ package com.sdr.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sdr.entity.Admin;
 import com.sdr.entity.AdminEvent;
 
 @Repository
+@Transactional
 public class AdminDAOImpl implements AdminDAO {
 
     @Autowired
@@ -107,7 +112,21 @@ public class AdminDAOImpl implements AdminDAO {
         
         
     }
+    
+    @PersistenceContext
+    private EntityManager entityManager;
 
+    @Override
+    public Admin findById(int id) {
+        return entityManager.find(Admin.class, id);
+    }
+
+    @Override
+    public void update(Admin admin) {
+        entityManager.merge(admin);
+    }
+
+	
 	
 }
 

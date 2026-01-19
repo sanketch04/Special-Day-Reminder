@@ -43,7 +43,6 @@ public class AuthController {
             Model model) {
 
         User user = userService.getUserByEmail(email);
-
         if (user == null) {
             model.addAttribute("error", "Account does not exist. Please register.");
             return "login";
