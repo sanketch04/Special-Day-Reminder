@@ -55,6 +55,12 @@ function handleVoiceCommand(command) {
         speak("Opening add event page");
         window.location.href = "/SDR/event/add";
     }
+	
+	else if (command.includes("AI") || command.includes("Open ASmitra")) {
+	        speak("Opening ASmitra");
+	        window.location.href = "/SDR/chat-ai";
+	    }
+
 
     else {
         speak("Sorry, I did not understand");
