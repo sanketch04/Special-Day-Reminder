@@ -85,6 +85,8 @@
         <li><a href="${pageContext.request.contextPath}/event/add">Add Event</a></li>
         <li><a href="${pageContext.request.contextPath}/event/list">View Events</a></li>
         <li><a href="${pageContext.request.contextPath}/email/schedule">Schedule Email</a></li>
+        
+        <li><a href="${pageContext.request.contextPath}/whatsapp/add">Schedule Whatsapp</a></li>
         <li><a href="${pageContext.request.contextPath}/email/list">Email's</a></li>
         <li><a href="${pageContext.request.contextPath}/planner">Day Planner</a></li>
         <li><a href="${pageContext.request.contextPath}/OpenAI/ai-chat">AI</a></li>
