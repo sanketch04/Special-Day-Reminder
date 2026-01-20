@@ -268,7 +268,7 @@ body::after {
 
 /* ================= MESSAGES ================= */
 .messages {
-    lex: 1;                      /* TAKE REMAINING SPACE */
+    flex: 1;                      /* TAKE REMAINING SPACE */
     overflow-y: auto;             /* SCROLL HERE */
     padding: 15px;
     margin-top: 10px;
