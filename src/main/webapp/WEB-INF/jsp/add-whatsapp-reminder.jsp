@@ -1,4 +1,4 @@
-<!-- <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 
 <h2>Add Reminder</h2>
 
@@ -30,4 +30,4 @@
 
     <button type="submit">Save Reminder</button>
 
-</form> -->
+</form>
