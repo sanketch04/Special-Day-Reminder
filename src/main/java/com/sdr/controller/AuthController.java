@@ -255,6 +255,10 @@ public class AuthController {
             return e.getMessage();
         }
     }
+    @GetMapping("/reminder-file")
+    public String reminder() {
+        return "reminder";
+    }
     
     @GetMapping("/logout")
     public String logout(HttpSession session) {

@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <title>Login | ASmitra</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -126,4 +124,4 @@
 <script src="${pageContext.request.contextPath}/assets/js/login.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/theme_change.js"></script>
 </body>
-</html>
+
