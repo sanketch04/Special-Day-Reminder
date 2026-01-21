@@ -373,6 +373,7 @@ body {
     overflow: hidden;
     box-shadow: 0 25px 50px rgba(0,0,0,0.28);
     transition: transform 0.45s ease, box-shadow 0.45s ease;
+    text-align:center;
 }
 
 .event-card:hover {
@@ -390,7 +391,7 @@ body {
     position: absolute;
     inset: 0;
     background: linear-gradient(to top,rgba(0,0,0,0.75),transparent);
-    padding: 22px;
+    padding-top: 200px;
     color: white;
 }
 
