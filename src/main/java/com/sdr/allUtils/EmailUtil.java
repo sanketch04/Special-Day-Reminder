@@ -14,7 +14,7 @@ public class EmailUtil {
 
     /* =========================
        ✅ EXISTING OTP EMAIL (UNCHANGED)
-    ========================== */
+       ========================== */
     public static void sendOtpEmail(String toEmail, String otp) {
 
         Properties props = new Properties();
@@ -23,24 +23,25 @@ public class EmailUtil {
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-        Session session = Session.getInstance(props,
+        Session session = Session.getInstance(
+            props,
             new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(FROM_EMAIL, APP_PASSWORD);
                 }
-            });
+            }
+        );
 
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(FROM_EMAIL));
             message.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse(toEmail)
+                Message.RecipientType.TO,
+                InternetAddress.parse(toEmail)
             );
             message.setSubject("Password Reset OTP");
             message.setText(
-                "Your OTP is: " + otp +
-                "\n\nThis OTP is valid for 5 minutes."
+                "Your OTP is: " + otp + "\n\nThis OTP is valid for 5 minutes."
             );
 
             Transport.send(message);
@@ -53,7 +54,7 @@ public class EmailUtil {
 
     /* =========================
        🆕 NEW METHOD FOR EVENTS
-    ========================== */
+       ========================== */
     public static void sendEventEmail(String toEmail, String subject, String body) {
 
         Properties props = new Properties();
@@ -62,19 +63,21 @@ public class EmailUtil {
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
 
-        Session session = Session.getInstance(props,
+        Session session = Session.getInstance(
+            props,
             new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(FROM_EMAIL, APP_PASSWORD);
                 }
-            });
+            }
+        );
 
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(FROM_EMAIL));
             message.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse(toEmail)
+                Message.RecipientType.TO,
+                InternetAddress.parse(toEmail)
             );
             message.setSubject(subject);
             message.setText(body);

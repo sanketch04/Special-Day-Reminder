@@ -205,16 +205,29 @@ function saveEvent() {
 
     const date = document.getElementById("eventDate").value;
     const title = document.getElementById("eventTitle").value;
+	
+	const enableEmail = document.getElementById("enableEmail").checked;
 
-    const params = new URLSearchParams({
-        eventDate: date,
-        title: title,
-        category: document.getElementById("eventCategory").value,
-        description: document.getElementById("eventDesc").value,
-        reminderDaysBefore: document.getElementById("reminderDays").value
-    });
+	const params = new URLSearchParams({
+	    eventDate: date,
+	    title: title,
+	    category: document.getElementById("eventCategory").value,
+	    description: document.getElementById("eventDesc").value,
+	    reminderDaysBefore: document.getElementById("reminderDays").value,
+	    enableEmail: enableEmail
+	});
 
-	fetch(APP_CTX + "/event/save", {
+	if (enableEmail) {
+	    params.append("receiverEmail",
+	        document.getElementById("receiverEmail").value);
+	    params.append("sendDate",
+	        document.getElementById("sendDate").value);
+	    params.append("sendTime",
+	        document.getElementById("sendTime").value);
+	}
+
+
+	fetch(APP_CTX + "/event/save-ajax", {
 	    method: "POST",
 	    credentials: "same-origin",   // 🔥 THIS LINE FIXES IT
 	    headers: {
