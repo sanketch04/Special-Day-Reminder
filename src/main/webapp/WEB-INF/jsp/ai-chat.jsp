@@ -68,8 +68,8 @@ body::after {
 
 /* ================= HUD CHAT BOX ================= */
 .chat-box {
-    width: 70%;
-    height: 550px;                 /* FIXED HEIGHT */
+    width: 65%;
+    height: 450px;                 /* FIXED HEIGHT */
     margin: 40px auto;
     padding: 22px;
     display: flex;

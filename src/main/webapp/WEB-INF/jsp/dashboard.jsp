@@ -19,7 +19,12 @@
 </head>
 
 <style>
+
+
+
  /* ===== FOOTER ===== */
+ 
+
 .custom-footer {
     backdrop-filter: blur(14px);
     background: rgba(0,0,0,0.25);
@@ -287,7 +292,7 @@
         <button onclick="toggleAIChat()">✕</button>
     </div>
 
-    <iframe
+    <iframe 
         src="${pageContext.request.contextPath}/OpenAI/ai-chat"
         frameborder="0"
         class="ai-chat-iframe">
