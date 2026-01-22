@@ -19,7 +19,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <style>
-/* ================= PAGE BASE ================= */
+/* PAGE BASE */
 body {
     background: #020617;
     color: #e5e7eb;
@@ -27,7 +27,7 @@ body {
     padding: 30px;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 .page-header {
     display: flex;
     align-items: center;
@@ -45,7 +45,7 @@ body {
 }
 .back-link:hover { color: #c7d2fe; }
 
-/* ================= SEARCH ================= */
+/* SEARCH  */
 .search-box {
     margin-bottom: 18px;
     position: relative;
@@ -84,7 +84,6 @@ thead th {
     color: #a5b4fc;
 }
 
-/* ================= ULTRA SMOOTH ROW ANIMATION ================= */
 tbody tr {
     background: rgba(2,6,23,0.85);
     border-radius: 14px;
@@ -146,7 +145,7 @@ tbody tr:hover {
     transition: transform .25s ease;
 }
 
-/* ================= IMAGE ================= */
+/*IMAGE */
 .user-img {
     width: 46px;
     height: 46px;
@@ -154,7 +153,7 @@ tbody tr:hover {
     object-fit: cover;
 }
 
-/* ================= STATUS ================= */
+/* STATUS*/
 .status-chip {
     padding: 4px 10px;
     border-radius: 999px;
@@ -171,7 +170,7 @@ tbody tr:hover {
     color: #f87171;
 }
 
-/* ================= EMPTY ================= */
+/* EMPTY */
 .empty {
     text-align: center;
     padding: 40px;
