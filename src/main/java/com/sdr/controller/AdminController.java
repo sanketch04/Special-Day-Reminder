@@ -105,7 +105,6 @@ public class AdminController {
     
     @GetMapping("/analytics")
     public String analyticsPage(Model model) {
-        // same attributes you already send to dashboard
     	long tUsers=adminService.countUsers();
         model.addAttribute("tUser",tUsers);
         long tEvents=adminService.countEvents();
@@ -177,7 +176,6 @@ public class AdminController {
                 File dest = new File(dir, fileName);
                 photo.transferTo(dest);
 
-                // 🔥 THIS MUST MAP TO DB COLUMN
                 admin.setProfilePhoto(fileName);
             }
 
@@ -208,8 +206,9 @@ public class AdminController {
             return "redirect:/admin/login";
         }
 
-        List<User> users = userService.getVerifiedUsers();
+        List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
+        System.out.println(users);
         
         return "admin-users";
     }

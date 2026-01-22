@@ -4,100 +4,157 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Error | Special Day Reminder</title>
+    <title>Error | ASmitra</title>
 
     <style>
+        :root {
+            --primary: #4f46e5;
+            --danger: #ef4444;
+            --bg1: #0f172a;
+            --bg2: #020617;
+        }
+
         body {
             margin: 0;
-            padding: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f9;
             height: 100vh;
+            font-family: "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, var(--bg1), var(--bg2));
             display: flex;
             align-items: center;
             justify-content: center;
+            perspective: 1200px;
+            overflow: hidden;
+            color: #fff;
         }
 
-        .error-container {
-            background: #ffffff;
+        /* ===== BACKGROUND FLOAT ===== */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: -50%;
+            background:
+                radial-gradient(circle, rgba(79,70,229,0.15), transparent 60%),
+                radial-gradient(circle, rgba(239,68,68,0.15), transparent 60%);
+            animation: bgMove 14s linear infinite;
+        }
+
+        @keyframes bgMove {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ===== CARD ===== */
+        .error-card {
+            position: relative;
+            background: linear-gradient(145deg, #111827, #020617);
             width: 420px;
-            padding: 30px;
-            border-radius: 8px;
+            padding: 40px 30px;
+            border-radius: 18px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform-style: preserve-3d;
+            animation: float 4s ease-in-out infinite;
+            box-shadow:
+                0 25px 60px rgba(0,0,0,.6),
+                inset 0 0 0 1px rgba(255,255,255,.05);
         }
 
+        @keyframes float {
+            0%,100% { transform: translateY(0) rotateX(0deg); }
+            50% { transform: translateY(-14px) rotateX(4deg); }
+        }
+
+        .error-card:hover {
+            transform: rotateY(8deg) rotateX(6deg) scale(1.02);
+        }
+
+        /* ===== ERROR TEXT ===== */
         .error-code {
-            font-size: 48px;
-            font-weight: bold;
-            color: #e74c3c;
-            margin-bottom: 10px;
+            font-size: 64px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--danger);
+            text-shadow:
+                0 0 12px rgba(239,68,68,.6),
+                0 0 32px rgba(239,68,68,.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
         }
 
         .error-title {
-            font-size: 22px;
-            margin-bottom: 15px;
-            color: #333;
+            font-size: 24px;
+            margin: 10px 0 14px;
         }
 
         .error-message {
-            color: #666;
             font-size: 15px;
-            margin-bottom: 25px;
+            color: #cbd5f5;
+            margin-bottom: 30px;
         }
 
-        .error-actions a {
+        /* ===== BUTTONS ===== */
+        .actions a {
             display: inline-block;
-            padding: 10px 18px;
+            padding: 12px 22px;
+            margin: 6px;
+            border-radius: 10px;
             text-decoration: none;
-            border-radius: 4px;
             font-size: 14px;
-            margin: 5px;
+            transition: all .25s ease;
+            transform-style: preserve-3d;
         }
 
         .btn-primary {
-            background: #3498db;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
             color: #fff;
+            box-shadow: 0 12px 30px rgba(79,70,229,.4);
         }
 
         .btn-secondary {
-            background: #95a5a6;
-            color: #fff;
+            background: rgba(255,255,255,.08);
+            knows: #fff;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,.1);
         }
 
-        .btn-primary:hover {
-            background: #2980b9;
+        .actions a:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 18px 40px rgba(0,0,0,.5);
         }
 
-        .btn-secondary:hover {
-            background: #7f8c8d;
+        /* ===== SMALL BRAND ===== */
+        .brand {
+            margin-top: 22px;
+            font-size: 13px;
+            color: #94a3b8;
         }
     </style>
 </head>
 
 <body>
 
-<div class="error-container">
-    <div class="error-code">Oops!</div>
+<div class="error-card">
+    <div class="error-code">ERROR</div>
 
-    <div class="error-title">
-        Something went wrong
-    </div>
+    <div class="error-title">Something went wrong</div>
 
     <div class="error-message">
-        ${error}
+        ${error != null ? error : "Unexpected system error occurred."}
     </div>
 
-    <div class="error-actions">
-        <a href="${pageContext.request.contextPath}/login"
-           class="btn-primary">
+    <div class="actions">
+        <a href="${pageContext.request.contextPath}/login" class="btn-primary">
             Go to Login
         </a>
-
-        <a href="javascript:history.back()"
-           class="btn-secondary">
+        <a href="javascript:history.back()" class="btn-secondary">
             Go Back
         </a>
+    </div>
+
+    <div class="brand">
+        ASmitra · Special Day Reminder
     </div>
 </div>
 

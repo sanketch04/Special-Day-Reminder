@@ -43,7 +43,7 @@
     <!-- LEFT -->
     <div class="left-panel">
         <video autoplay muted loop playsinline class="bg-video">
-            <source src="${pageContext.request.contextPath}/assets/video/login_bg.mp4" type="video/mp4">
+            <source src="${pageContext.request.contextPath}/assets/video/login_bg.mp4" type="video/mp4" alt="interface">
         </video>
 
         <div class="brand-wrapper slide-in-brand">
