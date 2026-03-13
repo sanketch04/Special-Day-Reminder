@@ -12,10 +12,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class OpenAIService {
 
-    private static final String OPENAI_URL = "https://api.openai.com/v1/responses";
+    private static final String GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
+    private static final String MODEL = "llama-3.1-8b-instant";
+
+    // API key from environment variable
+    private static final String GROQ_API_KEY = System.getenv("GROK_API");
 
     static {
-        System.out.println("OPENAI_API_KEY from env = " + System.getenv("OPENAI_API_KEY"));
+        System.out.println("GROQ_API_KEY loaded: " + (GROQ_API_KEY != null));
     }
 
     // -----------------------------
@@ -29,19 +33,8 @@ public class OpenAIService {
             String length
     ) {
         try {
-            String apiKey = System.getenv("OPENAI_API_KEY");
-            if (apiKey == null || apiKey.isBlank()) {
-                return "OPENAI_API_KEY not found in environment.";
-            }
-
             String prompt = buildPrompt(event, name, relationship, tone, length);
-
-            JSONObject body = new JSONObject();
-            body.put("model", "gpt-4.1-mini");
-            body.put("input", prompt);
-
-            HttpResponse<String> response = sendRequest(apiKey, body);
-            return extractText(response.body());
+            return chat(prompt);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,9 +47,9 @@ public class OpenAIService {
     // -----------------------------
     public String chat(String userMessage) {
         try {
-            String apiKey = System.getenv("OPENAI_API_KEY");
-            if (apiKey == null || apiKey.isBlank()) {
-                return "OPENAI_API_KEY not found in environment.";
+
+            if (GROQ_API_KEY == null || GROQ_API_KEY.isBlank()) {
+                return "Groq API key not found. Please set GROQ_API_KEY environment variable.";
             }
 
             String systemPrompt = """
@@ -70,74 +63,72 @@ public class OpenAIService {
                 - If message is requested, keep it short and ready to copy
                 """;
 
-            JSONArray input = new JSONArray();
-            input.put(new JSONObject()
+            JSONArray messages = new JSONArray();
+            messages.put(new JSONObject()
                     .put("role", "system")
                     .put("content", systemPrompt));
-            input.put(new JSONObject()
+
+            messages.put(new JSONObject()
                     .put("role", "user")
                     .put("content", userMessage));
 
             JSONObject body = new JSONObject();
-            body.put("model", "gpt-4.1-mini");
-            body.put("input", input);
+            body.put("model", MODEL);
+            body.put("messages", messages);
+            body.put("temperature", 0.7);
+            body.put("max_tokens", 1024);
 
-            HttpResponse<String> response = sendRequest(apiKey, body);
+            HttpResponse<String> response = sendRequest(body);
             return extractText(response.body());
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "Something went wrong Mitra.";
+            return "Something went wrong.";
         }
     }
 
     // -----------------------------
-    // HTTP call (shared)
+    // HTTP request
     // -----------------------------
-    private HttpResponse<String> sendRequest(String apiKey, JSONObject body) throws Exception {
+    private HttpResponse<String> sendRequest(JSONObject body) throws Exception {
+
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(OPENAI_URL))
-                .header("Authorization", "Bearer " + apiKey)
+                .uri(URI.create(GROQ_URL))
+                .header("Authorization", "Bearer " + GROQ_API_KEY)
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
                 .build();
 
         HttpClient client = HttpClient.newHttpClient();
+
         HttpResponse<String> response =
                 client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println("RAW OPENAI RESPONSE:\n" + response.body());
+        System.out.println("RAW GROQ RESPONSE:\n" + response.body());
+
         return response;
     }
 
     // -----------------------------
-    // SAFE response parser
+    // Extract AI text
     // -----------------------------
     private String extractText(String responseBody) {
+
         JSONObject json = new JSONObject(responseBody);
 
-        // ✅ New Responses API shortcut
-        if (json.has("output_text")) {
-            return json.getString("output_text");
+        if (json.has("choices")) {
+            return json.getJSONArray("choices")
+                    .getJSONObject(0)
+                    .getJSONObject("message")
+                    .getString("content");
         }
 
-        // ✅ Structured response fallback
-        if (json.has("output")) {
-            return json.getJSONArray("output")
-                    .getJSONObject(0)
-                    .getJSONArray("content")
-                    .getJSONObject(0)
-                    .getString("text");
-        }
-
-        // ❌ OpenAI error
         if (json.has("error")) {
-            return "OpenAI error: " +
+            return "Groq error: " +
                     json.getJSONObject("error").optString("message", "Unknown error");
         }
 
-        // ❓ Unexpected format
-        return "Unexpected OpenAI response: " + responseBody;
+        return "Unexpected response: " + responseBody;
     }
 
     // -----------------------------
@@ -150,6 +141,7 @@ public class OpenAIService {
             String tone,
             String length
     ) {
+
         return String.format(
                 "Write a %s message for %s. Relationship: %s. Tone: %s. Length: %s.",
                 event, name, relationship, tone, length

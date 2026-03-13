@@ -324,7 +324,7 @@
     <p class="footer-links">
         <i class="bi bi-github"></i>
         <a href="https://github.com/AtharvGujare" target="_blank">Atharv</a> ·
-        <a href="https://github.com/SanketChounde" target="_blank">Sanket</a>
+        <a href="https://github.com/sanketch04" target="_blank">Sanket</a>
     </p>
 
     <small>Created by Sanket Chounde & Atharv Gujare</small>

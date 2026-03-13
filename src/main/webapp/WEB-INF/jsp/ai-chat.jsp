@@ -68,8 +68,8 @@ body::after {
 
 /* ================= HUD CHAT BOX ================= */
 .chat-box {
-    width: 65%;
-    height: 450px;                 /* FIXED HEIGHT */
+    width: 70%;
+    height: 550px;                 /* FIXED HEIGHT */
     margin: 40px auto;
     padding: 22px;
     display: flex;
@@ -648,10 +648,29 @@ function sendMessage(text = null) {
             loading.remove();
 
             let formatted = $("<textarea/>").html(data).text();
-            formatted = formatted
-                .replace(/\r\n|\r|\n/g, "\n")
-                .replace(/(<br>\s*){3,}/gi, "\n\n")
-                .replace(/\*\*(.*?)\*\*/g, "$1");
+
+            /* ---------- STRUCTURE EMAIL / TEXT ---------- */
+
+            // Normalize line breaks
+            formatted = formatted.replace(/\r\n|\r|\n/g, "\n");
+
+            // Format Subject line
+            formatted = formatted.replace(
+                /Subject\s*:\s*(.*)/i,
+                "<strong>Subject:</strong> $1<br><br>"
+            );
+
+            // Add line break after greeting
+            formatted = formatted.replace(
+                /(Dear\s+[A-Za-z]+)/i,
+                "$1,<br><br>"
+            );
+
+            // Convert new lines to HTML
+            formatted = formatted.replace(/\n/g, "<br>");
+
+            // Clean extra breaks
+            formatted = formatted.replace(/(<br>\s*){3,}/gi, "<br><br>");
 
             /* AI MESSAGE */
             let aiSpan = $("<span></span>");
@@ -659,7 +678,8 @@ function sendMessage(text = null) {
             $(".messages").append(aiDiv);
 
             /* TYPE EFFECT */
-            typeText(aiSpan, formatted);
+            aiSpan.html(formatted);
+			speakJarvis(formatted.replace(/<[^>]+>/g, ""));
 
             /* 🔥 ONE-CLICK ACTIONS */
             let actions = generateActions(formatted);
